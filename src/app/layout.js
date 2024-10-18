@@ -2,6 +2,10 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import NavbarMenu from "@/containers/NavbarMenu";
 import { Poppins } from "next/font/google";
+import Provider from "./api/auth/[...nextauth]/Provider";
+import SearchInput from "@/components/SearchInput";
+import SearchBar from "@/containers/SearchBar";
+import FooterBar from "@/containers/FooterBar";
 
 
 const poppins = Poppins({
@@ -20,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} antialiased mt-5 mx-10 md:mx-20 lg:mx-40`}
+        className={`${poppins.className} antialiased mt-5 mx-10 md:mx-20 lg:mx-40 2xl:mx-80`}
       >
         <ThemeProvider
           attribute="class"
@@ -28,8 +32,14 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <NavbarMenu />
-          {children}
+          <Provider>
+            <section className="space-y-5 mb-5">
+              <NavbarMenu />
+              <SearchBar />
+            </section>
+            {children}
+            <FooterBar />
+          </Provider>
         </ThemeProvider>
       </body>
     </html >

@@ -22,7 +22,7 @@ function WebMenu({ auth }) {
                 </>
                 : null}
             <UploadButton auth={auth} />
-            {auth ? <ProfileMenu /> : <AuthButton />}
+            {auth ? <ProfileMenu auth={auth} /> : <AuthButton />}
         </nav >
     )
 }

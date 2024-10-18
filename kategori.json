@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "nama_kategori": "Elektronik",
+        "foto": "https://example.com/foto/elektronik.jpg"
+    },
+    {
+        "id": 2,
+        "nama_kategori": "Pakaian",
+        "foto": "https://example.com/foto/pakaian.jpg"
+    },
+    {
+        "id": 3,
+        "nama_kategori": "Makanan & Minuman",
+        "foto": "https://example.com/foto/makanan_minuman.jpg"
+    },
+    {
+        "id": 4,
+        "nama_kategori": "Buku & Alat Tulis",
+        "foto": "https://example.com/foto/buku_alat_tulis.jpg"
+    },
+    {
+        "id": 5,
+        "nama_kategori": "Kesehatan & Kecantikan",
+        "foto": "https://example.com/foto/kesehatan_kecantikan.jpg"
+    },
+    {
+        "id": 6,
+        "nama_kategori": "Peralatan Rumah Tangga",
+        "foto": "https://example.com/foto/peralatan_rumah_tangga.jpg"
+    },
+    {
+        "id": 7,
+        "nama_kategori": "Olahraga",
+        "foto": "https://example.com/foto/olahraga.jpg"
+    },
+    {
+        "id": 8,
+        "nama_kategori": "Mainan & Hobi",
+        "foto": "https://example.com/foto/mainan_hobi.jpg"
+    },
+    {
+        "id": 9,
+        "nama_kategori": "Otomotif",
+        "foto": "https://example.com/foto/otomotif.jpg"
+    },
+    {
+        "id": 10,
+        "nama_kategori": "Komputer & Aksesoris",
+        "foto": "https://example.com/foto/komputer_aksesoris.jpg"
+    }
+]

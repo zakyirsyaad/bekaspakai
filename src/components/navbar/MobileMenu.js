@@ -17,7 +17,7 @@ function MobileMenu({ auth }) {
             <SheetContent className="space-y-5">
                 <SheetHeader>
                     <SheetTitle>
-                        {auth ? <ProfileMenu /> : <AuthButton />}
+                        {auth ? <ProfileMenu auth={auth} /> : <AuthButton />}
                     </SheetTitle>
                     <SheetDescription>
                         <UploadButton />
