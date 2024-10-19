@@ -1,12 +1,13 @@
+import Link from 'next/link'
 import React from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Ellipsis, MapPin } from 'lucide-react'
 import Image from 'next/image'
-import { Badge } from "@/components/ui/badge"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
-import Link from 'next/link'
+import { Badge } from './ui/badge'
 
-async function Card_JualBeli() {
+export default async function UserProduct() {
+
     let data = await fetch(`https://dummyjson.com/products?limit=4`, {
         method: 'GET',
         headers: {
@@ -15,14 +16,14 @@ async function Card_JualBeli() {
         cache: 'no-store'
     })
     let dataUserProduct = await data.json()
-    let dataProducts = dataUserProduct.products
+    let userProducts = dataUserProduct.products
 
     return (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 bg-white dark:bg-background'>
             {
-                dataProducts.map((item) => {
+                userProducts.map((item) => {
                     return (
-                        <Link href={`/jualbeli/${item.id}/${item.title.replace(/\s+/g, '-')}`} key={item.id}>
+                        <Link href={`/jualbeli/${item.id}/${item.title.replace(/\s+/g, '-')}`} >
                             <div className='flex items-center justify-between'>
                                 <div className='flex items-center gap-2'>
                                     <Avatar>
@@ -48,18 +49,14 @@ async function Card_JualBeli() {
                                 <Badge variant="outline">Jarang Digunakan</Badge>
                                 <p className='capitalize'>{item.title}</p>
                                 <div className='flex justify-between'>
-                                    <p className='font-semibold'>Rp. 12.500.000</p>
+                                    <p className='font-semibold'>Rp {item.price}</p>
                                     <p className='flex items-center gap-1 text-md'><MapPin size={20} /><span>Yogyakarta</span></p>
                                 </div>
-
                             </div>
                         </Link >
                     )
                 })
             }
-
         </div >
     )
 }
-
-export default Card_JualBeli

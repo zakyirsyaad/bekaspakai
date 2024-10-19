@@ -1,4 +1,5 @@
 import Card_Donasi from '@/components/Product Jual Beli/Card_Donasi'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import React from 'react'
 
@@ -10,15 +11,13 @@ export default function Highlight_Donasi() {
                     <h1 className='text-lg font-semibold'>Produk Donasi</h1>
                     <h2 className='text-sm'>Barang terbaru di produk donasi</h2>
                 </div>
-                <Link href={'/jualbeli'} className='text-primary font-bold underline underline-offset-4'>Lihat Semua</Link>
+                <Button asChild>
+                    <Link href={'/jualbeli'} >Lihat Semua</Link>
+                </Button>
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5'>
-                <Card_Donasi />
-                <Card_Donasi />
-                <Card_Donasi />
-                <Card_Donasi />
-            </div>
+            <Card_Donasi />
+
         </section>
     )
 }
