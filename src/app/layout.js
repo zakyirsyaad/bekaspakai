@@ -2,10 +2,10 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import NavbarMenu from "@/containers/NavbarMenu";
 import { Poppins } from "next/font/google";
-import Provider from "./api/auth/[...nextauth]/Provider";
-import SearchInput from "@/components/SearchInput";
 import SearchBar from "@/containers/SearchBar";
 import FooterBar from "@/containers/FooterBar";
+import AuthProvider from "./api/auth/[...nextauth]/AuthProvider";
+import ReduxProvider from "@/redux/ReduxProvider";
 
 
 const poppins = Poppins({
@@ -32,14 +32,16 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <Provider>
-            <section className="space-y-5 mb-5">
-              <NavbarMenu />
-              <SearchBar />
-            </section>
-            {children}
-            <FooterBar />
-          </Provider>
+          <AuthProvider>
+            <ReduxProvider>
+              <section className="space-y-5 mb-5">
+                <NavbarMenu />
+                <SearchBar />
+              </section>
+              {children}
+              <FooterBar />
+            </ReduxProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html >

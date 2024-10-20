@@ -22,7 +22,7 @@ async function Card_JualBeli() {
             {
                 dataProducts.map((item) => {
                     return (
-                        <Link href={`/jualbeli/${item.id}/${item.title.replace(/\s+/g, '-')}`} key={item.id}>
+                        <div>
                             <div className='flex items-center justify-between'>
                                 <div className='flex items-center gap-2'>
                                     <Avatar>
@@ -37,13 +37,17 @@ async function Card_JualBeli() {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger><Ellipsis size={28} /></DropdownMenuTrigger>
                                     <DropdownMenuContent>
-                                        <DropdownMenuItem>Laporkan Barang</DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link href={'/jualbeli'}>
+                                                Laporkan Barang
+                                            </Link>
+                                        </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
-
-                            <Image src={item.images[0]} alt='Foto Produk' className='w-full h-80 object-cover' width={300} height={300} />
-
+                            <Link href={`/jualbeli/${item.id}/${item.title.replace(/\s+/g, '-')}`}>
+                                <Image src={item.images[0]} alt='Foto Produk' className='w-full h-80 object-cover hover:scale-110 transition duration-300 ease-in-out' width={300} height={300} />
+                            </Link >
                             <div className='space-y-2'>
                                 <Badge variant="outline">Jarang Digunakan</Badge>
                                 <p className='capitalize'>{item.title}</p>
@@ -53,7 +57,7 @@ async function Card_JualBeli() {
                                 </div>
 
                             </div>
-                        </Link >
+                        </div>
                     )
                 })
             }

@@ -28,7 +28,7 @@ export default async function page({ params }) {
     })
     let detailProducts = await data.json()
 
-    let negotiable = false
+    let negotiable = true
     let garansiStatus = detailProducts.warrantyInformation
 
     return (
@@ -51,7 +51,7 @@ export default async function page({ params }) {
 
             <section className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
                 <AboutProduct detailProducts={detailProducts} titleParams={titleParams} />
-                <div className='lg:fixed lg:-z-20 lg:right-32 2xl:right-80 md:flex flex-col border-2 p-5 rounded shadow-xl hidden gap-5 h-fit'>
+                <div className='lg:fixed lg:z-10 lg:right-32 2xl:right-80 md:flex flex-col border-2 p-5 rounded shadow-xl hidden gap-5 h-fit bg-white dark:bg-black'>
                     <ActionProduct detailProducts={detailProducts} negotiable={negotiable} />
                     <Separator />
                     <div className='flex items-center gap-5'>
@@ -72,7 +72,7 @@ export default async function page({ params }) {
                 <div className='space-y-2'>
                     <h1 className='text-lg lg:text-xl font-semibold'>Produk Milik Keshyy</h1>
                     <p>Menampilkan beberapa produk milik keshy</p>
-                    <Button asChild>
+                    <Button variant="outline" asChild>
                         <Link href={'/'} >Lihat Semua</Link>
                     </Button>
                 </div>

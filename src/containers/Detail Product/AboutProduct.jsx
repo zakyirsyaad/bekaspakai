@@ -9,10 +9,8 @@ import {
     DialogContent,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import Link from 'next/link'
 import moment from 'moment';
 import 'moment/locale/id';  // Import locale untuk bahasa Indonesia
-import UserProduct from '@/components/UserProduct'
 
 export default function AboutProduct({ detailProducts, titleParams }) {
     moment.locale('id');

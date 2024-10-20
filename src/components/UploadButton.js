@@ -5,7 +5,7 @@ import { ImageUp } from 'lucide-react'
 
 function UploadButton({ auth }) {
     return (
-        <Button className="w-full bg-accent-foreground" asChild>
+        <Button variant="outline" className="w-full " asChild>
             <Link Link href={auth ? '/uploadproduct' : '/login'} ><ImageUp /> Upload Barang</Link >
         </Button>
     )

@@ -38,10 +38,10 @@ function ImgCarouselDetailProduct({ detailProducts }) {
                 ]}>
                 <CarouselContent>
                     <CarouselItem>
-                        <Image src={detailProducts.thumbnail} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
+                        <Image src={detailProducts.images[0]} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
                     </CarouselItem>
                     <CarouselItem>
-                        <Image src={detailProducts.thumbnail} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
+                        <Image src={detailProducts.images[0]} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
                     </CarouselItem>
                 </CarouselContent>
             </Carousel>

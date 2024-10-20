@@ -14,7 +14,7 @@ export default function Highlight_JualBeli() {
                     <h2 className='text-sm'>Barang terbaru di produk jual beli</h2>
                 </div>
                 <Button asChild>
-                    <Link href={'/jualbeli'} className='text-primary font-bold underline underline-offset-4'>Lihat Semua</Link>
+                    <Link href={'/jualbeli'}>Lihat Semua</Link>
                 </Button>
             </div>
             <Card_JualBeli />
