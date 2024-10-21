@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
                 <SearchBar />
               </section>
               {children}
-              <FooterBar />
+              {/* <FooterBar /> */}
             </ReduxProvider>
           </AuthProvider>
         </ThemeProvider>

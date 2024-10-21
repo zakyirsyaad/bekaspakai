@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 function TotalCart() {
     return (
@@ -13,7 +14,9 @@ function TotalCart() {
                 <p className='text-sm font-semibold'>Total Harga</p>
                 <p>Rp 0</p>
             </div>
-            <Button className="w-full">Lanjutkan Pembayaran</Button>
+            <Button className="w-full" asChild>
+                <Link href={'/pembayaran'}>Lanjutkan Pembayaran</Link>
+            </Button>
         </div>
     )
 }
