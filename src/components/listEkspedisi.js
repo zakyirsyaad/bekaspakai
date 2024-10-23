@@ -42,9 +42,16 @@ const frameworks = [
     },
 ]
 
-export function ListEkspedisi() {
+export function ListEkspedisi({ onChange }) {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
+
+    const handleSelect = (currentValue) => {
+        const selectedValue = currentValue === value ? "" : currentValue
+        setValue(selectedValue) // Update UI dengan nilai yang dipilih
+        onChange({ target: { name: 'alamat', value: selectedValue } }) // Panggil onChange dari formik dengan nama field dan nilai yang dipilih
+        setOpen(false) // Menutup popover setelah memilih
+    }
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -71,10 +78,7 @@ export function ListEkspedisi() {
                                 <CommandItem
                                     key={framework.value}
                                     value={framework.value}
-                                    onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? "" : currentValue)
-                                        setOpen(false)
-                                    }}
+                                    onSelect={handleSelect}
                                 >
                                     <Check
                                         className={cn(

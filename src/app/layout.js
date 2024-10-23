@@ -6,6 +6,7 @@ import SearchBar from "@/containers/SearchBar";
 import FooterBar from "@/containers/FooterBar";
 import AuthProvider from "./api/auth/[...nextauth]/AuthProvider";
 import ReduxProvider from "@/redux/ReduxProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 
 const poppins = Poppins({
@@ -39,10 +40,11 @@ export default function RootLayout({ children }) {
                 <SearchBar />
               </section>
               {children}
-              {/* <FooterBar /> */}
             </ReduxProvider>
           </AuthProvider>
         </ThemeProvider>
+        <FooterBar />
+        <Toaster />
       </body>
     </html >
   );

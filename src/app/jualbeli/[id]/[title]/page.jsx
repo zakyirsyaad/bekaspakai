@@ -14,6 +14,7 @@ import AboutProduct from '@/containers/Detail Product/AboutProduct'
 import UserProduct from '@/components/UserProduct'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import MobilNavDetailProduct from '@/components/MobilNavDetailProduct'
 
 export default async function page({ params }) {
     let { id, title } = params
@@ -29,6 +30,7 @@ export default async function page({ params }) {
     let detailProducts = await data.json()
 
     let negotiable = true
+
     let garansiStatus = detailProducts.warrantyInformation
 
     return (
@@ -48,10 +50,10 @@ export default async function page({ params }) {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-
+            <MobilNavDetailProduct negotiable={negotiable} />
             <section className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
                 <AboutProduct detailProducts={detailProducts} titleParams={titleParams} />
-                <div className='lg:fixed lg:z-10 lg:right-32 2xl:right-80 md:flex flex-col border-2 p-5 rounded shadow-xl hidden gap-5 h-fit bg-white dark:bg-black'>
+                <div className='lg:fixed lg:z-10 lg:right-28 2xl:right-80 md:flex flex-col border-2 p-5 rounded shadow-xl hidden gap-5 h-fit bg-white dark:bg-black'>
                     <ActionProduct detailProducts={detailProducts} negotiable={negotiable} />
                     <Separator />
                     <div className='flex items-center gap-5'>

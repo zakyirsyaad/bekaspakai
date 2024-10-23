@@ -11,9 +11,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from './ui/button'
 
-function JenisPengiriman() {
+function JenisPengiriman({ onChange }) {
     const jenis = ['JNE', 'TIKI', 'Pos Indonesia', 'SiCepat'];
     const [selectedJenis, setSelectedJenis] = useState(null); // State untuk menyimpan pilihan
+
+    const handleSelect = (value) => {
+        setSelectedJenis(value); // Update UI dengan pilihan
+        onChange({ target: { name: 'courier', value } }); // Panggil onChange dari formik dengan field name dan value
+    };
 
     return (
         <DropdownMenu>
@@ -28,7 +33,7 @@ function JenisPengiriman() {
                 {jenis.map((jenis, index) => (
                     <DropdownMenuItem
                         key={index}
-                        onClick={() => setSelectedJenis(jenis)} // Mengatur nilai yang dipilih
+                        onClick={() => handleSelect(jenis)} // Mengatur nilai yang dipilih
                     >
                         {jenis}
                     </DropdownMenuItem>

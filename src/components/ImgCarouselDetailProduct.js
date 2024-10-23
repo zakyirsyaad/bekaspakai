@@ -34,14 +34,15 @@ function ImgCarouselDetailProduct({ detailProducts }) {
                 plugins={[
                     Autoplay({
                         delay: 2000,
+
                     }),
                 ]}>
                 <CarouselContent>
                     <CarouselItem>
-                        <Image src={detailProducts.images[0]} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
+                        <Image src={detailProducts.images[0]} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-contain' width={300} height={300} priority={true} />
                     </CarouselItem>
                     <CarouselItem>
-                        <Image src={detailProducts.images[0]} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
+                        <Image src={detailProducts.images[0]} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-contain' width={300} height={300} priority={true} />
                     </CarouselItem>
                 </CarouselContent>
             </Carousel>

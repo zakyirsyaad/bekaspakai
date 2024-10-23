@@ -6,7 +6,6 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
-import { Card, CardContent } from '@/components/ui/card'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -35,7 +34,6 @@ export default async function Kategori() {
                     >
                         <Link href={`/${item.kategori.replace(/\s+/g, '-')}`}>
                             <div className='flex flex-col p-6 w-[150px] rounded'>
-                                {/* Menampilkan gambar kategori */}
                                 <Image
                                     src={item.foto}
                                     alt={item.kategori}
@@ -43,7 +41,6 @@ export default async function Kategori() {
                                     height={100}
                                     className='rounded w-full h-[100px] object-cover'
                                 />
-                                {/* Menampilkan nama kategori */}
                                 <p className='text-sm text-center font-semibold mt-2'>{item.kategori}</p>
                             </div>
                         </Link>

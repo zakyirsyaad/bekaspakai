@@ -6,7 +6,7 @@ function SearchLocate() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline"> <MapPin />Yogyakarta</Button>
+                <Button variant="outline" className="self-start"> <MapPin />Yogyakarta</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>Pilih Lokasi</DropdownMenuLabel>

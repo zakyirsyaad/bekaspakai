@@ -2,9 +2,19 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Ellipsis } from 'lucide-react';
+import { CircleEllipsis, Ellipsis, ShoppingBag } from 'lucide-react';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 import Image from 'next/image';
 import React, { useState } from 'react'
+import Link from 'next/link';
 
 const transactions = [
     {
@@ -102,21 +112,37 @@ export default function Page() {
         setVisibleCount(prevCount => prevCount + 3);
     };
 
+    const buttonMore = () => {
+        if (visibleCount < transactions.map(transaction => transaction.status).length) {
+            return (
+                <Button onClick={showMoreTransactions} className='self-center' variant="outline">
+                    Tampilkan Lebih Banyak
+                </Button>
+            );
+        }
+    }
+
     return (
         <div className='flex flex-col gap-5'>
             <div className='space-y-5'>
                 {transactions.length > 0 ? (
                     transactions
-                        .slice() // copy the array first to avoid mutating the original
-                        .reverse() // membalikkan urutan data
-                        .slice(0, visibleCount) // ambil berdasarkan jumlah visibleCount
+                        .slice()
+                        .reverse()
+                        .slice(0, visibleCount)
                         .map((transaction) => (
                             <div key={transaction.id} className='rounded space-y-5'>
                                 <div className='flex justify-between'>
-                                    <p className='font-semibold capitalize'>User: {transaction.user}</p>
+                                    <div className='flex items-center gap-2'>
+                                        <Avatar>
+                                            <AvatarImage src="https://github.com/shadcn.png" />
+                                            <AvatarFallback>CN</AvatarFallback>
+                                        </Avatar>
+                                        <p className='font-semibold capitalize'> {transaction.user}</p>
+                                    </div>
                                     <div className='flex flex-col items-end md:flex-row md:items-center gap-2'>
                                         <p className='text-xs md:text-sm font-medium'>INV/20231103/MPL/3544462305,</p>
-                                        <p className='text-xs md:text-sm font-medium'>Tgl Pembelian: 20 Oktober 2024</p>
+                                        <p className='text-xs md:text-sm font-medium flex items-center'><ShoppingBag /> 20 Oktober 2024</p>
                                         <Badge
                                             className={
                                                 transaction.status === 'Dibatalkan' ? 'bg-red-700' :
@@ -129,7 +155,6 @@ export default function Page() {
                                             {transaction.status}
                                         </Badge>
                                     </div>
-
                                 </div>
                                 <div className='flex gap-5'>
                                     <Image src={'https://github.com/shadcn.png'} alt="Product" className='rounded object-cover w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 2xl:w-32 2xl:h-32' width={200} height={200} />
@@ -138,11 +163,67 @@ export default function Page() {
                                             <p className='text-sm lg:text-lg'>{transaction.produk}</p>
                                             <p className='text-base lg:text-xl font-bold'>{transaction.harga}</p>
                                         </div>
-                                        <div className='space-x-3'>
-                                            <Button variant='subtle'><Ellipsis /></Button>
-                                            <Button variant='outline'>Lihat Transaksi</Button>
-                                            <Button >Selesaikan Transaksi</Button>
+                                        <div className='hidden  md:flex items-end gap-5'>
+                                            {
+                                                transaction.status === 'Refund'
+                                                    ? (
+                                                        <>
+                                                            <Button variant="outline">Detail Refund</Button>
+                                                            <Button variant="outline">Detail Refund</Button>
+                                                        </>
+                                                    )
+                                                    : transaction.status === 'Dikirim'
+                                                        ?
+                                                        (
+                                                            <>
+                                                                <DropdownMenu>
+                                                                    <DropdownMenuTrigger>
+                                                                        <Ellipsis />
+                                                                    </DropdownMenuTrigger>
+                                                                    <DropdownMenuContent>
+                                                                        <DropdownMenuItem>
+                                                                            <Link href={'/transaksi/' + transaction.id}>Ajukan Refund</Link>
+                                                                        </DropdownMenuItem>
+                                                                    </DropdownMenuContent>
+                                                                </DropdownMenu>
+                                                                <Button variant='outline'>Detail Transaksi</Button>
+                                                                <Button>Selesaikan Transaksi</Button>
+                                                            </>
+                                                        )
+                                                        : (<Button variant='outline'>Detail Transaksi</Button>)
+
+                                            }
+                                            {/* <DropdownMenu>
+                                                <DropdownMenuTrigger>
+                                                    <Ellipsis />
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuItem>
+                                                        <Link href={'/transaksi/' + transaction.id}>Ajukan Refund</Link>
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                            <Button variant='outline'>Detail Transaksi</Button>
+                                            <Button >Selesaikan Transaksi</Button> */}
                                         </div>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger className='md:hidden'>
+                                                <CircleEllipsis />
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem>
+                                                    <Link href={'/transaksi/' + transaction.id}>Detail Transaksi</Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem>
+                                                    <Link href={'/transaksi/' + transaction.id}>Selesaikan Transaksi</Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem>
+                                                    <Link href={'/transaksi/' + transaction.id}>Refund</Link>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </div>
                                 </div>
                                 <Separator />
@@ -153,11 +234,7 @@ export default function Page() {
                 )}
             </div>
             {/* Tombol Lihat Lebih Banyak */}
-            {visibleCount < transactions.length && (
-                <Button onClick={showMoreTransactions} className='self-center'>
-                    Lihat Lebih Banyak
-                </Button>
-            )}
+            {buttonMore()}
         </div>
     );
 }

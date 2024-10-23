@@ -14,13 +14,18 @@ import 'moment/locale/id';  // Import locale untuk bahasa Indonesia
 
 export default function AboutProduct({ detailProducts, titleParams }) {
     moment.locale('id');
+    let discountPrice = (detailProducts.price * detailProducts.discountPercentage) / 100
+    let finalPrice = detailProducts.price - discountPrice
     return (
         <div className='col-span-2 space-y-5 '>
             <div className='space-y-5'>
                 <ImgCarouselDetailProduct detailProducts={detailProducts} />
-                <div>
-                    <p className='text-lg'>{titleParams}</p>
-                    <p className='text-lg font-semibold'>Rp {detailProducts.price}</p>
+                <div className='space-y-2'>
+                    <p className='text-lg 2xl:text-2xl'>{titleParams}</p>
+                    <div>
+                        <p className='text-base text-destructive line-through'>Rp {detailProducts.price}</p>
+                        <p className='text-lg font-semibold'>Rp {finalPrice.toFixed(2)}</p>
+                    </div>
                 </div>
                 <p className='font-bold text-xl'>Deskripsi Produk</p>
                 <p>{detailProducts.description}</p>

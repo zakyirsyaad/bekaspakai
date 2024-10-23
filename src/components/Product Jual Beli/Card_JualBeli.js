@@ -21,6 +21,7 @@ async function Card_JualBeli() {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5'>
             {
                 dataProducts.map((item) => {
+                    let finalPrice = item.price - (item.price * item.discountPercentage / 100)
                     return (
                         <div>
                             <div className='flex items-center justify-between'>
@@ -51,9 +52,21 @@ async function Card_JualBeli() {
                             <div className='space-y-2'>
                                 <Badge variant="outline">Jarang Digunakan</Badge>
                                 <p className='capitalize'>{item.title}</p>
-                                <div className='flex justify-between'>
-                                    <p className='font-semibold'>Rp. 12.500.000</p>
-                                    <p className='flex items-center gap-1 text-md'><MapPin size={20} /><span>Yogyakarta</span></p>
+                                <div className='grid grid-cols-2'>
+
+                                    <div>
+                                        {item.discountPercentage !== 0 ? <Badge variant="destructive" className={'text-white'}>Diskon {item.discountPercentage}%</Badge> : null}
+                                        {
+                                            item.discountPercentage !== 0 ?
+                                                <>
+                                                    <p className='text-red-500 line-through'>Rp {item.price}</p>
+                                                    <p className='text-lg font-semibold truncate'>Rp {finalPrice.toFixed(2)}</p>
+                                                </>
+                                                :
+                                                <p className='text-red-500 line-through '>Rp {item.price}</p>
+                                        }
+                                    </div>
+                                    <p className='flex items-center gap-1 text-md text-end place-self-end'><MapPin size={20} /><span>Yogyakarta</span></p>
                                 </div>
 
                             </div>

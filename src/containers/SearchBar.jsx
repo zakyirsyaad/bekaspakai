@@ -5,10 +5,13 @@ import SearchLocate from "@/components/SearchLocate"
 
 export default function SearchBar() {
     return (
-        <div className="flex items-center gap-5">
+        <div className="flex flex-col md:flex-row gap-5">
             <SearchInput />
-            <SearchLocate />
-            <Button>Cari</Button>
+            <div className="flex items-start gap-5">
+                <SearchLocate />
+                <Button className="self-start">Cari</Button>
+            </div>
+
         </div>
     )
 }

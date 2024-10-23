@@ -3,7 +3,6 @@ import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import Link from 'next/link'
-import { Button } from './ui/button'
 import { signOut } from 'next-auth/react'
 
 function ProfileMenu({ auth }) {
@@ -21,16 +20,21 @@ function ProfileMenu({ auth }) {
             <DropdownMenuContent>
                 <DropdownMenuLabel>Menu Akun</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                    <Link href={'/profile'}>Profile</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <Link href={'/DashboardToko'}>Dashboard Toko</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    {/* <Link href={'/logout'}>Logout</Link> */}
-                    <Button onClick={() => signOut()}>Keluar</Button>
-                </DropdownMenuItem>
+                <Link href={`/p/${auth.user.name.replace(/\s+/g, '-').toLowerCase()}`}>
+                    <DropdownMenuItem>
+                        Profile
+                    </DropdownMenuItem>
+                </Link>
+                <Link href={'/profile'}>
+                    <DropdownMenuItem>
+                        Profile
+                    </DropdownMenuItem>
+                </Link>
+                <Link href={'/'} onClick={() => signOut()}>
+                    <DropdownMenuItem>
+                        Logout
+                    </DropdownMenuItem>
+                </Link>
             </DropdownMenuContent>
         </DropdownMenu>
     )

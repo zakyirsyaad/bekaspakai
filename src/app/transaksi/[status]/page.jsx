@@ -1,6 +1,20 @@
+'use client'
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { CircleEllipsis, Ellipsis, ShoppingBag } from 'lucide-react';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 
 const transactions = [
     {
@@ -62,6 +76,24 @@ const transactions = [
         produk: "MacBook Air M2 2022",
         harga: "Rp 19.000.000",
         status: "Selesai"
+    },
+    {
+        user: "Elowen",
+        produk: "MacBook Pro 2022 16/1Tb",
+        harga: "Rp 26.000.000",
+        status: "Dikemas"
+    },
+    {
+        user: "Bellamy",
+        produk: "MacBook Pro 2022 16/1Tb",
+        harga: "Rp 26.000.000",
+        status: "Dikemas"
+    },
+    {
+        user: "Murphy",
+        produk: "MacBook Pro 2022 16/1Tb",
+        harga: "Rp 26.000.000",
+        status: "Selesai"
     }
 ];
 
@@ -69,44 +101,114 @@ const transactions = [
 
 export default function TransactionPage({ params }) {
     const { status } = params
+    const [visibleCount, setVisibleCount] = useState(3);
+    const showMoreTransactions = () => {
+        setVisibleCount(prevCount => prevCount + 3);
+    };
+
 
     const filteredTransactions = transactions.filter((transaction) => {
         if (status === transaction.status) return true;
     });
 
+    const buttonMore = () => {
+        if (visibleCount < filteredTransactions.length) {
+            return (
+                <Button onClick={showMoreTransactions} className='self-center' variant="outline">
+                    Tampilkan Lebih Banyak
+                </Button>
+            );
+        }
+    }
+
     return (
-        <div>
+        <div className='flex flex-col gap-5'>
             <div className='space-y-5'>
                 {filteredTransactions.length > 0 ? (
-                    filteredTransactions.map((transaction) => (
-                        <div key={transaction.id} className='border p-5 rounded space-y-2 shadow-md'>
-                            <div className='flex justify-between'>
-                                <p>User: {transaction.user}</p>
-                                <Badge
-                                    className={
-                                        transaction.status === 'Dibatalkan' ? 'bg-red-700' :
-                                            transaction.status === 'Dikirim' ? 'bg-green-700' :
-                                                transaction.status === 'Refund' ? 'bg-red-700' :
-                                                    transaction.status === 'Pending' ? 'bg-yellow-700' :
-                                                        'secondary'
-                                    }
-                                >
-                                    {transaction.status}
-                                </Badge>
-                            </div>
-                            <div className='flex gap-5'>
-                                <Image src={'https://github.com/shadcn.png'} alt="Product" className='rounded object-cover' width={200} height={200} />
-                                <div>
-                                    <p>{transaction.produk}</p>
-                                    <p> {transaction.harga}</p>
+                    filteredTransactions
+                        .slice()
+                        .reverse()
+                        .slice(0, visibleCount)
+                        .map((transaction) => (
+                            <div key={transaction.id} className='rounded space-y-5'>
+                                <div className='flex justify-between'>
+                                    <div className='flex items-center gap-2'>
+                                        <Avatar>
+                                            <AvatarImage src="https://github.com/shadcn.png" />
+                                            <AvatarFallback>CN</AvatarFallback>
+                                        </Avatar>
+                                        <p className='font-semibold capitalize'> {transaction.user}</p>
+                                    </div>
+                                    <div className='flex flex-col items-end md:flex-row md:items-center gap-2'>
+                                        <p className='text-xs md:text-sm font-medium'>INV/20231103/MPL/3544462305,</p>
+                                        <p className='text-xs md:text-sm font-medium flex items-center'><ShoppingBag /> 20 Oktober 2024</p>
+                                        <Badge
+                                            className={
+                                                transaction.status === 'Dibatalkan' ? 'bg-red-700' :
+                                                    transaction.status === 'Dikirim' ? 'bg-green-700' :
+                                                        transaction.status === 'Refund' ? 'bg-red-700' :
+                                                            transaction.status === 'Pending' ? 'bg-yellow-700' :
+                                                                'secondary'
+                                            }
+                                        >
+                                            {transaction.status}
+                                        </Badge>
+                                    </div>
                                 </div>
+                                <div className='flex gap-5'>
+                                    <Image src={'https://github.com/shadcn.png'} alt="Product" className='rounded object-cover w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 2xl:w-32 2xl:h-32' width={200} height={200} />
+                                    <div className='flex flex-col justify-between'>
+                                        <div>
+                                            <p className='text-sm lg:text-lg'>{transaction.produk}</p>
+                                            <p className='text-base lg:text-xl font-bold'>{transaction.harga}</p>
+                                        </div>
+                                        <div className='hidden  md:flex items-end gap-5'>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger>
+                                                    <Ellipsis />
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuItem>
+                                                        <Link href={'/transaksi/' + transaction.id}>Ajukan Refund</Link>
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                            <Button variant='outline'>Detail Transaksi</Button>
+                                            <Button >Selesaikan Transaksi</Button>
+                                        </div>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger className='md:hidden'>
+                                                <CircleEllipsis />
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem>
+                                                    <Link href={'/transaksi/' + transaction.id}>Detail Transaksi</Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem>
+                                                    <Link href={'/transaksi/' + transaction.id}>Selesaikan Transaksi</Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem>
+                                                    <Link href={'/transaksi/' + transaction.id}>Refund</Link>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                </div>
+                                <Separator />
                             </div>
-                        </div>
-                    ))
+                        ))
                 ) : (
-                    <p>Tidak ada transaksi dengan status "{status}"</p>
+                    <p>Tidak ada transaksi.</p>
                 )}
             </div>
+            {/* {transactions.length > 3 && visibleCount < transactions.length && (
+                <Button onClick={showMoreTransactions} className='self-center'>
+                    Lihat Lebih Banyak
+                </Button>
+            )} */}
+            {buttonMore()}
         </div>
     );
 }

@@ -11,16 +11,17 @@ function WebMenu({ auth }) {
             {auth ?
                 <>
                     <Link href={'/transaksi'}>
-                        <ShoppingBag size={35} />
+                        <ShoppingBag className='w-6 h-6 2xl:w-7 2xl:h-7' />
                     </Link>
                     <Link href={'/keranjang'}>
-                        <ShoppingCart size={35} />
+                        <ShoppingCart className='w-6 h-6 2xl:w-7 2xl:h-7' />
                     </Link>
                     <Link href={'/chat'}>
-                        <MessagesSquare size={35} />
+                        <MessagesSquare className='w-6 h-6 2xl:w-7 2xl:h-7' />
                     </Link>
                 </>
-                : null}
+                : null
+            }
             <UploadButton auth={auth} />
             {auth ? <ProfileMenu auth={auth} /> : <AuthButton />}
         </nav >
