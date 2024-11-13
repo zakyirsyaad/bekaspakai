@@ -8,7 +8,9 @@ import AuthButton from '../AuthButton'
 import ProfileMenu from '../ProfileMenu'
 import { ThemeMode } from '../ThemeMode'
 
-function MobileMenu({ auth }) {
+function MobileMenu() {
+
+    const isAuthenticated = true
     return (
         <Sheet>
             <SheetTrigger SheetTrigger>
@@ -17,26 +19,24 @@ function MobileMenu({ auth }) {
             <SheetContent className="space-y-5">
                 <SheetHeader>
                     <SheetTitle>
-                        {auth ? <ProfileMenu auth={auth} /> : <AuthButton />}
+                        {isAuthenticated ? <ProfileMenu /> : <AuthButton />}
                     </SheetTitle>
                     <SheetDescription>
                         <UploadButton />
                     </SheetDescription>
                 </SheetHeader>
                 <div className='flex flex-col gap-2 items-start'>
-                    {auth ?
-                        <>
-                            <Button asChild>
-                                <Link href={'/uploadproduct'} className='space-x-5'><MessagesSquare /> <span>Chat</span></Link>
-                            </Button>
-                            <Button asChild>
-                                <Link href={'/uploadproduct'} className='space-x-5'><ShoppingCart /> <span>Keranjang</span></Link>
-                            </Button>
-                            <Button asChild>
-                                <Link href={'/uploadproduct'} className='space-x-5'><ShoppingBag /> <span>Transaksi</span></Link>
-                            </Button>
-                        </>
-                        : null}
+                    <>
+                        <Button asChild>
+                            <Link href={'/uploadproduct'} className='space-x-5'><MessagesSquare /> <span>Chat</span></Link>
+                        </Button>
+                        <Button asChild>
+                            <Link href={'/uploadproduct'} className='space-x-5'><ShoppingCart /> <span>Keranjang</span></Link>
+                        </Button>
+                        <Button asChild>
+                            <Link href={'/uploadproduct'} className='space-x-5'><ShoppingBag /> <span>Transaksi</span></Link>
+                        </Button>
+                    </>
                 </div>
                 <div className='absolute z-10 bottom-5 right-5'>
                     <ThemeMode />

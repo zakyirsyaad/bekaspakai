@@ -61,7 +61,7 @@ export function SearchArea() {
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="p-0">
+            <PopoverContent className="p-0 w-80 md:w-96 lg:w-[550px]">
                 <Command>
                     <CommandInput placeholder="Cari Alamat" />
                     <CommandList>

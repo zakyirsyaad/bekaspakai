@@ -3,10 +3,10 @@ import { Button } from './ui/button'
 import Link from 'next/link'
 import { ImageUp } from 'lucide-react'
 
-function UploadButton({ auth }) {
+function UploadButton({ accessToken, isPenjual, isVerified }) {
     return (
         <Button variant="outline" className="w-full " asChild>
-            <Link Link href={auth ? '/uploadproduct' : '/login'} ><ImageUp /> Upload Barang</Link >
+            <Link Link href={accessToken ? '/dashboard/product' : '/login'} ><ImageUp /> Upload Barang</Link >
         </Button>
     )
 }

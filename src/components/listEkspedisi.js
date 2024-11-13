@@ -60,7 +60,7 @@ export function ListEkspedisi({ onChange }) {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="col-span-2 2xl:col-span-1 justify-between"
+                    className="col-span-2 justify-between"
                 >
                     {value
                         ? frameworks.find((framework) => framework.value === value)?.label

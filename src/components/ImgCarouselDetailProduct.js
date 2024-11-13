@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/carousel"
 import Image from 'next/image'
 import Autoplay from "embla-carousel-autoplay"
+import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 
 function ImgCarouselDetailProduct({ detailProducts }) {
     const [api, setApi] = useState()
@@ -25,7 +26,7 @@ function ImgCarouselDetailProduct({ detailProducts }) {
             setCurrent(api.selectedScrollSnap() + 1);
         });
 
-    })
+    }, [api])
     return (
         <>
             <Carousel
@@ -38,12 +39,18 @@ function ImgCarouselDetailProduct({ detailProducts }) {
                     }),
                 ]}>
                 <CarouselContent>
-                    <CarouselItem>
-                        <Image src={detailProducts.images[0]} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-contain' width={300} height={300} priority={true} />
-                    </CarouselItem>
-                    <CarouselItem>
-                        <Image src={detailProducts.images[0]} alt={detailProducts.title} className='rounded w-full lg:h-[500px] object-contain' width={300} height={300} priority={true} />
-                    </CarouselItem>
+                    {detailProducts.picture.reverse().map((img) => (
+                        <CarouselItem key={img.key}>
+                            <Dialog>
+                                <DialogTrigger className='w-full'>
+                                    <Image src={img.url} alt='Foto Detail produk' className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <Image src={img.url} alt='Foto Detail produk' className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
+                                </DialogContent>
+                            </Dialog>
+                        </CarouselItem>
+                    ))}
                 </CarouselContent>
             </Carousel>
             <p className='text-center'>Foto ke {current} dari {count}</p>

@@ -21,7 +21,15 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'i.pinimg.com',
-            }
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'pixabay.com',
+            },
         ],
         unoptimized: true,
     }

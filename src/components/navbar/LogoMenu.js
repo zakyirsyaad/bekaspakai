@@ -9,8 +9,8 @@ function LogoMenu() {
             <Link href="/" >
                 <Image src={logoBekaspakai} alt="Logo Bekaspakai" className='w-28 md:w-36 lg:w-40' width={100} height={100} />
             </ Link>
-            <Link href={'/'} className='lg:text-base'>Jual Beli</Link>
-            <Link href={'/'} className='lg:text-base'>Donasi</Link>
+            <Link href={'/JenisProduct/Jual-Beli'} className='lg:text-base'>Jual Beli</Link>
+            <Link href={'/JenisProduct/Donasi'} className='lg:text-base'>Donasi</Link>
         </nav >
     )
 }

@@ -1,43 +1,50 @@
-'use client'
-import React from 'react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import Link from 'next/link'
-import { signOut } from 'next-auth/react'
+import React from 'react';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import Link from 'next/link';
+import LogoutButton from './LogoutButton';
 
-function ProfileMenu({ auth }) {
-    console.log(auth)
-
+function ProfileMenu({ user }) {
+    if (!user) {
+        return null;
+    }
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className='flex items-center space-x-2 w-full'>
+            <DropdownMenuTrigger className="flex items-center space-x-2">
                 <Avatar>
-                    <AvatarImage src={auth.user.image} alt={auth.user.name} />
-                    <AvatarFallback>{auth.user.name.charAt(0).toUpperCase()}</AvatarFallback>
+                    <AvatarImage src={user.profile_picture?.url} alt={user.username} />
+                    <AvatarFallback>{(user.username)?.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <p className='font-normal text-sm'>{auth.user.name}</p>
+                <p className="font-normal text-sm truncate">{user.username}</p>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>Menu Akun</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <Link href={`/p/${auth.user.name.replace(/\s+/g, '-').toLowerCase()}`}>
+                <Link href={`/p/${(user.username)?.replace(/\s+/g, '-').toLowerCase()}`} prefetch={false}>
                     <DropdownMenuItem>
                         Profile
                     </DropdownMenuItem>
                 </Link>
-                <Link href={'/profile'}>
+                <Link href={'/dashboard'} prefetch={false}>
                     <DropdownMenuItem>
-                        Profile
+                        Dashboard Toko
                     </DropdownMenuItem>
                 </Link>
-                <Link href={'/'} onClick={() => signOut()}>
+                <LogoutButton>
                     <DropdownMenuItem>
-                        Logout
+                        Keluar
                     </DropdownMenuItem>
-                </Link>
+                </LogoutButton>
             </DropdownMenuContent>
-        </DropdownMenu>
-    )
+        </DropdownMenu >
+    );
 }
 
-export default ProfileMenu
+export default ProfileMenu;
