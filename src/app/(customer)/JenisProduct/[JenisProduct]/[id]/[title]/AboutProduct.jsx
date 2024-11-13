@@ -55,8 +55,8 @@ export default function AboutProduct({ detailProducts }) {
                 <h1 className='text-lg lg:text-xl font-semibold'>Ulasan Produk @{detailProducts.penjual.username}</h1>
                 <div className='grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3'>
                     {detailProducts.UlasanProducts.length > 0 ?
-                        detailProducts.UlasanProducts.map((rating) => (
-                            <div className='flex items-center gap-5'>
+                        detailProducts.UlasanProducts.map((rating, index) => (
+                            <div className='flex items-center gap-5' key={index}>
                                 <div className='flex gap-2'>
                                     <Avatar className='h-14 w-14'>
                                         <AvatarImage src="https://github.com/shadcn.png" />

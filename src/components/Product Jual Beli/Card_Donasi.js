@@ -23,7 +23,7 @@ async function Card_Donasi() {
                 dataProducts.sort(() => Math.random() - 0.5).map((item) => {
                     let finalPrice = item.price - (item.price * item.discount / 100)
                     return (
-                        <div>
+                        <div key={item.id}>
                             <div className='flex items-center justify-between'>
                                 <Link href={`/p/${item.penjual.username}`} prefetch={false}>
                                     <div className='flex items-center gap-2'>

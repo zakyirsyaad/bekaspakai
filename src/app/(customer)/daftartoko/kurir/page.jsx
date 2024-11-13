@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import Cookies from 'js-cookie';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default function page() {
+export default function Page() {
     const [courierOptions, setCourierOptions] = useState([]);
     const [selectedCouriers, setSelectedCouriers] = useState([]);
     const [status, setStatus] = useState(null);

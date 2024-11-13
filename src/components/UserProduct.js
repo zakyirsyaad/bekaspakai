@@ -36,7 +36,7 @@ async function UserProduct({ id }) {
                 dataProducts.map((item) => {
                     let finalPrice = item.price - (item.price * item.discount / 100)
                     return (
-                        <div>
+                        <div key={item.id}>
                             <div className='flex items-center justify-between'>
                                 <div className='flex items-center gap-2'>
                                     <Avatar>

@@ -36,7 +36,7 @@ async function CardDonasi_Toko({ user }) {
                 dataProducts.slice(0, 4).map((item) => {
                     let finalPrice = item.price - (item.price * item.discount / 100)
                     return (
-                        <div>
+                        <div key={item.id}>
                             <div className='flex items-center justify-between'>
                                 <div className='flex items-center gap-2'>
                                     <Avatar>
