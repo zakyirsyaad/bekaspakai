@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { SkeletonCardProduct } from '../Skeleton/SkeletonCardProduct'
 
 async function Card_JualBeli() {
-    let response = await fetch(`${process.env.BASE_URL_API}/products?limit=4&tipe=Jual Beli&isAvailable=yes`, {
+    let response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/products?limit=4&tipe=Jual Beli&isAvailable=yes`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

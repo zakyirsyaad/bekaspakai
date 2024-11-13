@@ -13,7 +13,7 @@ export default async function NavbarMenu() {
     const isPenjual = role === "83da0762-a57a-4125-8ebb-25386cdd0226";
 
     // Lakukan fetch data user dengan token
-    const response = await fetch(`${process.env.BASE_URL_API}/users/profile`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/users/profile`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`,
         },
