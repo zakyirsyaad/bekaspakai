@@ -7,7 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Link from 'next/link'
 
 async function CardDonasi_Toko({ user }) {
-    let response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/products?toko=${user.id}&tipe=Donasi`, {
+    let response = await fetch(`${process.env.BASE_URL_API}/products?toko=${user.id}&tipe=Donasi`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
