@@ -38,16 +38,18 @@ async function UserProduct({ id }) {
                     return (
                         <div key={item.id}>
                             <div className='flex items-center justify-between'>
-                                <div className='flex items-center gap-2'>
-                                    <Avatar>
-                                        <AvatarImage src={item.penjual.profile_picture.url} />
-                                        <AvatarFallback>CN</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <p className='font-semibold'>{item.penjual.username}</p>
-                                        <p className='text-sm'>2 Hari yang lalu</p>
+                                <Link href={`/p/${item.penjual.username}`} prefetch={false}>
+                                    <div className='flex items-center gap-2'>
+                                        <Avatar>
+                                            <AvatarImage src={item.penjual.profile_picture.url} />
+                                            <AvatarFallback>CN</AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                            <p className='font-semibold'>{item.penjual.username}</p>
+                                            <p className='text-sm'>2 Hari yang lalu</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger><Ellipsis size={28} /></DropdownMenuTrigger>
                                     <DropdownMenuContent>

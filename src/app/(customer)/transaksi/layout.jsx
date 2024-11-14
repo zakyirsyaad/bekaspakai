@@ -28,7 +28,7 @@ export default function Layout({ children }) {
                         variant={filter === value ? '' : 'outline'}
                         onClick={() => setFilter(value)}
                     >
-                        <Link href={{ pathname: '/transaksi', query: { status: value } }}>
+                        <Link href={{ pathname: '/transaksi', query: { status: value } }} className='text-wrap text-center'>
                             {label}
                         </Link>
                     </Button>

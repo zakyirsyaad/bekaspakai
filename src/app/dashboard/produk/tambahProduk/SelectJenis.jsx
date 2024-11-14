@@ -1,47 +1,87 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import Cookies from 'js-cookie';
-export default function SelectJenis({ onSelectChange }) {
-    const [status, setStatus] = React.useState(null);
-    const [jenis, setJenis] = React.useState(null);
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import Cookies from 'js-cookie'
+import { Button } from '@/components/ui/button';
 
+export default function SelectJenis({ onChange }) {
+    const [status, setStatus] = useState('loading'); // Default to loading state
+    const [selectedJenis, setSelectedJenis] = useState(null); // Use null initially instead of an empty array
+    const [jenisOptions, setJenisOptions] = useState([]); // Store fetched data here
+
+    // Fetch the data once on mount
     useEffect(() => {
-        let accessToken = Cookies.get('accessToken')
-        setStatus('loading');
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/type`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setJenis(data.data.jenisProduct);
+        const fetchData = async () => {
+            const accessToken = Cookies.get('accessToken');
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/type`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    cache: 'no-store',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                const data = await response.json();
+                setJenisOptions(data.data.jenisProduct); // Store fetched data
                 setStatus('success');
-            })
-    }, [])
-    const handleSelect = (jenisId) => {
-        onSelectChange(jenisId);
-    }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setStatus('error');
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleSelect = (jenis) => {
+        setSelectedJenis(jenis.name); // Update the selected jenis
+        onChange({ target: { name: 'jenisId', value: jenis.id } }); // Pass the selected jenis ID to the parent
+    };
+
+    const renderSelectItems = () => {
+        switch (status) {
+            case 'loading':
+                return <DropdownMenuItem disabled>Pilih Jenis Produk...</DropdownMenuItem>;
+            case 'error':
+                return <DropdownMenuItem disabled>Error fetching data</DropdownMenuItem>;
+            default:
+                return jenisOptions.map((jenis) => (
+                    <DropdownMenuItem
+                        key={jenis.id} // Use jenis.id as the key
+                        onClick={() => handleSelect(jenis)}
+                        className="capitalize"
+                    >
+                        {jenis.name}
+                    </DropdownMenuItem>
+                ));
+        }
+    };
+
     return (
-        <Select>
-            <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder={status === 'loading' ? 'Loading...' : 'Pilih Jenis Produk'} />
-            </SelectTrigger>
-            <SelectContent>
-                {jenis?.map((item) => (
-                    <SelectItem key={item.id} value={item.id} onClick={() => handleSelect(item.id)}>{item.name}</SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
-    )
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex justify-start lg:w-full capitalize">
+                    {selectedJenis ?? "Pilih Jenis Produk"} {/* Use nullish coalescing for default text */}
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuLabel>Jenis Produk</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {renderSelectItems()}
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
 }

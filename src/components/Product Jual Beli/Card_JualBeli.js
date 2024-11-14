@@ -13,13 +13,16 @@ async function Card_JualBeli() {
         headers: {
             'Content-Type': 'application/json',
         },
-        cache: 'no-store'
+        next: {
+            revalidate: 5,
+        }
     })
     let data = await response.json()
     let dataProducts = data.data.products
 
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5'>
+
             {
                 dataProducts.sort(() => Math.random() - 0.5).map((item) => {
                     let finalPrice = item.price - (item.price * item.discount / 100)
@@ -52,9 +55,9 @@ async function Card_JualBeli() {
                                 </div>
                                 <Link href={`/JenisProduct/${item.JenisProduct.name.replace(/\s+/g, '-')}/${item.id}/${item.name.replace(/\s+/g, '-')}`} prefetch={false}>
                                     <Image
-                                        src={item.picture[0].url}
-                                        alt={item.picture[0].alt}
-                                        key={item.picture[0].key}
+                                        src={item?.picture[0]?.url}
+                                        alt={item?.picture[0]?.alt}
+                                        key={item?.picture[0]?.key}
                                         className='w-full h-80 object-cover my-2 hover:scale-105 transition ease hover:rounded rounded'
                                         width={300}
                                         height={300}

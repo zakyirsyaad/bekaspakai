@@ -32,7 +32,7 @@ export default async function page() {
                     <div className='flex flex-col justify-center col-span-3 text-center items-center gap-5'>
                         <Image src={'/cart.webp'} alt='Keranjang Bekaspakai kosong' width={300} height={300} />
                         <h2 className='text-lg 2xl:text-2xl font-bold'>Keranjang anda Kosong</h2>
-                        <p className='text-sm 2xl:text-base'>Silahkan pilih produk <Link href={'/Jual Beli'} className='underline'>Jual Beli</Link> atau <Link href={'/Donasi'} className='underline'>Donasi</Link> untuk menambahkan ke keranjang.</p>
+                        <p className='text-sm 2xl:text-base'>Silahkan pilih produk <Link href={'/JenisProduct/Jual-Beli'} className='underline'>Jual Beli</Link> atau <Link href={'/JenisProduct/Donasi'} className='underline'>Donasi</Link> untuk menambahkan ke keranjang.</p>
                     </div>
                 }
             </section>

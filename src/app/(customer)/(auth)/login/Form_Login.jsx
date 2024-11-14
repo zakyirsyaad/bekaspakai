@@ -98,7 +98,7 @@ function FormLogin() {
             <Button type="submit" disabled={status === 'loading'}>
                 {status === 'loading' ? 'Logging in...' : 'Login'}
             </Button>
-            <p>Belum memiliki akun? <Link href={'/register'} className='font-bold underline'>Daftar</Link></p>
+            <p>Belum memiliki akun? <Link href={'/register'} className='font-semibold underline' prefetch={false}>Daftar</Link></p>
         </form>
     );
 }

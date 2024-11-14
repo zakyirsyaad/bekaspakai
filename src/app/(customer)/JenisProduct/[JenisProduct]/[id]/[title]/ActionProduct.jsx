@@ -10,7 +10,7 @@ import React from 'react'
 import EditProduk from './EditProduk'
 import { cn } from '@/lib/utils'
 
-export default function ActionProduct({ detailProducts, negotiable, accessToken, isAvailable }) {
+export default function ActionProduct({ detailProducts, negotiable, accessToken }) {
     const [negoPrice, setNegoPrice] = React.useState('')
     const [hasNegotiated, setHasNegotiated] = React.useState(false)
     const { toast } = useToast()
@@ -136,7 +136,6 @@ export default function ActionProduct({ detailProducts, negotiable, accessToken,
                         : <Button disabled={!accessToken}>Ajukan Penerima Donasi</Button>
                     }
                 </>}
-
         </>
     )
 }

@@ -28,7 +28,7 @@ function ImgCarouselDetailProduct({ detailProducts }) {
 
     }, [api])
     return (
-        <>
+        <section>
             <Carousel
                 setApi={setApi}
                 opts={{ loop: true }}
@@ -43,18 +43,18 @@ function ImgCarouselDetailProduct({ detailProducts }) {
                         <CarouselItem key={img.key}>
                             <Dialog>
                                 <DialogTrigger className='w-full'>
-                                    <Image src={img.url} alt='Foto Detail produk' className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
+                                    <Image src={img.url} alt='Foto Detail produk bekaspakai.com' className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
                                 </DialogTrigger>
                                 <DialogContent>
-                                    <Image src={img.url} alt='Foto Detail produk' className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
+                                    <Image src={img.url} alt='Foto Detail produk bekaspakai.com' className='rounded w-full lg:h-[500px] object-cover' width={300} height={300} priority={true} />
                                 </DialogContent>
                             </Dialog>
                         </CarouselItem>
                     ))}
                 </CarouselContent>
             </Carousel>
-            <p className='text-center'>Foto ke {current} dari {count}</p>
-        </>
+            <p className='text-center text-sm'>Foto ke {current} dari {count}</p>
+        </section>
 
     )
 }

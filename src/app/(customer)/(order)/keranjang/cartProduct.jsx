@@ -132,7 +132,7 @@ function CartProduct({ dataKeranjang, accessToken }) {
                                                     width={100}
                                                     height={100}
                                                 />
-                                                <div className='flex flex-col justify-between items-start'>
+                                                <div className='flex gap-3 md:flex-col justify-between items-start'>
                                                     <div>
                                                         <p className='text-sm font-medium text-slate-500 truncate w-40 md:w-full'>
                                                             {product.name}

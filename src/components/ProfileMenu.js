@@ -10,8 +10,21 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import Link from 'next/link';
 import LogoutButton from './LogoutButton';
+import { cookies } from 'next/headers';
 
-function ProfileMenu({ user }) {
+async function ProfileMenu() {
+    const accessToken = cookies().get('accessToken')?.value;
+    // Lakukan fetch data user dengan token
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/users/profile`, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+    });
+
+    const data = await response.json();
+    const user = data.data;
+
     if (!user) {
         return null;
     }

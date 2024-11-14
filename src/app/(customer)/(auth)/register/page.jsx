@@ -1,4 +1,4 @@
-import GoogleButton from '@/components/GoogleButton'
+// import GoogleButton from '@/components/GoogleButton'
 import { Separator } from '@/components/ui/separator'
 import React, { Suspense } from 'react'
 import Image from 'next/image'
@@ -16,17 +16,15 @@ export default function page() {
                     <h2 className='text-sm 2xl:text-base'>Selamat datang di BekasPakai, silahkan daftarkan akun anda</h2>
                 </div>
                 <Separator />
-                <GoogleButton />
-                <p className='text-center text-sm'>Atau menggunakan username</p>
+                {/* <GoogleButton /> */}
+                {/* <p className='text-center text-sm'>Atau menggunakan username</p> */}
                 <Suspense fallback={<SkeletonFormLogin />}>
                     <Form_Register />
                 </Suspense>
             </section>
-            {/* <section className='w-1/2 bg-black justify-end'> */}
             <Suspense fallback={<Skeleton className="h-[125px] w-[250px] rounded-xl" />}>
                 <Image src={ImgLogin} alt='Foto Login' className='hidden lg:block lg:w-1/2 rounded' priority={true} />
             </Suspense>
-            {/* </section> */}
         </main>
     )
 } 

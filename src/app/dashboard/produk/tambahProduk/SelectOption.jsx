@@ -1,15 +1,18 @@
 'use client'
 import React from 'react'
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from '@/components/ui/button';
+
 
 const options = {
-    kondisiBarang: [
+    condition: [
         { name: "Baru dan Tersegel", value: "Baru dan Tersegel" },
         { name: "Baru Dibuka", value: "Baru Dibuka" },
         { name: "Sekali Pakai", value: "Sekali Pakai" },
@@ -17,39 +20,100 @@ const options = {
         { name: "Pemakaian Rutin", value: "Pemakaian Rutin" },
         { name: "Sesuai Foto", value: "Sesuai Foto" },
     ],
-    garansiStatus: [
-        { name: "OFF", value: false },
-        { name: "ON", value: true },
+    garansi: [
+        { name: "Garansi", value: true },
+        { name: "Tidak Garansi", value: false },
     ],
-    negoStatus: [
+    nego: [
         { name: "Nego", value: true },
         { name: "Tidak Nego", value: false },
     ]
 };
 
-const SelectList = ({ options, placeholder, onSelect, onChange }) => (
-    <Select onChange={onSelect}>
-        <SelectTrigger>
-            <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-            {options.map((item) => (
-                <SelectItem key={item.id || item.name} value={item.name} onClick={() => onSelect(item.value)}>
-                    {item.name}
-                </SelectItem>
-            ))}
-        </SelectContent>
-    </Select>
-);
+export default function SelectOption({ onChange }) {
+    const [selectedCondition, setSelectedCondition] = React.useState('');
+    const [selectedGaransi, setSelectedGaransi] = React.useState(null);
+    const [selectedNego, setSelectedNego] = React.useState(null);
 
-export default function SelectOption({ onConditionChange, onGaransiChange, onNegoChange }) {
+    const handleSelectCondition = (condition) => {
+        setSelectedCondition(condition.name); // Update the selected jenis
+        onChange({ target: { name: 'condition', value: condition.name } }); // Pass the selected jenis ID to the parent
+    };
+
+    const handleSelectGaransi = (garansi) => {
+        setSelectedGaransi(garansi.name); // Update the selected jenis
+        onChange({ target: { name: 'garansi', value: garansi.value } }); // Pass the selected jenis ID to the parent
+    };
+    const handleSelectNego = (nego) => {
+        setSelectedNego(nego.name); // Update the selected jenis
+        onChange({ target: { name: 'negoStatus', value: nego.value } }); // Pass the selected jenis ID to the parent
+    };
 
     return (
         <>
-            <SelectList options={options.kondisiBarang} placeholder="Pilih Kondisi Barang" onSelect={onConditionChange} />
-            <SelectList options={options.garansiStatus} placeholder="Opsi Garansi Barang" onSelect={onGaransiChange} />
-            <SelectList options={options.negoStatus} placeholder="Opsi Nego Barang" onSelect={onNegoChange} />
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex justify-start lg:w-full capitalize">
+                        {selectedCondition ? selectedCondition : "Pilih Kondisi Barang"}
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuLabel>Kondisi Barang</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {options.condition.map((condition) => (
+                        <DropdownMenuItem
+                            key={condition.name}
+                            onClick={() => handleSelectCondition(condition)}
+                            value={condition.name} className="capitalize">
+                            {condition.name}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex justify-start lg:w-full capitalize">
+                        {selectedGaransi ? selectedGaransi : "Pilih Garansi Barang"}
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuLabel>Garansi Barang</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {options.garansi.map((garansi) => (
+                        <DropdownMenuItem
+                            key={garansi.name}
+                            onClick={() =>
+                                handleSelectGaransi(garansi)}
+                            value={garansi.value} className="capitalize">
+                            {garansi.name}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex justify-start lg:w-full capitalize">
+                        {selectedNego ? selectedNego : "Pilih Opsi Nego"}
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuLabel>Opsi Nego</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {options.nego.map((nego) => (
+                        <DropdownMenuItem
+                            key={nego.name}
+                            onClick={() =>
+                                handleSelectNego(nego)}
+                            value={nego.value} className="capitalize">
+                            {nego.name}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
         </>
-    );
+
+    )
 }
 

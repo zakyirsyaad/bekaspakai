@@ -1,7 +1,5 @@
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import { Poppins } from "next/font/google";
-import AuthProvider from "./api/auth/[...nextauth]/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 
 
@@ -21,19 +19,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="id" suppressHydrationWarning>
       <body
-        className={`${poppins.className} antialiased mt-5 mx-10 md:mx-20 lg:mx-40 2xl:mx-80 scroll-smooth`}
+        className={`${poppins.className} antialiased mt-5 mx-5 md:mx-20 lg:mx-40 2xl:mx-80 scroll-smooth`}
       >
         <div>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <AuthProvider>
-              {children}
-            </AuthProvider>
-          </ThemeProvider>
+          {children}
         </div>
         <Toaster />
       </body>

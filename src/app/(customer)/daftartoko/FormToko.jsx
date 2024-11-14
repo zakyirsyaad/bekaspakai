@@ -136,14 +136,18 @@ function FormToko({ users, accessToken }) {
                         disabled
                     />
                 </div>
-                <div>
-                    <Label>No. Handphone</Label>
-                    <Input
-                        placeholder="Nomor Telepon"
-                        value={users?.noHandphone || ''}
-                        disabled
-                    />
-                </div>
+
+                {users?.noHandphone ? (
+                    <div>
+                        <Label>No. Handphone</Label>
+                        <Input
+                            placeholder="Nomor Telepon"
+                            value={users?.noHandphone || ''}
+                            disabled
+                        />
+                    </div>
+                ) : null}
+
                 <div>
                     <Label>Email</Label>
                     <Input

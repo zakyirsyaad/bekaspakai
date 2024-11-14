@@ -50,9 +50,9 @@ async function Card_Donasi() {
                             </div>
                             <Link href={`/JenisProduct/${item.JenisProduct.name.replace(/\s+/g, '-')}/${item.id}/${item.name.replace(/\s+/g, '-')}`} prefetch={false}>
                                 <Image
-                                    src={item.picture[0].url}
-                                    alt={item.picture[0].alt}
-                                    key={item.picture[0].key}
+                                    src={item?.picture[0]?.url}
+                                    alt={item?.picture[0]?.alt}
+                                    key={item?.picture[0]?.key}
                                     className='w-full h-80 object-cover my-2 hover:scale-105 transition ease hover:rounded rounded'
                                     width={300}
                                     height={300}

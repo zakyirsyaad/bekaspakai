@@ -10,15 +10,15 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default function page() {
     return (
-        <main className='mt-10 lg:flex items-center justify-center lg:justify-between lg:gap-10'>
+        <main className='mt-10 h-screen md:h-auto lg:flex items-center justify-center lg:justify-between lg:gap-10'>
             <section className='space-y-5 lg:w-1/2 2xl:w-1/3'>
                 <div>
                     <h1 className='text-xl 2xl:text-2xl font-medium'>Masuk Akun</h1>
-                    <h2 className='text-sm 2xl:text-base'>Selamat datang di BekasPakai, silahkan masukkan akun anda</h2>
+                    <h2 className='text-sm 2xl:text-base'>Selamat datang di Bekaspakai, silahkan masukkan akun anda</h2>
                 </div>
                 <Separator />
-                <GoogleButton />
-                <p className='text-center text-sm'>Atau menggunakan username</p>
+                {/* <GoogleButton /> */}
+                {/* <p className='text-center text-sm'>Atau menggunakan username</p> */}
                 <Suspense fallback={<SkeletonFormLogin />}>
                     <FormLogin />
                 </Suspense>
