@@ -4,8 +4,6 @@ import { Separator } from '@/components/ui/separator'
 import ActionProduct from '@/app/(customer)/JenisProduct/[JenisProduct]/[id]/[title]/ActionProduct'
 import AboutProduct from '@/app/(customer)/JenisProduct/[JenisProduct]/[id]/[title]/AboutProduct'
 import UserProduct from '@/components/UserProduct'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import MobilNavDetailProduct from '@/components/MobilNavDetailProduct'
 import { cookies } from 'next/headers'
 import Breadcrumbs from './Breadcrumbs'
@@ -39,8 +37,7 @@ export default async function page({ params }) {
         )
     }
 
-    // let negotiable = detailProducts.minimumPrice > 0 ? true : false
-    let negotiable = false
+    let negotiable = detailProducts.minimumPrice > 0 ? true : false
 
     let garansiStatus = detailProducts.garansi
     let isAVailable = detailProducts.isAVailable
