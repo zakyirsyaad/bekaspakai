@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
     Dialog,
     DialogContent,
@@ -6,8 +6,8 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/dialog";
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import Cookies from 'js-cookie';
 import { Input } from '@/components/ui/input';
@@ -19,21 +19,20 @@ import * as Yup from "yup";
 
 export default function EditProduk({ detailProducts }) {
     const [status, setStatus] = React.useState(null);
-    const { toast } = useToast()
-    let jenisId = detailProducts.jenisId !== '5e750872-0978-407c-a1eb-a4e1805ba1bc';
+    const { toast } = useToast();
+    const jenisId = detailProducts.JenisProduct.name === 'Jual Beli';
 
     async function editProduk(values) {
         const accessToken = Cookies.get('accessToken');
-        console.log(values);
         try {
             setStatus('loading');
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/products/edit/${detailProducts.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify(values)
+                body: JSON.stringify(values),
             });
 
             const data = await response.json();
@@ -47,6 +46,7 @@ export default function EditProduk({ detailProducts }) {
             }
         } catch (error) {
             setStatus('error');
+            toast({ title: 'Terjadi kesalahan, silakan coba lagi.', className: 'bg-destructive text-white' });
             console.log('Terjadi kesalahan:', error);
         }
     }
@@ -60,10 +60,10 @@ export default function EditProduk({ detailProducts }) {
             garansi: detailProducts.garansi || false,
         },
         validationSchema: Yup.object({
-            name: Yup.string(),
-            description: Yup.string(),
-            price: Yup.number(),
-            discount: Yup.number(),
+            name: Yup.string().required('Nama produk diperlukan'),
+            description: Yup.string().required('Deskripsi produk diperlukan'),
+            price: Yup.number().required('Harga produk diperlukan').positive('Harga harus lebih besar dari 0'),
+            discount: Yup.number().positive('Diskon harus lebih besar dari 0').max(100, 'Diskon tidak boleh lebih dari 100%'),
             garansi: Yup.boolean(),
         }),
         onSubmit: editProduk,
@@ -89,23 +89,24 @@ export default function EditProduk({ detailProducts }) {
                             name="name"
                             placeholder="Nama Produk"
                             className="w-full"
-                            defaultValue={detailProducts.name}
                             value={formik.values.name}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                         />
+                        {formik.touched.name && formik.errors.name ? <div className="text-destructive">{formik.errors.name}</div> : null}
                     </div>
                     <div>
                         <Label>Deskripsi Produk</Label>
                         <Textarea
-                            type="text"
                             name="description"
                             placeholder="Deskripsi Produk"
                             className="w-full"
-                            defaultValue={detailProducts.description}
                             rows={5}
                             value={formik.values.description}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                         />
+                        {formik.touched.description && formik.errors.description ? <div className="text-destructive">{formik.errors.description}</div> : null}
                     </div>
                     <div>
                         <Label>Harga Produk</Label>
@@ -114,11 +115,12 @@ export default function EditProduk({ detailProducts }) {
                             name="price"
                             placeholder="Harga Produk"
                             className="w-full"
-                            defaultValue={detailProducts.price}
-                            disabled={jenisId}
+                            disabled={!jenisId}
                             value={formik.values.price}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                         />
+                        {formik.touched.price && formik.errors.price ? <div className="text-destructive">{formik.errors.price}</div> : null}
                     </div>
 
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
@@ -129,18 +131,18 @@ export default function EditProduk({ detailProducts }) {
                                     type="text"
                                     name="discount"
                                     placeholder="Diskon Produk"
-                                    defaultValue={detailProducts.discount}
-                                    disabled={jenisId}
+                                    disabled={!jenisId}
                                     value={formik.values.discount}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                 />
                                 <Label className='absolute -right-1 rounded bg-foreground p-[12px] w-10 text-center text-secondary'>%</Label>
                             </div>
+                            {formik.touched.discount && formik.errors.discount ? <div className="text-destructive">{formik.errors.discount}</div> : null}
                         </div>
-                        <Select onValueChange={value => formik.setFieldValue('garansi', value)}
-                            value={formik.values.garansi}>
+                        <Select onValueChange={value => formik.setFieldValue('garansi', value)} value={formik.values.garansi}>
                             <SelectTrigger className="self-end">
-                                <SelectValue placeholder={detailProducts.garansi || formik.values.garansi ? 'ON' : 'OFF'} />
+                                <SelectValue placeholder={formik.values.garansi ? 'ON' : 'OFF'} />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="true">Garansi</SelectItem>
@@ -148,9 +150,11 @@ export default function EditProduk({ detailProducts }) {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Button type="submit" className='self-end' disabled={status === 'loading'}>{status === 'loading' ? 'Loading...' : 'Simpan'}</Button>
+                    <Button type="submit" className='self-end' disabled={status === 'loading'}>
+                        {status === 'loading' ? 'Loading...' : 'Simpan'}
+                    </Button>
                 </form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
