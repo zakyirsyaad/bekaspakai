@@ -10,6 +10,7 @@ import MobilNavDetailProduct from '@/components/MobilNavDetailProduct'
 import { cookies } from 'next/headers'
 import Breadcrumbs from './Breadcrumbs'
 import { Skeleton } from '@/components/ui/skeleton'
+import Image from 'next/image'
 
 export default async function page({ params }) {
     const accessToken = cookies().get('accessToken')?.value
