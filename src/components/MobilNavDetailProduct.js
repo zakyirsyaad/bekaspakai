@@ -15,6 +15,7 @@ import { useToast } from '@/hooks/use-toast'
 import { Input } from './ui/input'
 import DecodeToken from '@/hooks/decode-token'
 import { cn } from '@/lib/utils'
+import EditProduk from '@/app/(customer)/JenisProduct/[JenisProduct]/[id]/[title]/EditProduk'
 
 
 function MobilNavDetailProduct({ detailProducts, negotiable, accessToken }) {
