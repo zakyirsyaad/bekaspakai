@@ -7,6 +7,14 @@ import { SkeletonFormLogin } from '@/components/Skeleton/SkeletonFormLogin'
 import { Skeleton } from '@/components/ui/skeleton'
 import Form_Register from './Form_Register'
 
+export const metadata = {
+    title: 'Register | Bekaspakai Indonesia Marketplace',
+    openGraph: {
+        title: 'REgister | Bekaspakai Indonesia Marketplace',
+        description: 'Daftar di Bekaspakai - marketplace terpercaya Indonesia untuk jual beli barang bekas. Buat akun Anda sekarang dan nikmati kemudahan bertransaksi aman dengan penawaran terbaik!',
+    }
+}
+
 export default function page() {
     return (
         <main className='mt-10 lg:flex items-center justify-center lg:justify-between lg:gap-10'>

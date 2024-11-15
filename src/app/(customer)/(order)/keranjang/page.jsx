@@ -6,6 +6,14 @@ import React from 'react'
 import CartProduct from './cartProduct'
 import TotalCart from './totalCart'
 
+export const metadata = {
+    title: 'Keranjang | Bekaspakai Indonesia Marketplace',
+    openGraph: {
+        title: 'Keranjang | Bekaspakai Indonesia Marketplace',
+        description: 'Keranjang di Bekaspakai - marketplace terpercaya Indonesia untuk jual beli barang bekas. Nikmati kemudahan bertransaksi aman dengan penawaran terbaik!',
+    }
+}
+
 export default async function page() {
     const accessToken = cookies().get('accessToken')?.value
     let response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/product/keranjang`, {

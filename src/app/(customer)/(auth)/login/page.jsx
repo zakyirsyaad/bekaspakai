@@ -8,6 +8,14 @@ import ImgLogin from '../../../../../public/Login Page.svg'
 import { SkeletonFormLogin } from '@/components/Skeleton/SkeletonFormLogin'
 import { Skeleton } from '@/components/ui/skeleton'
 
+export const metadata = {
+    title: 'Login | Bekaspakai Indonesia Marketplace',
+    openGraph: {
+        title: 'Login | Bekaspakai Indonesia Marketplace',
+        description: 'Login ke Bekaspakai - marketplace terbesar di Indonesia untuk jual beli barang bekas berkualitas. Temukan barang impian Anda dengan harga terbaik dan mulai bertransaksi dengan mudah dan aman.',
+    }
+}
+
 export default function page() {
     return (
         <main className='mt-10 h-screen md:h-auto lg:flex items-center justify-center lg:justify-between lg:gap-10'>
