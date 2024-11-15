@@ -31,10 +31,14 @@ export default async function page({ params }) {
             product.JenisProduct.name.replace(/\s+/g, '-').toLowerCase() === JenisProduct.toLowerCase()
         );
 
-        if (filteredProducts.length === 0) {
-            redirect('/'); // Redirect if no products match the given JenisProduct
-        }
-
+        // if (!products.length) {
+        //     return (
+        //         <div className='flex flex-col items-center justify-center'>
+        //             <Image src="/Cartoon Girl Sad.H03.2k.webp" alt="Picture Empty Shopping Bekaspakai.com" width={300} height={300} />
+        //             <p className='text-2xl text-center'>Maaf, <span className='font-medium'>Produk {nameCategory}</span> <span className='text-destructive font-medium'>Belum Ada</span></p>
+        //         </div>
+        //     );
+        // }
         // Define header texts based on the type of product
         const isJualBeli = JenisProduct.toLowerCase() === 'jual-beli';
         const headerText = isJualBeli ? 'Produk Jual Beli' : 'Produk Donasi';
