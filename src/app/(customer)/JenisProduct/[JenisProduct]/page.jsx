@@ -1,5 +1,4 @@
 import React from 'react';
-import { redirect } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
@@ -7,7 +6,18 @@ import { Ellipsis, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { SkeletonCardProduct } from '@/components/Skeleton/SkeletonCardProduct';
+
+export async function generateMetadata({ params }) {
+    const { JenisProduct } = params;
+
+    return {
+        title: `${JenisProduct.replace(/-/g, ' ')} | Bekaspakai Indonesia Marketplace`,
+        openGraph: {
+            title: `${JenisProduct.replace(/-/g, ' ')} | Bekaspakai Indonesia Marketplace`,
+            description: `${JenisProduct.replace(/-/g, ' ')} di Bekaspakai - marketplace terpercaya Indonesia untuk jual beli barang bekas. Nikmati kemudahan bertransaksi aman dengan penawaran terbaik!`,
+        },
+    };
+}
 
 export default async function page({ params }) {
     const { JenisProduct } = params;

@@ -4,6 +4,14 @@ import Image from 'next/image'
 import { cookies } from 'next/headers'
 import CourierSelection from './kurir/page'
 
+export const metadata = {
+    title: 'Daftar Toko | Bekaspakai Indonesia Marketplace',
+    openGraph: {
+        title: 'Daftar Toko | Bekaspakai Indonesia Marketplace',
+        description: 'Daftar Toko di Bekaspakai - marketplace terpercaya Indonesia untuk jual beli barang bekas. Nikmati kemudahan bertransaksi aman dengan penawaran terbaik!',
+    }
+}
+
 export default async function page() {
     let accessToken = cookies().get('accessToken')?.value
     let response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/users/profile`, {

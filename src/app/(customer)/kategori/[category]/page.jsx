@@ -9,6 +9,18 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
+export async function generateMetadata({ params }) {
+    const { category } = params;
+
+    return {
+        title: `${category.replace(/-/g, ' ')} | Bekaspakai Indonesia Marketplace`,
+        openGraph: {
+            title: `${category.replace(/-/g, ' ')} | Bekaspakai Indonesia Marketplace`,
+            description: `${category.replace(/-/g, ' ')} di Bekaspakai - marketplace terpercaya Indonesia untuk jual beli barang bekas. Nikmati kemudahan bertransaksi aman dengan penawaran terbaik!`,
+        },
+    }
+}
+
 export default async function page({ params }) {
     let { category } = params
     category = category.replace(/-/g, ' ');
