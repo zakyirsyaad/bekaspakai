@@ -5,15 +5,6 @@ import UserForm from './userForm';
 import OrderSummary from './orderSummary';
 import { useRouter } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
-
-export const metadata = {
-    title: 'Pembayaran | Bekaspakai Indonesia Marketplace',
-    openGraph: {
-        title: 'Pembayaran | Bekaspakai Indonesia Marketplace',
-        description: 'Pembayaran di Bekaspakai - marketplace terpercaya Indonesia untuk jual beli barang bekas. Nikmati kemudahan bertransaksi aman dengan penawaran terbaik!',
-    }
-}
-
 export default function Page({ searchParams }) {
     const router = useRouter();
     const [couriers, setCouriers] = useState(null);
