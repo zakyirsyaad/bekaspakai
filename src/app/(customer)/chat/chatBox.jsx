@@ -152,7 +152,7 @@ export default function ChatBox({ accessToken }) {
                     {roomId && (
                         <>
                             {rooms.map((room) => (
-                                <div key={room.id} className="flex items-center p-3">
+                                <div key={room.id} className="flex items-center gap-3 rounded p-3">
                                     <Avatar>
                                         <AvatarImage src={userId === room.buyerId ? room.seller.profile_picture.url : room.buyer.profile_picture.url} />
                                         <AvatarFallback>CN</AvatarFallback>
