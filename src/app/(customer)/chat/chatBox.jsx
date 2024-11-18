@@ -93,7 +93,7 @@ export default function ChatBox({ accessToken }) {
 
     const joinRoom = useCallback((targetRoomUserId) => {
         if (!socket || targetRoomUserId === targetRoomUserId) return;
-
+        console.log("Joining room:", targetRoomUserId);
         setRoomId(targetRoomUserId);
         setMessages([]); // Clear messages when switching rooms
         socket.emit("joinRoom", { targetRoomUserId });
