@@ -10,6 +10,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 // Custom hook to handle Socket.IO logic
 const useSocket = (token) => {
     const [socket, setSocket] = useState(null);
+    const [rooms, setRooms] = useState([]);
+    const [loadingRooms, setLoadingRooms] = useState(true);
 
     useEffect(() => {
         if (!token) return;
@@ -30,7 +32,27 @@ const useSocket = (token) => {
         };
     }, [token]);
 
-    return socket;
+    const fetchRooms = useCallback(async () => {
+        setLoadingRooms(true);
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/chatrooms`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                cache: 'no-store',
+            });
+            const data = await response.json();
+            setRooms(data.data.data || []); // Default to empty array if no rooms
+        } catch (error) {
+            console.error('Error fetching rooms:', error);
+        } finally {
+            setLoadingRooms(false);
+        }
+    }, [token]);
+
+    return { socket, rooms, fetchRooms, loadingRooms };
 };
 
 export default function ChatBox({ accessToken }) {
@@ -39,12 +61,8 @@ export default function ChatBox({ accessToken }) {
     const [sendRoomId, setSendRoomId] = useState(null);
     const [messages, setMessages] = useState([]);
     const [chatText, setChatText] = useState("");
-    const [rooms, setRooms] = useState([]);
-    const [loadingRooms, setLoadingRooms] = useState(true);
 
-    console.log(rooms);
-
-    const socket = useSocket(accessToken);
+    const { socket, rooms, fetchRooms, loadingRooms } = useSocket(accessToken);
 
     // Decode token and setup userId
     useEffect(() => {
@@ -52,33 +70,11 @@ export default function ChatBox({ accessToken }) {
         setUserId(decoded?.id);
     }, [accessToken]);
 
-    // Fetch available rooms
-    const fetchRooms = useCallback(async () => {
-        setLoadingRooms(true);
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/chatrooms`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
-                },
-                cache: 'no-store',
-            });
-            const data = await response.json();
-            console.log(data);
-            setRooms(data.data.data); // Adjusted to set the correct `data.data`
-        } catch (error) {
-            console.error('Error fetching rooms:', error);
-        } finally {
-            setLoadingRooms(false);
-        }
-    }, [accessToken]);
-
-    // Listen for socket events
+    // Listen for socket events and fetch rooms
     useEffect(() => {
         if (!socket) return;
 
-        const handlePreviousMessages = (data) => setMessages(data);
+        const handlePreviousMessages = (message) => setMessages(message || []);
         const handleMessageReceived = (message) => setMessages((prev) => [...prev, message]);
 
         socket.on("previousMessages", handlePreviousMessages);
@@ -92,41 +88,35 @@ export default function ChatBox({ accessToken }) {
         };
     }, [socket, fetchRooms]);
 
-    const joinRoom = useCallback((targetRoomUserId, roomId) => {
-        if (!socket || roomId === targetRoomUserId) return; // Check if the room is already joined by the same user
-        console.log("Joining room by userId:", targetRoomUserId);
+    const joinRoom = useCallback(
+        (targetRoomUserId, roomId) => {
+            if (!socket || roomId === targetRoomUserId) return;
 
-        setRoomId(targetRoomUserId); // Set the target room user ID as the current room ID
-        setMessages([]); // Clear messages when switching rooms
-        socket.emit("joinRoom", { targetRoomUserId }); // Emit joinRoom with the target user ID
-        setSendRoomId(roomId);
-        // Update the roomId after confirmation from the server
-        socket.once("roomJoined", ({ targetRoomUserId: joinedUserId }) => setRoomId(joinedUserId));
-    }, [socket, roomId]);
+            setRoomId(targetRoomUserId);
+            setMessages([]);
+            socket.emit("joinRoom", { targetRoomUserId });
+            setSendRoomId(roomId);
+
+            socket.once("roomJoined", ({ targetRoomUserId: joinedUserId }) =>
+                setRoomId(joinedUserId)
+            );
+        },
+        [socket]
+    );
 
     const sendMessage = useCallback(() => {
         if (!chatText.trim() || !socket || !roomId || !userId) return;
 
         const message = {
-            roomId: sendRoomId, // Room ID to send message to
-            senderId: userId, // The sender's user ID
-            chatText, // The message text
+            roomId: sendRoomId,
+            senderId: userId,
+            chatText,
         };
 
-        console.log("Sending message:", message);
-
-        // Emit the message to the server
         socket.emit("sendMessage", message);
-
-        // Add the message to the local state immediately
-        setMessages((prev) => [
-            ...prev,
-            { senderId: userId, chatText }, // Add the sent message locally
-        ]);
-
-        setChatText(""); // Clear the input field
+        setMessages((prev) => [...prev, { senderId: userId, chatText }]);
+        setChatText("");
     }, [chatText, socket, roomId, sendRoomId, userId]);
-
 
     return (
         <div className="container mx-auto p-4 flex gap-4">
@@ -137,17 +127,26 @@ export default function ChatBox({ accessToken }) {
                     <ScrollArea className="flex-1">
                         {loadingRooms ? (
                             <p>Loading rooms...</p>
+                        ) : rooms.length === 0 ? (
+                            <p>No rooms available.</p>
                         ) : (
                             rooms.map((room) => (
                                 <div
                                     key={room.id}
                                     className={`p-2 mb-2 rounded cursor-pointer ${roomId === (userId === room.buyerId ? room.sellerId : room.buyerId)
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-gray-200"
+                                            ? "bg-blue-500 text-white"
+                                            : "bg-gray-200"
                                         }`}
-                                    onClick={() => joinRoom(userId === room.buyerId ? room.sellerId : room.buyerId, room.id)}
+                                    onClick={() =>
+                                        joinRoom(
+                                            userId === room.buyerId ? room.sellerId : room.buyerId,
+                                            room.id
+                                        )
+                                    }
                                 >
-                                    {userId === room.buyerId ? room.seller.username : room.buyer.username}
+                                    {userId === room.buyerId
+                                        ? room.seller.username
+                                        : room.buyer.username}
                                 </div>
                             ))
                         )}
@@ -160,13 +159,11 @@ export default function ChatBox({ accessToken }) {
                 <CardContent className="flex flex-col h-full">
                     <h1 className="text-xl font-bold mb-4">Chat Room</h1>
 
-                    {!roomId && (
+                    {!roomId ? (
                         <div className="flex-1 flex items-center justify-center">
                             <p>Select a room to start chatting!</p>
                         </div>
-                    )}
-
-                    {roomId && (
+                    ) : (
                         <>
                             <ScrollArea className="flex-1 mb-4">
                                 {messages.length === 0 ? (
@@ -178,8 +175,8 @@ export default function ChatBox({ accessToken }) {
                                         <div
                                             key={index}
                                             className={`mb-2 p-2 rounded ${message.senderId === userId
-                                                ? "bg-blue-500 text-white"
-                                                : "bg-gray-200"
+                                                    ? "bg-blue-500 text-white"
+                                                    : "bg-gray-200"
                                                 }`}
                                         >
                                             {message.chatText}
