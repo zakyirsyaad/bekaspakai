@@ -36,7 +36,7 @@ export default function ChatBox({ accessToken }) {
     const [roomId, setRoomId] = useState(null);
     const [messages, setMessages] = useState([]);
     const [chatText, setChatText] = useState("");
-
+    console.log(roomId);
     // Decode token and setup userId
     useEffect(() => {
         const decoded = DecodeToken(accessToken);
@@ -90,7 +90,7 @@ export default function ChatBox({ accessToken }) {
                                     if (e.key === "Enter") joinRoom(e.target.value);
                                 }}
                             />
-                            <Button className="mt-2" onClick={() => joinRoom("12345")}>
+                            <Button className="mt-2" onClick={() => joinRoom(e.target.value)}>
                                 Join Room
                             </Button>
                         </div>
@@ -103,8 +103,8 @@ export default function ChatBox({ accessToken }) {
                                     <div
                                         key={index}
                                         className={`mb-2 p-2 rounded ${message.senderId === userId
-                                                ? "bg-blue-500 text-white"
-                                                : "bg-gray-200"
+                                            ? "bg-blue-500 text-white"
+                                            : "bg-gray-200"
                                             }`}
                                     >
                                         {message.chatText}
