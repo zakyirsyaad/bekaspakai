@@ -106,10 +106,27 @@ export default function ChatBox({ accessToken }) {
 
     const sendMessage = useCallback(() => {
         if (!chatText.trim() || !socket || !roomId || !userId) return;
-        console.log("Sending message:", { roomId: sendRoomId, senderId: userId, chatText });
-        socket.emit("sendMessage", { roomId: sendRoomId, senderId: userId, chatText });
-        setChatText("");
-    }, [chatText, socket, roomId, userId]);
+
+        const message = {
+            roomId: sendRoomId, // Room ID to send message to
+            senderId: userId, // The sender's user ID
+            chatText, // The message text
+        };
+
+        console.log("Sending message:", message);
+
+        // Emit the message to the server
+        socket.emit("sendMessage", message);
+
+        // Add the message to the local state immediately
+        setMessages((prev) => [
+            ...prev,
+            { senderId: userId, chatText }, // Add the sent message locally
+        ]);
+
+        setChatText(""); // Clear the input field
+    }, [chatText, socket, roomId, sendRoomId, userId]);
+
 
     return (
         <div className="container mx-auto p-4 flex gap-4">
