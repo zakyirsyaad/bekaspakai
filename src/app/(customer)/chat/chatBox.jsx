@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import io from "socket.io-client";
 import DecodeToken from "@/hooks/decode-token";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-// Custom hook to handle Socket.IO logic
 const useSocket = (token) => {
     const [socket, setSocket] = useState(null);
 
@@ -41,16 +40,15 @@ export default function ChatBox({ accessToken }) {
     const [chatText, setChatText] = useState("");
     const [rooms, setRooms] = useState([]);
     const [loadingRooms, setLoadingRooms] = useState(true);
+    const chatEndRef = useRef(null); // Ref for auto-scrolling
 
     const socket = useSocket(accessToken);
 
-    // Decode token and setup userId
     useEffect(() => {
         const decoded = DecodeToken(accessToken);
         setUserId(decoded?.id);
     }, [accessToken]);
 
-    // Fetch available rooms
     const fetchRooms = useCallback(async () => {
         setLoadingRooms(true);
         try {
@@ -63,7 +61,7 @@ export default function ChatBox({ accessToken }) {
                 cache: 'no-store',
             });
             const data = await response.json();
-            setRooms(data.data.data); // Adjusted to match expected data structure
+            setRooms(data.data.data);
         } catch (error) {
             console.error('Error fetching rooms:', error);
         } finally {
@@ -71,18 +69,15 @@ export default function ChatBox({ accessToken }) {
         }
     }, [accessToken]);
 
-    // Listen for socket events
     useEffect(() => {
         if (!socket) return;
 
         const handlePreviousMessages = (data) => {
             setMessages(data);
-            console.log("Previous messages loaded:", data);
         };
 
         const handleMessageReceived = (message) => {
             setMessages((prev) => [...prev, message]);
-            console.log("New message received:", message);
         };
 
         socket.on("previousMessages", handlePreviousMessages);
@@ -96,29 +91,31 @@ export default function ChatBox({ accessToken }) {
         };
     }, [socket, fetchRooms]);
 
-    const joinRoom = useCallback((targetRoomUserId, roomId) => {
-        if (!socket || roomId === targetRoomUserId) return; // Check if already in the room
-        console.log("Joining room by userId:", targetRoomUserId);
+    useEffect(() => {
+        if (chatEndRef.current) {
+            chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [messages]); // Trigger scroll on new messages
 
-        setRoomId(targetRoomUserId); // Set target room as current room
-        setMessages([]); // Clear messages when switching rooms
-        socket.emit("joinRoom", { otherUserId: targetRoomUserId }); // Emit joinRoom with target user ID
+    const joinRoom = useCallback((targetRoomUserId, roomId) => {
+        if (!socket || roomId === targetRoomUserId) return;
+
+        setRoomId(targetRoomUserId);
+        setMessages([]);
+        socket.emit("joinRoom", { otherUserId: targetRoomUserId });
         setSendRoomId(roomId);
 
-        // Update roomId after server confirmation
         socket.once("roomJoined", ({ roomId: joinedRoomId }) => setRoomId(joinedRoomId));
     }, [socket, roomId]);
 
     const sendMessage = useCallback(() => {
         if (!chatText.trim() || !socket || !roomId || !userId) return;
-        console.log("Sending message:", { roomId: sendRoomId, senderId: userId, chatText });
         socket.emit("sendMessage", { roomId: sendRoomId, senderId: userId, chatText });
         setChatText("");
     }, [chatText, socket, roomId, userId]);
 
     return (
         <div className="container mx-auto p-4 flex gap-4">
-            {/* Sidebar for room list */}
             <Card className="w-1/4 h-[80vh] overflow-hidden">
                 <CardContent className="h-full flex flex-col">
                     <h2 className="text-lg font-bold mb-4">Rooms</h2>
@@ -143,7 +140,6 @@ export default function ChatBox({ accessToken }) {
                 </CardContent>
             </Card>
 
-            {/* Main chat area */}
             <Card className="flex-1 h-[80vh]">
                 <CardContent className="flex flex-col h-full">
                     <h1 className="text-xl font-bold mb-4">Chat Room</h1>
@@ -174,6 +170,7 @@ export default function ChatBox({ accessToken }) {
                                         </div>
                                     ))
                                 )}
+                                <div ref={chatEndRef}></div>
                             </ScrollArea>
                             <div className="flex items-center gap-2">
                                 <Input
