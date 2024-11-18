@@ -36,6 +36,7 @@ const useSocket = (token) => {
 export default function ChatBox({ accessToken }) {
     const [userId, setUserId] = useState(null);
     const [roomId, setRoomId] = useState(null);
+    const [sendRoomId, setSendRoomId] = useState(null);
     const [messages, setMessages] = useState([]);
     const [chatText, setChatText] = useState("");
     const [rooms, setRooms] = useState([]);
@@ -91,22 +92,22 @@ export default function ChatBox({ accessToken }) {
         };
     }, [socket, fetchRooms]);
 
-    const joinRoom = useCallback((targetRoomUserId) => {
+    const joinRoom = useCallback((targetRoomUserId, roomId) => {
         if (!socket || roomId === targetRoomUserId) return; // Check if the room is already joined by the same user
         console.log("Joining room by userId:", targetRoomUserId);
 
         setRoomId(targetRoomUserId); // Set the target room user ID as the current room ID
         setMessages([]); // Clear messages when switching rooms
         socket.emit("joinRoom", { targetRoomUserId }); // Emit joinRoom with the target user ID
-
+        setSendRoomId(roomId);
         // Update the roomId after confirmation from the server
         socket.once("roomJoined", ({ targetRoomUserId: joinedUserId }) => setRoomId(joinedUserId));
     }, [socket, roomId]);
 
     const sendMessage = useCallback(() => {
         if (!chatText.trim() || !socket || !roomId || !userId) return;
-
-        socket.emit("sendMessage", { roomId, senderId: userId, chatText });
+        console.log("Sending message:", { roomId: sendRoomId, senderId: userId, chatText });
+        socket.emit("sendMessage", { roomId: sendRoomId, senderId: userId, chatText });
         setChatText("");
     }, [chatText, socket, roomId, userId]);
 
@@ -127,7 +128,7 @@ export default function ChatBox({ accessToken }) {
                                         ? "bg-blue-500 text-white"
                                         : "bg-gray-200"
                                         }`}
-                                    onClick={() => joinRoom(userId === room.buyerId ? room.sellerId : room.buyerId)}
+                                    onClick={() => joinRoom(userId === room.buyerId ? room.sellerId : room.buyerId, room.id)}
                                 >
                                     {userId === room.buyerId ? room.seller.username : room.buyer.username}
                                 </div>
