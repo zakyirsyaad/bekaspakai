@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const useSocket = (token) => {
     const [socket, setSocket] = useState(null);
@@ -151,8 +152,12 @@ export default function ChatBox({ accessToken }) {
                     {roomId && (
                         <>
                             {rooms.map((room) => (
-                                <div key={room.id}>
-                                    <p className="border p-3">{userId === room.buyerId ? room.seller.username : room.buyer.username}</p>
+                                <div key={room.id} className="flex items-center p-3">
+                                    <Avatar>
+                                        <AvatarImage src={userId === room.buyerId ? room.seller.profile_picture.url : room.buyer.profile_picture.url} />
+                                        <AvatarFallback>CN</AvatarFallback>
+                                    </Avatar>
+                                    <p className="">{userId === room.buyerId ? room.seller.username : room.buyer.username}</p>
                                 </div>
                             ))}
                             <ScrollArea className="flex-1 mb-4 p-4 rounded-md">
@@ -174,7 +179,7 @@ export default function ChatBox({ accessToken }) {
                                                 <p>
                                                     {message.chatText}
                                                 </p>
-                                                <p>
+                                                <p className="text-xs">
                                                     {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </p>
                                             </div>
