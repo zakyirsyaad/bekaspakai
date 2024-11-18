@@ -149,26 +149,26 @@ export default function ChatBox({ accessToken }) {
                         </div>
                     )}
 
+                    {roomId && rooms.map((room) => {
+                        const isCurrentRoom = roomId === (userId === room.buyerId ? room.sellerId : room.buyerId);
+                        if (!isCurrentRoom) return null;
+
+                        const userAvatar = userId === room.buyerId ? room.seller.profile_picture.url : room.buyer.profile_picture.url;
+                        const username = userId === room.buyerId ? room.seller.username : room.buyer.username;
+
+                        return (
+                            <div key={room.id} className="flex items-center gap-3 rounded p-4">
+                                <Avatar className="w-10 h-10">
+                                    <AvatarImage src={userAvatar} />
+                                    <AvatarFallback>{username.charAt(0).toUpperCase()}</AvatarFallback>
+                                </Avatar>
+                                <p className="font-medium">{username}</p>
+                            </div>
+                        );
+                    })}
+
                     {roomId && (
                         <>
-                            {rooms.map((room) => {
-                                const isCurrentRoom = roomId === (userId === room.buyerId ? room.sellerId : room.buyerId);
-                                if (!isCurrentRoom) return null;
-
-                                const userAvatar = userId === room.buyerId ? room.seller.profile_picture.url : room.buyer.profile_picture.url;
-                                const username = userId === room.buyerId ? room.seller.username : room.buyer.username;
-
-                                return (
-                                    <div key={room.id} className="flex items-center gap-3 rounded p-4">
-                                        <Avatar className="w-10 h-10">
-                                            <AvatarImage src={userAvatar} />
-                                            <AvatarFallback>{username.charAt(0).toUpperCase()}</AvatarFallback>
-                                        </Avatar>
-                                        <p className="font-medium">{username}</p>
-                                        <div ref={chatEndRef}></div>
-                                    </div>
-                                );
-                            })}
                             <ScrollArea className="flex-1 mb-4 p-4 rounded-md">
                                 {messages.length === 0 ? (
                                     <p className="text-center text-gray-500">
