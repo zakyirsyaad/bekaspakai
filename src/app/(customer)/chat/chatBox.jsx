@@ -41,7 +41,7 @@ export default function ChatBox({ accessToken }) {
     const [rooms, setRooms] = useState([]);
     const [loadingRooms, setLoadingRooms] = useState(true);
 
-    console.log(rooms)
+    console.log(rooms);
 
     const socket = useSocket(accessToken);
 
@@ -64,8 +64,8 @@ export default function ChatBox({ accessToken }) {
                 cache: 'no-store',
             });
             const data = await response.json();
-            console.log(data)
-            setRooms(data.data.data);
+            console.log(data);
+            setRooms(data.data.data); // Adjusted to set the correct `data.data`
         } catch (error) {
             console.error('Error fetching rooms:', error);
         } finally {
@@ -124,13 +124,16 @@ export default function ChatBox({ accessToken }) {
                             rooms.map((room) => (
                                 <div
                                     key={room.id}
-                                    className={`p-2 mb-2 rounded cursor-pointer ${roomId === room.buyerId
+                                    className={`p-2 mb-2 rounded cursor-pointer ${roomId === room.id
                                         ? "bg-blue-500 text-white"
                                         : "bg-gray-200"
                                         }`}
-                                    onClick={() => joinRoom(userId === room.buyerId ? room.sellerId : roomId)}
+                                    onClick={() => joinRoom(room.id)}
                                 >
-                                    {userId === room.buyerId ? room.seller.username : room.buyer.username}
+                                    {/* Display the other user's username */}
+                                    {userId === room.buyerId
+                                        ? room.seller.username
+                                        : room.buyer.username}
                                 </div>
                             ))
                         )}
