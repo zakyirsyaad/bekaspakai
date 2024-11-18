@@ -21,6 +21,7 @@ export default async function Kategori() {
     })
     let data = await response.json()
     let kategori = data.data.result
+
     return (
         <Carousel opts={{ slidesToScroll: 2, loop: true }}>
             <p className='text-lg font-semibold'>Kategori Produk</p>

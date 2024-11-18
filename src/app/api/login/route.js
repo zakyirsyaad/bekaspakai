@@ -20,6 +20,7 @@ export async function POST(req) {
                 value: data.data.access_token,
                 maxAge: 60 * 60 * 1,
                 path: '/',
+                httpOnly: true
             })
 
             return new Response(JSON.stringify({ message: 'Login successful' }), {
