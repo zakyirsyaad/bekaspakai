@@ -41,6 +41,8 @@ export default function ChatBox({ accessToken }) {
     const [rooms, setRooms] = useState([]);
     const [loadingRooms, setLoadingRooms] = useState(true);
 
+    console.log(rooms);
+
     const socket = useSocket(accessToken);
 
     // Decode token and setup userId
@@ -62,7 +64,8 @@ export default function ChatBox({ accessToken }) {
                 cache: 'no-store',
             });
             const data = await response.json();
-            setRooms(data.data.data || []); // Adjusted to handle response
+            console.log(data);
+            setRooms(data.data.data); // Adjusted to set the correct `data.data`
         } catch (error) {
             console.error('Error fetching rooms:', error);
         } finally {
@@ -88,43 +91,20 @@ export default function ChatBox({ accessToken }) {
         };
     }, [socket, fetchRooms]);
 
-    const joinRoom = useCallback(() => {
-        const otherUserId = document.getElementById("otherUserId").value.trim();
-        const selectedRoomId = document.getElementById("chatRoomSelect").value;
+    const joinRoom = useCallback((targetRoomUserId) => {
+        if (!socket || targetRoomUserId === targetRoomUserId) return;
 
-        const roomData = selectedRoomId || otherUserId;
+        setRoomId(targetRoomUserId);
+        setMessages([]); // Clear messages when switching rooms
+        socket.emit("joinRoom", { targetRoomUserId });
 
-        if (!roomData) {
-            alert("Please enter a User ID or select a chat room.");
-            return;
-        }
-
-        socket.emit("joinRoom", { otherUserId: roomData });
-
-        socket.once("roomJoined", (userInfo) => {
-            console.log("User info received:", userInfo.message);
-
-            if (userInfo.roomId) {
-                setRoomId(userInfo.roomId);
-                console.log(`Joined room ${userInfo.roomId}`);
-            }
-
-            setMessages([]); // Clear previous messages
-        });
-
-        socket.once("previousMessages", (messageHistory) => {
-            console.log("Previous messages:", messageHistory);
-            if (Array.isArray(messageHistory)) {
-                setMessages(messageHistory);
-            }
-        });
-    }, [socket]);
+        socket.once("roomJoined", ({ targetRoomUserId }) => setRoomId(targetRoomUserId));
+    },
+        [socket]
+    );
 
     const sendMessage = useCallback(() => {
-        if (!chatText.trim() || !roomId) {
-            alert("Please enter a message and join a room.");
-            return;
-        }
+        if (!chatText.trim() || !socket || !roomId || !userId) return;
 
         socket.emit("sendMessage", { roomId, senderId: userId, chatText });
         setChatText("");
@@ -147,8 +127,11 @@ export default function ChatBox({ accessToken }) {
                                         ? "bg-blue-500 text-white"
                                         : "bg-gray-200"
                                         }`}
-                                    onClick={() => setRoomId(room.id)}
+                                    onClick={() => joinRoom(userId === room.buyerId
+                                        ? room.sellerId
+                                        : room.buyerId)}
                                 >
+                                    {/* Display the other user's username */}
                                     {userId === room.buyerId
                                         ? room.seller.username
                                         : room.buyer.username}
@@ -163,18 +146,6 @@ export default function ChatBox({ accessToken }) {
             <Card className="flex-1 h-[80vh]">
                 <CardContent className="flex flex-col h-full">
                     <h1 className="text-xl font-bold mb-4">Chat Room</h1>
-                    <div className="flex gap-2 mb-4">
-                        <Input id="otherUserId" placeholder="Enter User ID" />
-                        <select id="chatRoomSelect" className="border p-2 rounded">
-                            <option value="">Select Room</option>
-                            {rooms.map((room) => (
-                                <option key={room.id} value={room.id}>
-                                    {room.id}
-                                </option>
-                            ))}
-                        </select>
-                        <Button onClick={joinRoom}>Join Room</Button>
-                    </div>
 
                     {!roomId && (
                         <div className="flex-1 flex items-center justify-center">
@@ -205,7 +176,6 @@ export default function ChatBox({ accessToken }) {
                             </ScrollArea>
                             <div className="flex items-center gap-2">
                                 <Input
-                                    id="messageInput"
                                     value={chatText}
                                     placeholder="Type a message"
                                     onChange={(e) => setChatText(e.target.value)}
