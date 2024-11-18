@@ -78,11 +78,7 @@ export default function ChatBox({ accessToken }) {
     useEffect(() => {
         if (!socket) return;
 
-        const handlePreviousMessages = (data) => { setMessages(data), console.log(data) };
-        const handleMessageReceived = (message) => setMessages((prev) => [...prev, message]);
 
-        socket.on("previousMessages", handlePreviousMessages);
-        socket.on("messageReceived", handleMessageReceived);
 
         fetchRooms();
 
@@ -98,6 +94,12 @@ export default function ChatBox({ accessToken }) {
 
         setRoomId(targetRoomUserId); // Set the target room user ID as the current room ID
         setMessages([]); // Clear messages when switching rooms
+        const handlePreviousMessages = (data) => { setMessages(data), console.log(data) };
+        const handleMessageReceived = (message) => setMessages((prev) => [...prev, message]);
+
+        socket.on("previousMessages", handlePreviousMessages);
+        socket.on("messageReceived", handleMessageReceived);
+
         socket.emit("joinRoom", { targetRoomUserId }); // Emit joinRoom with the target user ID
         setSendRoomId(roomId);
         // Update the roomId after confirmation from the server
