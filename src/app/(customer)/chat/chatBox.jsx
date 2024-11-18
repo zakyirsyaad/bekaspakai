@@ -159,17 +159,17 @@ export default function ChatBox({ accessToken }) {
                                 const username = userId === room.buyerId ? room.seller.username : room.buyer.username;
 
                                 return (
-                                    <div key={room.id} className="flex items-center gap-3 rounded p-3 bg-gray-900">
-                                        <Avatar>
+                                    <div key={room.id} className="flex items-center gap-3 rounded p-4">
+                                        <Avatar className="w-12 h-12">
                                             <AvatarImage src={userAvatar} />
                                             <AvatarFallback>{username.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
-                                        <p className="text-gray-300 font-medium">{username}</p>
+                                        <p className="font-medium">{username}</p>
                                     </div>
                                 );
                             })}
 
-                            <ScrollArea className="flex-1 mb-4 p-4 rounded-md bg-black">
+                            <ScrollArea className="flex-1 mb-4 p-4 rounded-md ">
                                 {messages.length === 0 ? (
                                     <p className="text-center text-gray-500">
                                         No messages yet. Start the conversation!
