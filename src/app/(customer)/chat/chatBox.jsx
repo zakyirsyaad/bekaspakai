@@ -42,8 +42,6 @@ export default function ChatBox({ accessToken }) {
     const [rooms, setRooms] = useState([]);
     const [loadingRooms, setLoadingRooms] = useState(true);
 
-    console.log(rooms);
-
     const socket = useSocket(accessToken);
 
     // Decode token and setup userId
@@ -65,8 +63,7 @@ export default function ChatBox({ accessToken }) {
                 cache: 'no-store',
             });
             const data = await response.json();
-            console.log(data);
-            setRooms(data.data.data); // Adjusted to set the correct `data.data`
+            setRooms(data.data.data); // Adjusted to match expected data structure
         } catch (error) {
             console.error('Error fetching rooms:', error);
         } finally {
@@ -78,7 +75,18 @@ export default function ChatBox({ accessToken }) {
     useEffect(() => {
         if (!socket) return;
 
+        const handlePreviousMessages = (data) => {
+            setMessages(data);
+            console.log("Previous messages loaded:", data);
+        };
 
+        const handleMessageReceived = (message) => {
+            setMessages((prev) => [...prev, message]);
+            console.log("New message received:", message);
+        };
+
+        socket.on("previousMessages", handlePreviousMessages);
+        socket.on("messageReceived", handleMessageReceived);
 
         fetchRooms();
 
@@ -89,21 +97,16 @@ export default function ChatBox({ accessToken }) {
     }, [socket, fetchRooms]);
 
     const joinRoom = useCallback((targetRoomUserId, roomId) => {
-        if (!socket || roomId === targetRoomUserId) return; // Check if the room is already joined by the same user
+        if (!socket || roomId === targetRoomUserId) return; // Check if already in the room
         console.log("Joining room by userId:", targetRoomUserId);
 
-        setRoomId(targetRoomUserId); // Set the target room user ID as the current room ID
+        setRoomId(targetRoomUserId); // Set target room as current room
         setMessages([]); // Clear messages when switching rooms
-        const handlePreviousMessages = (data) => { setMessages(data), console.log(data) };
-        const handleMessageReceived = (message) => setMessages((prev) => [...prev, message]);
-
-        socket.on("previousMessages", handlePreviousMessages);
-        socket.on("messageReceived", handleMessageReceived);
-
-        socket.emit("joinRoom", { targetRoomUserId }); // Emit joinRoom with the target user ID
+        socket.emit("joinRoom", { otherUserId: targetRoomUserId }); // Emit joinRoom with target user ID
         setSendRoomId(roomId);
-        // Update the roomId after confirmation from the server
-        socket.once("roomJoined", ({ targetRoomUserId: joinedUserId }) => setRoomId(joinedUserId));
+
+        // Update roomId after server confirmation
+        socket.once("roomJoined", ({ roomId: joinedRoomId }) => setRoomId(joinedRoomId));
     }, [socket, roomId]);
 
     const sendMessage = useCallback(() => {
