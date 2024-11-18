@@ -166,15 +166,17 @@ export default function ChatBox({ accessToken }) {
                                             key={index}
                                             className={`mb-2 flex ${message.senderId === userId ? "justify-end" : "justify-start"}`}
                                         >
-                                            <div className={`max-w-xs p-3 rounded-lg text-sm relative ${message.senderId === userId
-                                                ? "bg-blue-500 text-white rounded-tr-none"
-                                                : "bg-gray-800 text-gray-300 rounded-tl-none"
+                                            <div className={`max-w-xs p-3 rounded-lg text-sm ${message.senderId === userId
+                                                ? "bg-blue-500 text-white rounded-tr-none text-end"
+                                                : "bg-gray-800 text-gray-300 rounded-tl-none text-start"
                                                 }`}
                                             >
-                                                {message.chatText}
-                                                <span className="text-xs text-gray-400 absolute bottom-1 right-2">
+                                                <p>
+                                                    {message.chatText}
+                                                </p>
+                                                <p>
                                                     {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                </span>
+                                                </p>
                                             </div>
                                         </div>
                                     ))
