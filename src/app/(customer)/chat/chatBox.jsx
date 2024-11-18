@@ -142,8 +142,6 @@ export default function ChatBox({ accessToken }) {
 
             <Card className="flex-1 h-[80vh]">
                 <CardContent className="flex flex-col h-full">
-                    <h1 className="text-xl font-bold mb-4">Chat Room</h1>
-
                     {!roomId && (
                         <div className="flex-1 flex items-center justify-center">
                             <p>Select a room to start chatting!</p>
@@ -152,6 +150,11 @@ export default function ChatBox({ accessToken }) {
 
                     {roomId && (
                         <>
+                            {rooms.map((room) => (
+                                <div key={room.id}>
+                                    <p className="border p-3">{userId === room.buyerId ? room.seller.username : room.buyer.username}</p>
+                                </div>
+                            ))}
                             <ScrollArea className="flex-1 mb-4 p-4 rounded-md">
                                 {messages.length === 0 ? (
                                     <p className="text-center text-gray-500">
@@ -170,7 +173,7 @@ export default function ChatBox({ accessToken }) {
                                             >
                                                 {message.chatText}
                                                 <span className="text-xs text-gray-400 absolute bottom-1 right-2">
-                                                    {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </span>
                                             </div>
                                         </div>
