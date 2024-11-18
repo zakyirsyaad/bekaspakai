@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import ChatBox from "./chatBox";
+import ChatBox from "./ChatBox";
 
 export default function Page() {
     const accessToken = cookies().get('accessToken')?.value

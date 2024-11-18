@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const SERVER_URL = `${process.env.NEXT_PUBLIC_CHAT_URL}`; // Ganti dengan URL server backend Anda
 let socket;
 
-export default function chatBox({ accessToken }) {
+export default function ChatBox({ accessToken }) {
     const [token, setToken] = useState("");
     const [userId, setUserId] = useState(null);
     const [roomId, setRoomId] = useState(null);
