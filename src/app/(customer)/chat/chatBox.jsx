@@ -151,18 +151,25 @@ export default function ChatBox({ accessToken }) {
 
                     {roomId && (
                         <>
-                            {rooms.map((room) => (
-                                roomId === (userId === room.buyerId ? room.sellerId : room.buyerId) && (
-                                    <div key={room.id} className="flex items-center gap-3 rounded p-3">
+                            {rooms.map((room) => {
+                                const isCurrentRoom = roomId === (userId === room.buyerId ? room.sellerId : room.buyerId);
+                                if (!isCurrentRoom) return null;
+
+                                const userAvatar = userId === room.buyerId ? room.seller.profile_picture.url : room.buyer.profile_picture.url;
+                                const username = userId === room.buyerId ? room.seller.username : room.buyer.username;
+
+                                return (
+                                    <div key={room.id} className="flex items-center gap-3 rounded p-3 bg-gray-900">
                                         <Avatar>
-                                            <AvatarImage src={userId === room.buyerId ? room.seller.profile_picture.url : room.buyer.profile_picture.url} />
-                                            <AvatarFallback>CN</AvatarFallback>
+                                            <AvatarImage src={userAvatar} />
+                                            <AvatarFallback>{username.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
-                                        <p className="">{userId === room.buyerId ? room.seller.username : room.buyer.username}</p>
+                                        <p className="text-gray-300 font-medium">{username}</p>
                                     </div>
-                                )
-                            ))}
-                            <ScrollArea className="flex-1 mb-4 p-4 rounded-md">
+                                );
+                            })}
+
+                            <ScrollArea className="flex-1 mb-4 p-4 rounded-md bg-black">
                                 {messages.length === 0 ? (
                                     <p className="text-center text-gray-500">
                                         No messages yet. Start the conversation!
@@ -173,16 +180,18 @@ export default function ChatBox({ accessToken }) {
                                             key={index}
                                             className={`mb-2 flex ${message.senderId === userId ? "justify-end" : "justify-start"}`}
                                         >
-                                            <div className={`max-w-xs p-3 rounded-lg text-sm ${message.senderId === userId
-                                                ? "bg-blue-500 text-white rounded-tr-none text-end"
-                                                : "bg-gray-800 text-gray-300 rounded-tl-none text-start"
-                                                }`}
+                                            <div
+                                                className={`max-w-xs p-3 rounded-lg text-sm ${message.senderId === userId
+                                                    ? "bg-blue-500 text-white rounded-tr-none text-end"
+                                                    : "bg-gray-800 text-gray-300 rounded-tl-none text-start"
+                                                    }`}
                                             >
-                                                <p>
-                                                    {message.chatText}
-                                                </p>
-                                                <p className="text-xs">
-                                                    {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                <p>{message.chatText}</p>
+                                                <p className="text-xs text-gray-400">
+                                                    {new Date(message.createdAt).toLocaleTimeString([], {
+                                                        hour: "2-digit",
+                                                        minute: "2-digit",
+                                                    })}
                                                 </p>
                                             </div>
                                         </div>
@@ -191,7 +200,7 @@ export default function ChatBox({ accessToken }) {
                                 <div ref={chatEndRef}></div>
                             </ScrollArea>
 
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 mt-2">
                                 <Input
                                     value={chatText}
                                     placeholder="Type a message"
