@@ -92,16 +92,16 @@ export default function ChatBox({ accessToken }) {
     }, [socket, fetchRooms]);
 
     const joinRoom = useCallback((targetRoomUserId) => {
-        if (!socket || targetRoomUserId === targetRoomUserId) return;
-        console.log("Joining room:", targetRoomUserId);
-        setRoomId(targetRoomUserId);
-        setMessages([]); // Clear messages when switching rooms
-        socket.emit("joinRoom", { targetRoomUserId });
+        if (!socket || roomId === targetRoomUserId) return; // Check if the room is already joined by the same user
+        console.log("Joining room by userId:", targetRoomUserId);
 
-        socket.once("roomJoined", ({ targetRoomUserId }) => setRoomId(targetRoomUserId));
-    },
-        [socket]
-    );
+        setRoomId(targetRoomUserId); // Set the target room user ID as the current room ID
+        setMessages([]); // Clear messages when switching rooms
+        socket.emit("joinRoom", { targetRoomUserId }); // Emit joinRoom with the target user ID
+
+        // Update the roomId after confirmation from the server
+        socket.once("roomJoined", ({ targetRoomUserId: joinedUserId }) => setRoomId(joinedUserId));
+    }, [socket, roomId]);
 
     const sendMessage = useCallback(() => {
         if (!chatText.trim() || !socket || !roomId || !userId) return;
@@ -123,18 +123,13 @@ export default function ChatBox({ accessToken }) {
                             rooms.map((room) => (
                                 <div
                                     key={room.id}
-                                    className={`p-2 mb-2 rounded cursor-pointer ${roomId === room.id
+                                    className={`p-2 mb-2 rounded cursor-pointer ${roomId === (userId === room.buyerId ? room.sellerId : room.buyerId)
                                         ? "bg-blue-500 text-white"
                                         : "bg-gray-200"
                                         }`}
-                                    onClick={() => joinRoom(userId === room.buyerId
-                                        ? room.sellerId
-                                        : room.buyerId)}
+                                    onClick={() => joinRoom(userId === room.buyerId ? room.sellerId : room.buyerId)}
                                 >
-                                    {/* Display the other user's username */}
-                                    {userId === room.buyerId
-                                        ? room.seller.username
-                                        : room.buyer.username}
+                                    {userId === room.buyerId ? room.seller.username : room.buyer.username}
                                 </div>
                             ))
                         )}
