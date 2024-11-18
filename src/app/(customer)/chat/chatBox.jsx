@@ -1,70 +1,80 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import io from "socket.io-client";
-import Cookies from "js-cookie";
 import DecodeToken from "@/hooks/decode-token";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-const SERVER_URL = `${process.env.NEXT_PUBLIC_CHAT_URL}`; // Ganti dengan URL server backend Anda
-let socket;
+// Custom hook to handle Socket.IO logic
+const useSocket = (token) => {
+    const [socket, setSocket] = useState(null);
+
+    useEffect(() => {
+        if (!token) return;
+
+        const newSocket = io(process.env.NEXT_PUBLIC_CHAT_URL, {
+            auth: { token },
+        });
+
+        newSocket.on("connect", () => console.log("Socket connected."));
+        newSocket.on("connect_error", (err) => console.error("Socket connection error:", err));
+
+        setSocket(newSocket);
+
+        return () => {
+            newSocket.disconnect();
+        };
+    }, [token]);
+
+    return socket;
+};
 
 export default function ChatBox({ accessToken }) {
-    const [token, setToken] = useState("");
     const [userId, setUserId] = useState(null);
     const [roomId, setRoomId] = useState(null);
     const [messages, setMessages] = useState([]);
     const [chatText, setChatText] = useState("");
+
+    // Decode token and setup userId
     useEffect(() => {
-        // Dapatkan token dari sumber autentikasi
-        const fakeToken = accessToken; // Ganti dengan logika autentikasi Anda
-        setToken(fakeToken);
-
-        const decoded = DecodeToken(fakeToken);
+        const decoded = DecodeToken(accessToken);
         setUserId(decoded?.id);
-        console.log("User ID:", decoded.id);
-        // Hubungkan ke Socket.IO
-        socket = io(SERVER_URL, {
-            auth: { token: fakeToken },
-        });
-        console.log(SERVER_URL, { token: fakeToken });
+    }, [accessToken]);
 
-        socket.on("connect", () => {
-            console.log("Connected to server");
-        });
+    // Initialize socket connection
+    const socket = useSocket(accessToken);
 
-        socket.on("userInfo", (data) => {
-            console.log("User Info:", data);
-        });
+    // Listen for socket events
+    useEffect(() => {
+        if (!socket) return;
 
-        socket.on("previousMessages", (data) => {
-            setMessages(data);
-        });
+        const handlePreviousMessages = (data) => setMessages(data);
+        const handleMessageReceived = (message) => setMessages((prev) => [...prev, message]);
 
-        socket.on("messageReceived", (message) => {
-            setMessages((prev) => [...prev, message]);
-        });
+        socket.on("previousMessages", handlePreviousMessages);
+        socket.on("messageReceived", handleMessageReceived);
 
         return () => {
-            socket.disconnect();
+            socket.off("previousMessages", handlePreviousMessages);
+            socket.off("messageReceived", handleMessageReceived);
         };
-    }, []);
+    }, [socket]);
 
-    const joinRoom = (otherUserId) => {
+    const joinRoom = useCallback((otherUserId) => {
+        if (!socket) return;
+
         socket.emit("joinRoom", { otherUserId });
-        socket.on("roomJoined", ({ roomId }) => {
-            setRoomId(roomId);
-        });
-    };
+        socket.on("roomJoined", ({ roomId }) => setRoomId(roomId));
+    }, [socket]);
 
-    const sendMessage = () => {
-        if (chatText.trim()) {
-            socket.emit("sendMessage", { roomId, senderId: userId, chatText });
-            setChatText("");
-        }
-    };
+    const sendMessage = useCallback(() => {
+        if (!chatText.trim() || !socket || !roomId || !userId) return;
+
+        socket.emit("sendMessage", { roomId, senderId: userId, chatText });
+        setChatText("");
+    }, [chatText, socket, roomId, userId]);
 
     return (
         <div className="container mx-auto p-4">
@@ -92,7 +102,9 @@ export default function ChatBox({ accessToken }) {
                                 {messages.map((message, index) => (
                                     <div
                                         key={index}
-                                        className={`mb-2 p-2 rounded ${message.senderId === userId ? "bg-blue-500 text-white" : "bg-gray-200"
+                                        className={`mb-2 p-2 rounded ${message.senderId === userId
+                                                ? "bg-blue-500 text-white"
+                                                : "bg-gray-200"
                                             }`}
                                     >
                                         {message.chatText}
