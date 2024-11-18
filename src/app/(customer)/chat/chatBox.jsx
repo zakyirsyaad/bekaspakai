@@ -152,7 +152,7 @@ export default function ChatBox({ accessToken }) {
 
                     {roomId && (
                         <>
-                            <ScrollArea className="flex-1 mb-4">
+                            <ScrollArea className="flex-1 mb-4 p-4 rounded-md">
                                 {messages.length === 0 ? (
                                     <p className="text-center text-gray-500">
                                         No messages yet. Start the conversation!
@@ -161,17 +161,24 @@ export default function ChatBox({ accessToken }) {
                                     messages.map((message, index) => (
                                         <div
                                             key={index}
-                                            className={`mb-2 p-2 rounded ${message.senderId === userId
-                                                ? "bg-blue-500 text-white"
-                                                : "bg-gray-200"
-                                                }`}
+                                            className={`mb-2 flex ${message.senderId === userId ? "justify-end" : "justify-start"}`}
                                         >
-                                            {message.chatText}
+                                            <div className={`max-w-xs p-3 rounded-lg text-sm relative ${message.senderId === userId
+                                                ? "bg-blue-500 text-white rounded-tr-none"
+                                                : "bg-gray-800 text-gray-300 rounded-tl-none"
+                                                }`}
+                                            >
+                                                {message.chatText}
+                                                <span className="text-xs text-gray-400 absolute bottom-1 right-2">
+                                                    {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </span>
+                                            </div>
                                         </div>
                                     ))
                                 )}
                                 <div ref={chatEndRef}></div>
                             </ScrollArea>
+
                             <div className="flex items-center gap-2">
                                 <Input
                                     value={chatText}
