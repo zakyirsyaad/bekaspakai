@@ -56,7 +56,7 @@ async function Card_JualBeli() {
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </div>
-                                <Link href={`/JenisProduct/${item.JenisProduct.name.replace(/\s+/g, '-')}/${item.id}/${item.name.replace(/\s+/g, '-')}`} prefetch={false}>
+                                <Link href={`/JenisProduct/${item.JenisProduct.name.replace(/\s+/g, '-')}/${item.id}/${item.name.replace(/[\s/]+/g, '-')}`} prefetch={false}>
                                     <Image
                                         src={item?.picture[0]?.url}
                                         alt={item?.picture[0]?.alt}

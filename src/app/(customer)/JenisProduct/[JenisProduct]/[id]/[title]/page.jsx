@@ -18,7 +18,8 @@ export default function Page({ params }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const titleParams = title.replace(/-/g, ' ');
+    const titleParams = title.replace(/[-/]/g, ' ');
+
 
     useEffect(() => {
         const fetchProductDetails = async () => {
