@@ -38,7 +38,8 @@ export default async function page({ params }) {
     let dataCategory = await responseCategory.json()
     let categoryProduct = dataCategory.data.result
 
-    let nameCategory = categoryProduct[0].name
+    let nameCategory = categoryProduct[0]?.name
+
 
     if (!categoryProduct.length) {
         return (
@@ -48,6 +49,7 @@ export default async function page({ params }) {
             </div>
         );
     }
+
 
     let responseProduct = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/products?isAvailable=true&category=${category}`, {
         method: 'GET',

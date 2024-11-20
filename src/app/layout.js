@@ -38,7 +38,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="id" suppressHydrationWarning>
+    <html lang="id">
       <Head>
         <link rel="manifest" href="/site.webmanifest" />
       </Head>

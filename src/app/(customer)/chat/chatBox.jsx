@@ -116,10 +116,10 @@ export default function ChatBox({ accessToken }) {
     }, [chatText, socket, roomId, userId]);
 
     return (
-        <div className="container mx-auto p-4 flex gap-4">
+        <div className="container mx-auto flex gap-4">
             <Card className="w-1/4 h-[80vh] overflow-hidden">
-                <CardContent className="h-full flex flex-col">
-                    <h2 className="text-lg font-bold mb-4">Rooms</h2>
+                <CardContent className="h-full flex flex-col p-5">
+                    {/* <h2 className="text-lg font-bold mb-4">Rooms</h2> */}
                     <ScrollArea className="flex-1">
                         {loadingRooms ? (
                             <p>Loading rooms...</p>

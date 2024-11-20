@@ -25,12 +25,12 @@ export async function middleware(request) {
     }
 
     // Redirect to OTP page if the token is not verified and trying to access critical pages
-    if (!isVerified && ['/dashboard', '/keranjang', '/pembayaran', '/transaksi'].some(path => request.nextUrl.pathname.startsWith(path))) {
+    if (!isVerified && ['/dashboard', '/keranjang', '/pembayaran', '/transaksi', '/chat'].some(path => request.nextUrl.pathname.startsWith(path))) {
         return NextResponse.redirect(new URL('/otp', request.url));
     }
 
     // Redirect to login if trying to access protected routes without a valid token
-    if (!isVerified && !accessToken && ['/dashboard', '/keranjang', '/pembayaran', '/transaksi'].some(path => request.nextUrl.pathname.startsWith(path))) {
+    if (!isVerified && !accessToken && ['/dashboard', '/keranjang', '/pembayaran', '/transaksi', '/chat'].some(path => request.nextUrl.pathname.startsWith(path))) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
@@ -112,5 +112,5 @@ async function verifyAccessToken(accessToken) {
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*', '/keranjang', '/pembayaran', '/transaksi', '/login', '/register', '/daftartoko', '/otp'],
+    matcher: ['/dashboard/:path*', '/keranjang', '/pembayaran', '/transaksi', '/login', '/register', '/daftartoko', '/otp', '/chat'],
 };
