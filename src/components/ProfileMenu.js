@@ -32,7 +32,7 @@ async function ProfileMenu() {
         <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center space-x-2">
                 <Avatar>
-                    <AvatarImage src={user.profile_picture?.url} alt={user.username} priority={toString(true)} />
+                    <AvatarImage src={user.profile_picture?.url} alt="Foto Profile User bekaspakai.com" priority={toString(true)} />
                     <AvatarFallback>{(user.username)?.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <p className="font-normal text-sm truncate">{user.username}</p>

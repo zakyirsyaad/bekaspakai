@@ -39,7 +39,7 @@ export default async function Kategori() {
                                 <div className="flex flex-col p-6 w-[150px] rounded">
                                     <Image
                                         src={imageUrl}
-                                        alt={item.name}
+                                        alt="Foto Kategori bekaspakai.com"
                                         width={100}
                                         height={100}
                                         className="rounded h-[125px] object-cover"
