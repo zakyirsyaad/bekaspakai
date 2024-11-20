@@ -33,7 +33,7 @@ async function Card_JualBeli() {
                                     <Link href={`/p/${item.penjual.username}`} prefetch={false}>
                                         <div className='flex items-center gap-2'>
                                             <Avatar>
-                                                <AvatarImage src={item.penjual.profile_picture.url} />
+                                                <AvatarImage src={item.penjual.profile_picture.url} alt={item.penjual.username} />
                                                 <AvatarFallback>P</AvatarFallback>
                                             </Avatar>
                                             <div>
@@ -45,7 +45,7 @@ async function Card_JualBeli() {
                                     <DropdownMenu>
                                         <DropdownMenuTrigger><Ellipsis size={28} /></DropdownMenuTrigger>
                                         <DropdownMenuContent>
-                                            <DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
                                                 <Link href={'/laporkan'}>
                                                     Laporkan Barang
                                                 </Link>

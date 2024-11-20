@@ -29,7 +29,6 @@ export default async function Kategori() {
                 {kategori.map((item) => {
                     // Dynamically set the image path based on the item's ID
                     const imageUrl = `/Kategori/${item.id}.webp`; // Ensure images are named after their IDs in the public folder
-
                     return (
                         <CarouselItem
                             key={item.id}
@@ -41,7 +40,7 @@ export default async function Kategori() {
                                         src={imageUrl}
                                         alt="Foto Kategori bekaspakai.com"
                                         width={100}
-                                        height={100}
+                                        height={125}
                                         className="rounded h-[125px] object-cover"
                                         priority={false}
                                     />
