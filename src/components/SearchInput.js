@@ -1,10 +1,16 @@
 import React from 'react'
 import { Input } from './ui/input'
 
-function SearchInput() {
+export default function SearchInput({ value, onChange, onKeyDown }) {
     return (
-        <Input type="text" name="search" placeholder="Pencarian produk" className="w-full col-span-2 md:col-span-3 lg:col-span-4" />
-    )
+        <Input
+            type="text"
+            value={value}
+            onChange={onChange}
+            onKeyDown={onKeyDown} // Tambahkan properti ini untuk mendukung Enter
+            className="border rounded p-2 w-full"
+            placeholder="Cari produk..."
+        />
+    );
 }
 
-export default SearchInput
