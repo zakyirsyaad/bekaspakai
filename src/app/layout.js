@@ -31,13 +31,19 @@ export const metadata = {
   canonical: "https://www.bekaspakai.com", // URL kanonis untuk halaman
   keywords: "barang bekas layak pakai, jual beli barang bekas, marketplace barang bekas, preloved Indonesia, beli murah online, marketplace terpercaya, barang bekas berkualitas, transaksi aman online, toko online preloved, secondhand marketplace, barang preloved murah, jual beli aman, barang preloved premium, marketplace Indonesia, jual barang bekas online, preloved fashion, elektronik bekas murah, furniture secondhand, gadget bekas terpercaya, marketplace murah Indonesia",
   author: "Kazuya Team, Zaky Irsyad Rais dan M. Daffa Raihan", // Penulis konten,
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
-  themeColor: "#ffffff", // Ganti dengan warna tema Anda
 };
 
 
 
-
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#ffffff", // Ganti dengan warna tema Anda
+  // Also supported by less commonly used
+  // interactiveWidget: 'resizes-visual',
+}
 export default function RootLayout({ children }) {
   return (
     <html lang="id">
