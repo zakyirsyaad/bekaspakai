@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import Link from 'next/link'
 import { SkeletonCardProduct } from '../Skeleton/SkeletonCardProduct'
+import { Button } from '../ui/button'
 
 async function Card_JualBeli() {
     let response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/products?limit=4&tipe=Jual Beli&isAvailable=yes`, {
@@ -33,7 +34,7 @@ async function Card_JualBeli() {
                                     <Link href={`/p/${item.penjual.username}`} prefetch={false}>
                                         <div className='flex items-center gap-2'>
                                             <Avatar>
-                                                <AvatarImage src={item.penjual.profile_picture.url} alt={item.penjual.username} />
+                                                <AvatarImage src={item.penjual.profile_picture.url} alt="Foto Penjual bekaspakai.com" />
                                                 <AvatarFallback>P</AvatarFallback>
                                             </Avatar>
                                             <div>
@@ -46,9 +47,11 @@ async function Card_JualBeli() {
                                         <DropdownMenuTrigger><Ellipsis size={28} /></DropdownMenuTrigger>
                                         <DropdownMenuContent>
                                             <DropdownMenuItem asChild>
-                                                <Link href={'/laporkan'}>
-                                                    Laporkan Barang
-                                                </Link>
+                                                <Button variant="subtle" asChild>
+                                                    <Link href={'/laporkan'}>
+                                                        Laporkan Barang
+                                                    </Link>
+                                                </Button>
                                             </DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
