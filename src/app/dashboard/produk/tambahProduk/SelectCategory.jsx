@@ -1,88 +1,114 @@
-'use client'
-import React, { useEffect, useState } from 'react'
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import Cookies from 'js-cookie'
-import { Button } from '@/components/ui/button'
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export default function SelectCategory({ onChange }) {
-    const [status, setStatus] = useState('loading'); // Default to loading state
-    const [selectedCategory, setSelectedCategory] = useState(null); // Initially null
-    const [categoryList, setCategoryList] = useState([]); // Store fetched data here
+    const [status, setStatus] = useState("loading");
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [categoryList, setCategoryList] = useState([]);
+    const [open, setOpen] = useState(false);
 
-    // Fetch the data once on mount
+    // Fetch data once on mount
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/category`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    cache: 'no-store',
-                });
+                const response = await fetch(
+                    `${process.env.NEXT_PUBLIC_BASE_URL_API}/category`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        cache: "no-store",
+                    }
+                );
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch data');
+                    throw new Error("Failed to fetch data");
                 }
 
                 const data = await response.json();
-                setCategoryList(data.data.result); // Store fetched data
-                setStatus('success');
+                setCategoryList(data.data.result);
+                setStatus("success");
             } catch (error) {
-                console.error('Error fetching data:', error);
-                setStatus('error');
+                console.error("Error fetching data:", error);
+                setStatus("error");
             }
         };
 
         fetchData();
     }, []);
 
-    const handleSelect = (categoryProductId) => {
-        setSelectedCategory(categoryProductId.name); // Update selected category name
-        onChange({ target: { name: 'categoryProductId', value: categoryProductId.id } }); // Pass the selected category ID to parent
-    };
-
-    const renderDropdownItems = () => {
-        switch (status) {
-            case 'loading':
-                return <DropdownMenuItem disabled>Pilih Kategori Produk...</DropdownMenuItem>;
-            case 'error':
-                return <DropdownMenuItem disabled>Error fetching data</DropdownMenuItem>;
-            default:
-                return categoryList.map((category) => (
-                    <React.Fragment key={category.id}>
-                        <DropdownMenuLabel>{category.name}</DropdownMenuLabel>
-                        {category.subCategories.map((subCategory) => (
-                            <DropdownMenuItem
-                                key={subCategory.id}
-                                onClick={() => handleSelect(subCategory)} // Pass the full subCategory object
-                            >
-                                {subCategory.name}
-                            </DropdownMenuItem>
-                        ))}
-                        <DropdownMenuSeparator />
-                    </React.Fragment>
-                ));
-        }
+    const handleSelect = (subCategory) => {
+        setSelectedCategory(subCategory.name);
+        onChange({
+            target: { name: "categoryProductId", value: subCategory.id },
+        });
+        setOpen(false);
     };
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex justify-start lg:w-full capitalize">
-                    {selectedCategory ?? "Pilih Kategori Produk"} {/* Default placeholder if none selected */}
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-full justify-between"
+                >
+                    {selectedCategory ?? "Pilih Kategori Produk"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                {renderDropdownItems()}
-            </DropdownMenuContent>
-        </DropdownMenu>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0">
+                <Command>
+                    <CommandInput placeholder="Cari Subkategori..." />
+                    <CommandList>
+                        {status === "loading" && (
+                            <CommandEmpty>Memuat subkategori...</CommandEmpty>
+                        )}
+                        {status === "error" && (
+                            <CommandEmpty>Gagal memuat subkategori.</CommandEmpty>
+                        )}
+                        {status === "success" && (
+                            <CommandGroup>
+                                {categoryList.map((category) => (
+                                    <React.Fragment key={category.id}>
+                                        <div className="px-3 py-2 font-semibold text-sm text-gray-700">
+                                            {category.name}
+                                        </div>
+                                        {category.subCategories.map((subCategory) => (
+                                            <CommandItem
+                                                key={subCategory.id}
+                                                onSelect={() => handleSelect(subCategory)}
+                                            >
+                                                <Check
+                                                    className={`mr-2 h-4 w-4 ${selectedCategory === subCategory.name
+                                                        ? "opacity-100"
+                                                        : "opacity-0"
+                                                        }`}
+                                                />
+                                                {subCategory.name}
+                                            </CommandItem>
+                                        ))}
+                                    </React.Fragment>
+                                ))}
+                            </CommandGroup>
+                        )}
+                    </CommandList>
+                </Command>
+            </PopoverContent>
+        </Popover>
     );
 }
