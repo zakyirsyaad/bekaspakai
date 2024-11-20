@@ -3,10 +3,11 @@ import { cookies } from 'next/headers';
 
 export async function POST() {
     // Hapus cookie dengan mengatur maxAge menjadi 0
-    cookies().set({
+    cookies().delete({
         name: 'accessToken',
-        value: '',
         path: '/',
+        // httpOnly: true,
+        secure: true,
     });
 
     return new Response(JSON.stringify({ message: 'Logout successful' }), {
