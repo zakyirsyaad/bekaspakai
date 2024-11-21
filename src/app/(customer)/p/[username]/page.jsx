@@ -6,6 +6,24 @@ import { cookies } from 'next/headers';
 import React, { Suspense } from 'react'
 import { redirect } from 'next/navigation';
 
+export async function generateMetadata({ params }, parent) {
+    // read route params
+    const username = (await params).username;
+
+    // fetch data
+    const user = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/users/${username}`, {
+        cache: 'no-store',
+    }).then((res) => res.json())
+
+    const previousImages = (await parent).openGraph?.images || []
+
+    return {
+        title: `${user.data.username} | Bekaspakai Indonesia Marketplace`,
+        openGraph: {
+            images: [user.data.profile_picture.url, ...previousImages],
+        },
+    }
+}
 
 export default async function page({ params }) {
     const { username } = params
