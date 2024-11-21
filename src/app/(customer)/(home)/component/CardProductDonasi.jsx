@@ -29,7 +29,7 @@ export default async function CardProductDonasi() {
                 {product.map((item) => {
                     const price = item.price === 0 ? "Gratis" : item.price.toLocaleString("id-ID")
                     return (
-                        <div className='space-y-2'>
+                        <div className='space-y-2' key={item.id}>
                             <div className='flex items-center justify-between gap-2'>
                                 <Link href={`/p/${item.penjual.username}`}>
                                     <div className='flex items-center gap-2'>
