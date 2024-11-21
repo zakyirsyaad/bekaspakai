@@ -18,15 +18,12 @@ export default function Page({ searchParams }) {
     const { id, offer } = searchParams;
     const productIds = Array.isArray(id) ? id : [id];
 
-
-
-
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
                 const details = await Promise.all(
                     productIds.map(async (productId) => {
-                        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/${offer ? 'product' : 'product/offer'}/${productId}`, {
+                        const response = await fetch(offer ? `${process.env.NEXT_PUBLIC_BASE_URL_API}/products/${productId}?offer=true` : `${process.env.NEXT_PUBLIC_BASE_URL_API}/products/${productId}`, {
                             method: 'GET',
                             headers: {
                                 'Content-Type': 'application/json',
