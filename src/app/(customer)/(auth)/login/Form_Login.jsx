@@ -34,8 +34,7 @@ function FormLogin() {
                     description: "Selamat berbelanja :)",
                 })
                 formik.resetForm();
-                router.back()
-                window.location.reload();
+                router.refresh();
             } else {
                 setStatus('error');
                 setError(result.message || 'Terjadi kesalahan saat login');
