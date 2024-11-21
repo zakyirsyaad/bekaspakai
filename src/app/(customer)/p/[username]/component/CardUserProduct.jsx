@@ -36,14 +36,14 @@ export default async function CardUserProduct({ user }) {
                                 <Link href={`/p/${item.penjual.username}`}>
                                     <div className='flex items-center gap-2'>
                                         <Avatar>
-                                            <AvatarImage src={item.penjual.profile_picture.url} alt='Foto Penjual bekaspakai.com' />
+                                            <AvatarImage src={item.penjual.profile_picture.url} alt='Foto Penjual bekaspakai.com' priority={true} />
                                             <AvatarFallback>{item.penjual.username.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
                                         <p>{item.penjual.username}</p>
                                     </div>
                                 </Link>
                                 <DropdownMenu>
-                                    <DropdownMenuTrigger><Ellipsis /></DropdownMenuTrigger>
+                                    <DropdownMenuTrigger aria-label='Menu'><Ellipsis /></DropdownMenuTrigger>
                                     <DropdownMenuContent>
                                         <DropdownMenuLabel>Menu</DropdownMenuLabel>
                                         <DropdownMenuSeparator />
@@ -64,6 +64,7 @@ export default async function CardUserProduct({ user }) {
                                             width={300}
                                             height={300}
                                             className='aspect-square w-full object-cover rounded xl:hover:scale-105 duration-300'
+                                            priority={true}
                                         />
                                     </Link>
                                 ) : (
