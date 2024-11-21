@@ -91,7 +91,7 @@ export const columns = [
                             Copy Product ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <Link href={`/JenisProduct/${getJenisLabel(product.jenisId).replace(/\s+/g, '-')}/${product.id}/${product.name.replace(/\s+/g, '-')}`}>
+                        <Link href={`/JenisProduct/${getJenisLabel(product.jenisId).replace(/\s+/g, '-')}/${product.id}/${product.name.replace(/[\s/]+/g, '-')}`}>
                             <DropdownMenuItem>
                                 Edit
                             </DropdownMenuItem>
