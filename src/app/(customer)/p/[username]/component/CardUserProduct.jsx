@@ -36,7 +36,7 @@ export default async function CardUserProduct({ user }) {
                                 <Link href={`/p/${item.penjual.username}`}>
                                     <div className='flex items-center gap-2'>
                                         <Avatar>
-                                            <AvatarImage src={item.penjual.profile_picture.url} alt='Foto Penjual bekaspakai.com' priority={true} />
+                                            <AvatarImage src={item.penjual.profile_picture.url} alt='Foto Penjual bekaspakai.com' priority={toString(true)} />
                                             <AvatarFallback>{item.penjual.username.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
                                         <p>{item.penjual.username}</p>
