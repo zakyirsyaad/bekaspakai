@@ -9,10 +9,10 @@ import { SkeletonFormLogin } from '@/components/Skeleton/SkeletonFormLogin'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export const metadata = {
-    title: 'Login | Bekaspakai Indonesia Marketplace',
+    title: 'Login | Bekaspakai Marketplace Indonesia',
     openGraph: {
-        title: 'Login | Bekaspakai Indonesia Marketplace',
-        description: 'Login ke Bekaspakai - marketplace terbesar di Indonesia untuk jual beli barang bekas berkualitas. Temukan barang impian Anda dengan harga terbaik dan mulai bertransaksi dengan mudah dan aman.',
+        title: 'Login | Bekaspakai Marketplace Indonesia',
+        description: 'Login ke Bekaspakai untuk mengakses marketplace terbesar di Indonesia untuk jual beli barang bekas berkualitas. Bekaspakai adalah Marketplace terpercaya dari Indonesia untuk jual beli barang bekas layak pakai berkualitas.  Mulai pengalaman anda dengan hidup minimalist. Nikmati kemudahan bertransaksi cepat, aman dan mudah hanya di Bekaspakai.',
     }
 }
 

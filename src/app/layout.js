@@ -11,11 +11,11 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Bekaspakai Indonesia",
-  description: 'Bekaspakai - Marketplace terpercaya di Indonesia untuk jual beli barang bekas berkualitas. Temukan berbagai barang preloved dengan harga terbaik dan mulai transaksi aman dan mudah hanya di Bekaspakai.',
+  title: "Bekaspakai Marketplace Indonesia",
+  description: 'Bekaspakai adalah Marketplace terpercaya dari Indonesia untuk jual beli barang bekas layak pakai berkualitas.  Mulai pengalaman anda dengan hidup minimalist. Nikmati kemudahan bertransaksi cepat, aman dan mudah hanya di Bekaspakai.',
   openGraph: {
-    title: "Bekaspakai Indonesia",
-    description: 'Bekaspakai - Marketplace terpercaya di Indonesia untuk jual beli barang bekas berkualitas. Temukan berbagai barang preloved dengan harga terbaik dan mulai transaksi aman dan mudah hanya di Bekaspakai.',
+    title: "Bekaspakai Marketplace Indonesia",
+    description: 'Bekaspakai adalah Marketplace terpercaya dari Indonesia untuk jual beli barang bekas layak pakai berkualitas.  Mulai pengalaman anda dengan hidup minimalist. Nikmati kemudahan bertransaksi cepat, aman dan mudah hanya di Bekaspakai.',
     url: "https://www.bekaspakai.com", // URL utama
     type: "website", // Jenis konten (website/blog/article)
     images: [
@@ -23,7 +23,7 @@ export const metadata = {
         url: "https://firebasestorage.googleapis.com/v0/b/jekydatabase.appspot.com/o/logo%20baru%20bg%20transparant%20v.2.png?alt=media&token=6eedb3f1-73b8-4516-872e-6efdf244708d", // URL gambar untuk Open Graph
         width: 4000, // Resolusi gambar
         height: 1000,
-        alt: "Bekaspakai - Marketplace Barang Bekas di Indonesia",
+        alt: "Bekaspakai Marketplace Barang Bekas di Indonesia",
       },
     ],
   },

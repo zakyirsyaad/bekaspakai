@@ -8,7 +8,7 @@ export const metadata = {
     title: 'Daftar Toko | Bekaspakai Indonesia Marketplace',
     openGraph: {
         title: 'Daftar Toko | Bekaspakai Indonesia Marketplace',
-        description: 'Daftar Toko di Bekaspakai - marketplace terpercaya Indonesia untuk jual beli barang bekas. Nikmati kemudahan bertransaksi aman dengan penawaran terbaik!',
+        description: 'Daftar Toko di Bekaspakai, Bekaspakai adalah Marketplace terpercaya dari Indonesia untuk jual beli barang bekas layak pakai berkualitas.  Mulai pengalaman anda dengan hidup minimalist. Nikmati kemudahan bertransaksi cepat, aman dan mudah hanya di Bekaspakai.',
     }
 }
 
