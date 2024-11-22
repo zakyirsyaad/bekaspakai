@@ -11,12 +11,12 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Bekaspakai Marketplace Indonesia",
-  description: 'Bekaspakai adalah Marketplace terpercaya dari Indonesia untuk jual beli barang bekas layak pakai berkualitas.  Mulai pengalaman anda dengan hidup minimalist. Nikmati kemudahan bertransaksi cepat, aman dan mudah hanya di Bekaspakai.',
+  title: "Bekaspakai - Marketplace Barang Bekas Berkualitas di Indonesia",
+  description: "Bekaspakai adalah platform terpercaya untuk donasi dan jual beli barang bekas berkualitas di Indonesia. Dukung gaya hidup minimalis dengan transaksi aman, cepat, dan mudah melalui Bekaspakai.",
   openGraph: {
-    title: "Bekaspakai Marketplace Indonesia",
-    description: 'Bekaspakai adalah Marketplace terpercaya dari Indonesia untuk jual beli barang bekas layak pakai berkualitas.  Mulai pengalaman anda dengan hidup minimalist. Nikmati kemudahan bertransaksi cepat, aman dan mudah hanya di Bekaspakai.',
-    url: "https://www.bekaspakai.com", // URL utama
+    title: "Bekaspakai - Marketplace Barang Bekas Berkualitas di Indonesia",
+    description: "Bekaspakai adalah platform terpercaya untuk donasi dan jual beli barang bekas berkualitas di Indonesia. Dukung gaya hidup minimalis dengan transaksi aman, cepat, dan mudah melalui Bekaspakai.",
+    url: "https://www.bekaspakai.com",
     type: "website", // Jenis konten (website/blog/article)
     images: [
       {
@@ -29,7 +29,7 @@ export const metadata = {
   },
   robots: "index, follow", // Instruksi untuk mesin pencari
   canonical: "https://www.bekaspakai.com", // URL kanonis untuk halaman
-  keywords: "barang bekas layak pakai, jual beli barang bekas, marketplace barang bekas, preloved Indonesia, beli murah online, marketplace terpercaya, barang bekas berkualitas, transaksi aman online, toko online preloved, secondhand marketplace, barang preloved murah, jual beli aman, barang preloved premium, marketplace Indonesia, jual barang bekas online, preloved fashion, elektronik bekas murah, furniture secondhand, gadget bekas terpercaya, marketplace murah Indonesia",
+  keywords: "barang bekas layak pakai, donasi barang beakas, jual beli barang bekas, marketplace barang bekas, preloved Indonesia, beli murah online, marketplace terpercaya, barang bekas berkualitas, transaksi aman online, toko online preloved, secondhand marketplace, barang preloved murah, jual beli aman, barang preloved premium, marketplace Indonesia, jual barang bekas online, preloved fashion, elektronik bekas murah, furniture secondhand, gadget bekas terpercaya, marketplace murah Indonesia",
   author: "Kazuya Team, Zaky Irsyad Rais dan M. Daffa Raihan", // Penulis konten,
 };
 

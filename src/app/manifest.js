@@ -35,7 +35,7 @@ export default function manifest() {
             },
             {
                 src: '/favicon.ico', // Favicon .ico
-                sizes: 'any',
+                sizes: '32x32',
                 type: 'image/x-icon',
             },
             {

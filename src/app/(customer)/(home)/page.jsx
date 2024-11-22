@@ -10,6 +10,7 @@ export default function Home() {
     <main className='space-y-10'>
       <AdsCarousel />
       <Kategori />
+      <Separator />
       <Highlight_JualBeli />
       <Separator />
       <Highlight_Donasi />

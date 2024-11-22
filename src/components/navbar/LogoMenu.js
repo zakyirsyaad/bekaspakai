@@ -4,7 +4,7 @@ import React from 'react'
 import logoBekaspakai from '../../../public/Logo baru.svg'
 
 function LogoMenu() {
-    const version = "BETA 1.0.0"; // Set your version here
+    const version = "BETA 1.1.1"; // Set your version here
 
     return (
         <nav className='flex items-center justify-between gap-5 md:gap-10 text-sm md:text-base lg:text-lg'>
