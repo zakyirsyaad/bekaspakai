@@ -1,15 +1,44 @@
 import "./globals.css";
-import { Poppins } from "next/font/google";
+// import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import Head from "next/head";
 import { ThemeProvider } from "@/components/theme-provider";
+import localFont from "next/font/local";
 
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins",
+const bekaspakaiFont = localFont({
+  src: [
+    {
+      path: './Font/Esphimere.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './Font/Esphimere Italic.otf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: './Font/Esphimere Semi Bold.otf',
+      weight: '600',
+      style: 'italic',
+    },
+    {
+      path: './Font/Esphimere Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './Font/Esphimere Bold Italic.otf',
+      weight: '700',
+      style: 'italic',
+    },
+  ],
 });
+// const poppins = Poppins({
+//   subsets: ["latin"],
+//   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+//   variable: "--font-poppins",
+// });
 
 export const metadata = {
   title: "Bekaspakai - Marketplace Barang Bekas Berkualitas di Indonesia",
@@ -51,7 +80,7 @@ export default function RootLayout({ children }) {
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <body
-        className={`${poppins.className} antialiased mt-5 mx-5 md:mx-20 lg:mx-40 2xl:mx-80 scroll-smooth`}
+        className={`${bekaspakaiFont.className} antialiased mt-5 mx-5 md:mx-20 lg:mx-40 2xl:mx-80 scroll-smooth`}
       >
         <ThemeProvider
           attribute="class"
