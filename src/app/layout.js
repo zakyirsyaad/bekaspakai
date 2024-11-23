@@ -19,12 +19,12 @@ export const metadata = {
     description: "Bekaspakai adalah platform terpercaya untuk donasi dan jual beli barang bekas berkualitas di Indonesia. Dukung gaya hidup minimalis dengan mudah dan cepat.",
     url: "https://www.bekaspakai.com",
     type: "website", // Jenis konten (website/blog/article)
-    width: 1200,
-    height: 630,
     images: [
       {
         url: "https://firebasestorage.googleapis.com/v0/b/jekydatabase.appspot.com/o/Bekaspakai-logo-Master_Logomark%20faveicon%20black.svg?alt=media&token=0a724016-6238-4ea5-82c3-16a262e67c57", // URL gambar untuk Open Graph
         alt: "Bekaspakai Marketplace Barang Bekas di Indonesia",
+        width: 1200,
+        height: 630,
       },
     ],
   },
