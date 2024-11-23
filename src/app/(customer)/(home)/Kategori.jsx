@@ -33,7 +33,7 @@ export default async function Kategori() {
     return (
         <section>
             <h1 className="text-xl font-semibold mb-5">Kategori Bekaspakai</h1>
-            <ScrollArea className="w-full rounded-md border">
+            <ScrollArea className="w-full rounded-md">
                 <div className="flex w-max gap-5 p-4">
                     <Suspense fallback={<Skeleton className="h-[125px] w-full rounded-xl" />}>
                         {kategori.map((item) => {

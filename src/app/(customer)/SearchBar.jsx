@@ -29,6 +29,7 @@ export default function SearchBar() {
             />
             <Button
                 className="col-span-1"
+                variant="secondary"
                 onClick={handleSearch} // Panggil handleSearch saat tombol ditekan
             >
                 Cari
