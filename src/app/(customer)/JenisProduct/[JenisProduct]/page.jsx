@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
         title: `${JenisProduct.replace(/-/g, ' ')} | Bekaspakai Indonesia Marketplace`,
         openGraph: {
             title: `${JenisProduct.replace(/-/g, ' ')} | Bekaspakai Indonesia Marketplace`,
-            description: `${JenisProduct.replace(/-/g, ' ')} di Bekaspakai - marketplace terpercaya Indonesia untuk jual beli barang bekas, Bekaspakai adalah Marketplace terpercaya dari Indonesia untuk jual beli barang bekas layak pakai berkualitas.  Mulai pengalaman anda dengan hidup minimalist. Nikmati kemudahan bertransaksi cepat, aman dan mudah hanya di Bekaspakai.`,
+            description: `${JenisProduct.replace(/-/g, ' ')} di Bekaspakai adalah platform terpercaya untuk donasi dan jual beli barang bekas berkualitas di Indonesia. Dukung gaya hidup minimalis dengan mudah dan cepat.`,
         },
     };
 }
