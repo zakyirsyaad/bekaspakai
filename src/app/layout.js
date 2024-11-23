@@ -2,6 +2,7 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import Head from "next/head";
+import { ThemeProvider } from "@/components/theme-provider";
 
 
 const poppins = Poppins({
@@ -39,7 +40,7 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#ffffff", // Ganti dengan warna tema Anda
+  themeColor: "#000000", // Ganti dengan warna tema Anda
   // Also supported by less commonly used
   // interactiveWidget: 'resizes-visual',
 }
@@ -52,9 +53,14 @@ export default function RootLayout({ children }) {
       <body
         className={`${poppins.className} antialiased mt-5 mx-5 md:mx-20 lg:mx-40 2xl:mx-80 scroll-smooth`}
       >
-        <div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
-        </div>
+        </ThemeProvider>
         <Toaster />
       </body>
     </html >

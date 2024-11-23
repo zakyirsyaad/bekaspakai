@@ -62,7 +62,7 @@ export default async function CardProductDonasi() {
                                     />
                                 </Link>
                             </div>
-                            <Badge>{item.condition}</Badge>
+                            <Badge variant="secondary">{item.condition}</Badge>
                             <div>
                                 <p className='truncate'>{item.name}</p>
                                 {item.discount ?

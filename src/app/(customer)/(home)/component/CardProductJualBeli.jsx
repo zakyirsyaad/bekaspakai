@@ -62,12 +62,12 @@ export default async function CardProductJualBeli() {
                                     />
                                 </Link>
                             </div>
-                            <Badge>{item.condition}</Badge>
+                            <Badge variant="secondary">{item.condition}</Badge>
                             <div>
                                 <p className='truncate'>{item.name}</p>
                                 {item.discount ?
                                     <>
-                                        <Badge variant="destructive">DISKON {item.discount}%</Badge>
+                                        <Badge variant="destructive" className="text-white">DISKON {item.discount}%</Badge>
                                         <p className='font-medium text-destructive line-through'>Rp {price}</p>
                                     </>
                                     : null

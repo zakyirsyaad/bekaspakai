@@ -1,12 +1,12 @@
 export default function manifest() {
     return {
-        name: 'Bekaspakai - Marketplace Barang Bekas',
+        name: 'Bekaspakai - Marketplace Barang Bekas Berkualitas di Indonesia',
         short_name: 'Bekaspakai',
-        description: 'Marketplace terpercaya di Indonesia untuk jual beli barang bekas berkualitas.',
+        description: "Bekaspakai adalah platform terpercaya untuk donasi dan jual beli barang bekas berkualitas di Indonesia. Dukung gaya hidup minimalis dengan transaksi aman, cepat, dan mudah melalui Bekaspakai.",
         start_url: '/',
         display: 'standalone',
-        background_color: '#ffffff', // Warna latar belakang aplikasi
-        theme_color: '#ffffff', // Warna tema aplikasi (header)
+        background_color: '#000000', // Warna latar belakang aplikasi
+        theme_color: '#000000', // Warna tema aplikasi (header)
         icons: [
             {
                 src: '/android-chrome-192x192.png', // Ikon 192x192 (standar Android)
@@ -35,7 +35,7 @@ export default function manifest() {
             },
             {
                 src: '/favicon.ico', // Favicon .ico
-                sizes: '32x32',
+                sizes: '48x48',
                 type: 'image/x-icon',
             },
             {

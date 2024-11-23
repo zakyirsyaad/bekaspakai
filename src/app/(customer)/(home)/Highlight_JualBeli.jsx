@@ -14,7 +14,7 @@ export default async function Highlight_JualBeli() {
                     <h4 className='text-sm '>Barang terbaru di produk jual beli</h4>
                 </div>
                 <Button asChild>
-                    <Link href={'/kategori/Jual-Beli'}>Lihat Semua</Link>
+                    <Link href={'/JenisProduct/Jual-Beli'}>Lihat Semua</Link>
                 </Button>
             </div>
             <CardProductJualBeli />

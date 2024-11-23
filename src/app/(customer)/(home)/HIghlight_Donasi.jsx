@@ -12,7 +12,7 @@ export default function Highlight_Donasi() {
                     <h2 className='text-sm'>Barang terbaru di produk donasi</h2>
                 </div>
                 <Button asChild>
-                    <Link href={'/jualbeli'} >Lihat Semua</Link>
+                    <Link href={'/JenisProduct/Donasi'} >Lihat Semua</Link>
                 </Button>
             </div>
             <CardProductDonasi />

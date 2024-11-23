@@ -4,6 +4,7 @@ import UploadButton from '../UploadButton';
 import ProfileMenu from '../ProfileMenu';
 import AuthButton from '../AuthButton';
 import { cookies } from 'next/headers';
+import { ModeToggle } from '@/app/(customer)/ModeToggle';
 
 
 export default async function WebMenu() {
@@ -36,6 +37,9 @@ export default async function WebMenu() {
             ) : null}
             <UploadButton />
             {accessToken ? <ProfileMenu /> : <AuthButton />}
+            <div>
+                <ModeToggle />
+            </div>
         </nav>
     );
 }
