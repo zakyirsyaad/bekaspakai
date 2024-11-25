@@ -45,7 +45,7 @@ function BioProfile({ user, accessToken }) {
                     <Image
                         src={banner_profile_picture?.url || '/logo/Bekaspakai-logo-Master_Primary White.png'}
                         alt="Banner Profile Page"
-                        className="w-full h-[100px] lg:h-[200px] 2xl:h-[300px] object-cover shadow-xl rounded"
+                        className="w-full h-[100px] lg:h-[300px] 2xl:h-[400px] object-cover shadow-xl rounded"
                         width={200}
                         height={200}
                     />
