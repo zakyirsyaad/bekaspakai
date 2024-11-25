@@ -111,8 +111,7 @@ function FormToko({ users, accessToken, removeToken }) {
 
             // Redirect to courier selection page
             removeToken()
-            router.push('/daftarToko/kurir');
-
+            router.refresh()
         } catch (error) {
             setStatus('error');
             toast({
