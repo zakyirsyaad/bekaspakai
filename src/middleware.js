@@ -41,13 +41,13 @@ export async function middleware(request) {
     }
 
     // Redirect to /dashboard if Penjual is trying to access /daftartoko and KurirPenjual is set
-    if (isPenjual && isKurirSet && request.nextUrl.pathname.startsWith('/daftartoko')) {
+    if (isPenjual && isKurirSet && request.nextUrl.pathname.startsWith('/daftarToko')) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
     // Redirect to /daftartoko if user is not verified but tries to access a protected dashboard route
     if (accessToken && isVerified && !isPenjual && request.nextUrl.pathname.startsWith('/dashboard')) {
-        return NextResponse.redirect(new URL('/daftartoko', request.url));
+        return NextResponse.redirect(new URL('/daftarToko', request.url));
     }
 
     // Redirect if access token is invalid or expired (token verification)
@@ -111,5 +111,5 @@ async function verifyAccessToken(accessToken) {
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*', '/keranjang', '/pembayaran', '/transaksi', '/login', '/register', '/daftartoko', '/otp', '/chat'],
+    matcher: ['/dashboard/:path*', '/keranjang', '/pembayaran', '/transaksi', '/login', '/register', '/daftarToko', '/otp', '/chat'],
 };

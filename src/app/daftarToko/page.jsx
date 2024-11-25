@@ -44,7 +44,7 @@ export default async function page() {
                 </div>
                 {formUpgradeToko()}
             </section>
-            <Image src={'/Foto Form Toko.jpg'} alt='Foto Form Toko' className='hidden md:block rounded w-full object-cover' width={200} height={200} priority={true} />
+            <Image src={'/image/pexels-thirdman-6238366.jpg'} alt='Foto Form Toko' className='hidden md:block rounded w-full h-full object-cover' width={200} height={200} priority={true} />
         </main>
     )
 }
