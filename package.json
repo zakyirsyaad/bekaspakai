@@ -1,6 +1,6 @@
 {
-  "name": "bekaspakai_1.1.0",
-  "version": "2.1.0",
+  "name": "bekaspakai-rebrand",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
