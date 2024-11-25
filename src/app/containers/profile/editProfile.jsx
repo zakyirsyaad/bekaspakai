@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Textarea } from '@/components/ui/textarea'
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 const genders = ["Laki-laki", "Perempuan"]
 
@@ -102,84 +103,86 @@ function EditProfile({ user, accessToken, jenisKelamin }) {
                 <Button variant="outline"><UserPen /> <span className='hidden lg:inline'>Edit Profile</span></Button>
             </DialogTrigger>
             <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Edit Profile</DialogTitle>
-                    <DialogDescription>
-                        Lakukan perubahan pada profil kamu di sini. Klik simpan setelah selesai.
-                    </DialogDescription>
-                </DialogHeader>
-                <form className="grid grid-cols-2 gap-3" onSubmit={handleSubmit}>
-                    <section className='col-span-2 space-y-3 grid-cols-subgrid'>
-                        {/* Banner Image */}
-                        <div className='flex flex-col gap-2'>
-                            <Label htmlFor="BannerImage">Foto Banner Profile</Label>
-                            <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400">
-                                {selectedImage ? (
-                                    <div className="relative w-full h-full">
-                                        <Image src={URL.createObjectURL(selectedImage)} alt="Uploaded Banner" className="object-cover w-full h-full rounded-lg" width={200} height={200} />
-                                        <Button onClick={handleRemoveImage} className="absolute top-2 right-2 px-3 py-1  text-white text-xs rounded-full" variant="subtle"><X strokeWidth={3} /></Button>
-                                    </div>
-                                ) : (
-                                    <Label className="flex flex-col items-center justify-center w-full h-full">
-                                        <ImagePlus />
-                                        <p className="text-sm text-gray-400 mt-2">Click to browse</p>
-                                        <p className="text-xs text-gray-400">JPG, JPEG, PNG, WEBP</p>
-                                        <Input type="file" name="BannerImage" className="hidden" onChange={handleImageChange} />
-                                    </Label>
-                                )}
+                <ScrollArea className="w-full h-[600px]">
+                    <DialogHeader>
+                        <DialogTitle>Edit Profile</DialogTitle>
+                        <DialogDescription>
+                            Lakukan perubahan pada profil kamu di sini. Klik simpan setelah selesai.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form className="grid grid-cols-2 gap-3" onSubmit={handleSubmit}>
+                        <section className='col-span-2 space-y-3 grid-cols-subgrid'>
+                            {/* Banner Image */}
+                            <div className='flex flex-col gap-2'>
+                                <Label htmlFor="BannerImage">Foto Banner Profile</Label>
+                                <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400">
+                                    {selectedImage ? (
+                                        <div className="relative w-full h-full">
+                                            <Image src={URL.createObjectURL(selectedImage)} alt="Uploaded Banner" className="object-cover w-full h-full rounded-lg" width={200} height={200} />
+                                            <Button onClick={handleRemoveImage} className="absolute top-2 right-2 px-3 py-1  text-white text-xs rounded-full" variant="subtle"><X strokeWidth={3} /></Button>
+                                        </div>
+                                    ) : (
+                                        <Label className="flex flex-col items-center justify-center w-full h-full">
+                                            <ImagePlus />
+                                            <p className="text-sm text-gray-400 mt-2">Click to browse</p>
+                                            <p className="text-xs text-gray-400">JPG, JPEG, PNG, WEBP</p>
+                                            <Input type="file" name="BannerImage" className="hidden" onChange={handleImageChange} />
+                                        </Label>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                        {/* Profile Image */}
-                        <div className='flex flex-col gap-2 col-span-1 items-start'>
-                            <Label htmlFor="ProfileImage">Foto Profile</Label>
-                            <div className="flex flex-col items-center justify-center w-1/3 h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400">
-                                {selectedImage2 ? (
-                                    <div className="relative w-full h-full">
-                                        <Image src={URL.createObjectURL(selectedImage2)} alt="Uploaded Profile" className="object-cover w-full h-full rounded-lg" width={200} height={200} />
-                                        <Button onClick={handleRemoveImage2} className="absolute top-2 right-2 px-3 py-1  text-white text-xs rounded-full" variant="subtle"><X strokeWidth={3} /></Button>
-                                    </div>
-                                ) : (
-                                    <Label className="flex flex-col items-center justify-center w-full h-full">
-                                        <ImagePlus />
-                                        <p className="text-sm text-gray-400 mt-2">Click to browse</p>
-                                        <p className="text-xs text-gray-400">JPG, JPEG, PNG, WEBP</p>
-                                        <Input type="file" name="ProfileImage" className="hidden" onChange={handleImageChange2} />
-                                    </Label>
-                                )}
+                            {/* Profile Image */}
+                            <div className='flex flex-col gap-2 col-span-1 items-start'>
+                                <Label htmlFor="ProfileImage">Foto Profile</Label>
+                                <div className="flex flex-col items-center justify-center w-1/3 h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400">
+                                    {selectedImage2 ? (
+                                        <div className="relative w-full h-full">
+                                            <Image src={URL.createObjectURL(selectedImage2)} alt="Uploaded Profile" className="object-cover w-full h-full rounded-lg" width={200} height={200} />
+                                            <Button onClick={handleRemoveImage2} className="absolute top-2 right-2 px-3 py-1  text-white text-xs rounded-full" variant="subtle"><X strokeWidth={3} /></Button>
+                                        </div>
+                                    ) : (
+                                        <Label className="flex flex-col items-center justify-center w-full h-full">
+                                            <ImagePlus />
+                                            <p className="text-sm text-gray-400 mt-2">Click to browse</p>
+                                            <p className="text-xs text-gray-400">JPG, JPEG, PNG, WEBP</p>
+                                            <Input type="file" name="ProfileImage" className="hidden" onChange={handleImageChange2} />
+                                        </Label>
+                                    )}
+                                </div>
                             </div>
+                        </section>
+                        {/* Other Input Fields */}
+                        <div><Label htmlFor="name">Nama Lengkap</Label><Input type="text" name="name" placeholder={user.name} onChange={handleInputChange} /></div>
+                        <div><Label htmlFor="username">Username</Label><Input type="text" name="username" placeholder={user.username} onChange={handleInputChange} /></div>
+                        <Textarea name="bio" placeholder={user.bio || "Tulis sesuatu tentang kamu..."} rows={5} className="col-span-2" onChange={handleInputChange} />
+                        <div>
+                            <Label htmlFor="birthdate">Tanggal Lahir</Label>
+                            <Input type="date" name="birthdate" placeholder={user.tanggalLahir} onChange={handleInputChange} />
                         </div>
-                    </section>
-                    {/* Other Input Fields */}
-                    <div><Label htmlFor="name">Nama Lengkap</Label><Input type="text" name="name" placeholder={user.name} onChange={handleInputChange} /></div>
-                    <div><Label htmlFor="username">Username</Label><Input type="text" name="username" placeholder={user.username} onChange={handleInputChange} /></div>
-                    <Textarea name="bio" placeholder={user.bio || "Tulis sesuatu tentang kamu..."} rows={5} className="col-span-2" onChange={handleInputChange} />
-                    <div>
-                        <Label htmlFor="birthdate">Tanggal Lahir</Label>
-                        <Input type="date" name="birthdate" placeholder={user.tanggalLahir} onChange={handleInputChange} />
-                    </div>
-                    <div><Label htmlFor="phone">Nomor Handphone</Label><Input type="text" name="phone" placeholder={user.noHandphone} onChange={handleInputChange} /></div>
-                    <div>
-                        <Label htmlFor="Jenis Kelamin">Jenis Kelamin</Label>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild><Button variant="outline" className="flex justify-start lg:w-full">{selectedGender ? selectedGender : `${user.jenisKelamin || "Pilih Jenis Kelamin"}`}</Button></DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuLabel>Jenis Kelamin</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                {genders.map((gender, index) => (
-                                    <DropdownMenuItem key={index} onClick={() => handleGenderChange(gender)}>{gender}</DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                    <Button type="submit" className="col-span-2 place-self-end" disabled={status === 'loading'}>
-                        {status === "loading" ? "Loading..." : "Simpan"}
-                    </Button>
-                </form>
-                {responseMessage && (
-                    <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-md">
-                        <p>{responseMessage}</p>
-                    </div>
-                )}
+                        <div><Label htmlFor="phone">Nomor Handphone</Label><Input type="text" name="phone" placeholder={user.noHandphone} onChange={handleInputChange} /></div>
+                        <div>
+                            <Label htmlFor="Jenis Kelamin">Jenis Kelamin</Label>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild><Button variant="outline" className="flex justify-start lg:w-full">{selectedGender ? selectedGender : `${user.jenisKelamin || "Pilih Jenis Kelamin"}`}</Button></DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel>Jenis Kelamin</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    {genders.map((gender, index) => (
+                                        <DropdownMenuItem key={index} onClick={() => handleGenderChange(gender)}>{gender}</DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                        <Button type="submit" className="col-span-2 place-self-end" disabled={status === 'loading'}>
+                            {status === "loading" ? "Loading..." : "Simpan"}
+                        </Button>
+                    </form>
+                    {responseMessage && (
+                        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-md">
+                            <p>{responseMessage}</p>
+                        </div>
+                    )}
+                </ScrollArea>
             </DialogContent>
         </Dialog>
     )

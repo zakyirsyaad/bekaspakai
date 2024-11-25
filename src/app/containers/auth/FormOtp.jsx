@@ -12,10 +12,8 @@ export default function FormOtp({ accessToken }) {
     const { toast } = useToast()
 
     const SendOtp = async (values) => {
-        console.log("Sending OTP:", values); // Log the OTP values being sent
         setStatus('loading')
         setError(null)
-        // const accessToken = Cookies.get('accessToken')
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/auth/verify-otp`, {
                 method: 'POST',
@@ -24,7 +22,7 @@ export default function FormOtp({ accessToken }) {
                     'Authorization': `Bearer ${accessToken}`
                 },
                 // Send the OTP as an integer
-                body: JSON.stringify({ otp: parseInt(values, 10) }), // Convert to integer
+                body: JSON.stringify({ otp: parseInt(values) }), // Convert to integer
             });
 
             const result = await response.json();
