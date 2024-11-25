@@ -1,10 +1,21 @@
-'use client'
+import Form from '@/app/containers/Tambah Produk/form';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft } from 'lucide-react';
+import { cookies } from 'next/headers';
+import Link from 'next/link';
 import React from 'react';
-import Form from './form';
 
-export default function Page() {
-
+export default async function Page() {
+    const cookiesStore = await cookies();
+    const accessToken = cookiesStore.get('accessToken')?.value;
     return (
-        <Form />
+        <main className='space-y-5'>
+            <Button asChild>
+                <Link href='/dashboard/produk'>
+                    <ChevronLeft /> Kembali
+                </Link>
+            </Button>
+            <Form accessToken={accessToken} />
+        </main>
     );
 }

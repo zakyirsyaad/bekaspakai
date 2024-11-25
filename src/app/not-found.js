@@ -1,18 +1,16 @@
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
-import NavbarMenu from './(customer)/NavbarMenu'
 
 export default function NotFound() {
     return (
         <>
-            <NavbarMenu />
-            <div className='flex flex-col items-center justify-center h-screen overflow-hidden gap-5'>
+            <div className='flex flex-col items-center justify-center overflow-hidden gap-5'>
                 <Image
-                    src={'/Black Exclamation Mark Document Icon.H03.2k.png'}
-                    width={500}
-                    height={500}
-                    alt='404 Not Found Bekaspakai.com'
+                    src={'/image/Black Exclamation Mark Document Icon.H03.2k.png'}
+                    width={400}
+                    height={400}
+                    alt='Halaman tidak di temukan bekaspakai.com'
                     priority={true}
                 />
                 <div className='text-center'>

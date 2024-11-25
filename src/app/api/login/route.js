@@ -13,14 +13,16 @@ export async function POST(req) {
 
         const data = await response.json();
 
+        const cookiesStore = await cookies();
+
         if (response.ok && data.statusCode === 200) {
             // Simpan token di cookies jika login berhasil
-            cookies().set({
+            cookiesStore.set({
                 name: 'accessToken',
                 value: data.data.access_token,
                 maxAge: 60 * 60 * 1,
                 path: '/',
-                // httpOnly: true,
+                httpOnly: true,
                 secure: true,
             })
 

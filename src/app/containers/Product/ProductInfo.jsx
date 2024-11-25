@@ -1,0 +1,104 @@
+import React from 'react'
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Badge } from '@/components/ui/badge'
+import { Input } from "@/components/ui/input"
+import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Link from 'next/link'
+import { MessageSquareShare, ShoppingBag, ShoppingCart } from 'lucide-react'
+import { Separator } from '@/components/ui/separator'
+import ProductEdit from './ProductEdit'
+import TambahKeranjang from './TambahKeranjang'
+
+export default function ProductInfo({ product, idUserLogin, accessToken }) {
+    const userIsOwner = idUserLogin === product.penjual.id
+    return (
+        <div className='col-span-1 xl:col-span-2 space-y-5 lg:space-y-3 2xl:space-y-5'>
+            <Breadcrumb>
+                <BreadcrumbList className="text-xs">
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>{product.name}</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
+
+            <h1 className='text-xl 2xl:text-2xl font-semibold'>{product.name}</h1>
+            <div className='flex gap-2'>
+                {product.discount && <span className='text-sm font-semibold line-through text-gray-500 self-end'>Rp {product.price.toLocaleString('id-ID')}</span>}
+                <h2 className='text-xl 2xl:text-3xl font-bold'>Rp {product.price.toLocaleString('id-ID')}</h2>
+                {product.discount && <Badge className='text-xs self-start'>HEMAT {product.discount} %</Badge>}
+            </div>
+            {userIsOwner ?
+                <ProductEdit detailProducts={product} accessToken={accessToken} />
+                :
+                <div className='space-x-5'>
+                    <Button asChild>
+                        <Link
+                            href={{ pathname: '/pembayaran', query: { id: product.id } }}
+                        >
+                            <ShoppingBag /> Beli Sekarang
+                        </Link>
+                    </Button>
+                    <TambahKeranjang detailProducts={product} accessToken={accessToken} />
+                </div>
+            }
+            <h3 className='font-semibold'>Deskripsi</h3>
+            <p className='whitespace-pre-line text-sm 2xl:text-base'>{product.description}</p>
+            {/* <p className='whitespace-pre-line text-sm 2xl:text-base'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p> */}
+            <div className='flex gap-5 xl:gap-10'>
+                <ul>
+                    <li className='font-semibold'>Garansi</li>
+                    <li className='text-sm'>{product.garansi ? "ON" : "OFF"}</li>
+                </ul>
+                <ul>
+                    <li className='font-semibold'>Kondisi</li>
+                    <li className='text-sm'>{product.condition}</li>
+                </ul>
+                <ul>
+                    <li className='font-semibold'>Lokasi</li>
+                    <li className='text-sm'>{product.penjual.AuthPenjual.alamat.split(' ')[0]}</li>
+                </ul>
+            </div>
+            {product.price === 0 ? null :
+                <>
+                    <h4 className='font-semibold'>Nego Harga</h4>
+                    <div className='flex items-center gap-2'>
+                        <div className='relative flex items-center'>
+                            <Input type="text" className="pl-10" />
+                            <p className='absolute left-3'>Rp</p>
+                        </div>
+                        <Button>Nego</Button>
+                    </div>
+                </>
+            }
+            <Separator />
+            <div className='flex gap-5'>
+                <Link href={`/p/${product.penjual.username}`}>
+                    <div className='flex items-center gap-3'>
+                        <Avatar className='w-14 h-14'>
+                            <AvatarImage src={product.penjual.profile_picture.url} />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <p className='font-bold'>{product.penjual.username}</p>
+                    </div>
+                </Link>
+                <Link href={`/chat/${product.penjual.id}`}>
+                    <MessageSquareShare />
+                </Link>
+            </div>
+
+
+        </div>
+    )
+}

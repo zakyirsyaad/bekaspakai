@@ -3,8 +3,8 @@ export default function robots() {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: '/private/', // Ganti atau tambahkan path yang tidak ingin diindeks
+            disallow: '/private/',
         },
-        sitemap: 'https://bekaspakai.com/sitemap.xml', // URL sitemap aktual Anda
+        sitemap: 'https://bekaspakai.com/sitemap.xml',
     }
 }

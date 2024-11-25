@@ -1,10 +1,10 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import DecodeToken from './hooks/decode-token';
+import DecodeToken from './hooks/decodeToken';
 
 export async function middleware(request) {
-    // Retrieve access token from cookies
-    const accessToken = cookies().get('accessToken')?.value;
+    const cookiesStore = await cookies();
+    const accessToken = cookiesStore.get('accessToken')?.value;
     if (!accessToken) {
         // No access token means the user must log in
         return handleUnauthenticated(request);
@@ -20,7 +20,7 @@ export async function middleware(request) {
     const isPenjual = role === "83da0762-a57a-4125-8ebb-25386cdd0226";
 
     // Redirect to the homepage if already authenticated and trying to access login or register
-    if (isVerified && ['/login', '/register'].includes(request.nextUrl.pathname)) {
+    if (isVerified && ['/login', '/register', '/otp'].includes(request.nextUrl.pathname)) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
@@ -57,7 +57,6 @@ export async function middleware(request) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    // Default response to continue request
     return NextResponse.next();
 }
 

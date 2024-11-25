@@ -5,8 +5,8 @@ export default function manifest() {
         description: "Bekaspakai adalah platform terpercaya untuk donasi dan jual beli barang bekas berkualitas di Indonesia. Dukung gaya hidup minimalis dengan transaksi aman, cepat, dan mudah melalui Bekaspakai.",
         start_url: '/',
         display: 'standalone',
-        background_color: '#000000', // Warna latar belakang aplikasi
-        theme_color: '#000000', // Warna tema aplikasi (header)
+        background_color: '#000000',
+        theme_color: '#000000',
         icons: [
             {
                 src: '/android-chrome-192x192.png', // Ikon 192x192 (standar Android)
