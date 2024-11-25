@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 
-export default function FormOtp({ accessToken }) {
+export default function FormOtp({ accessToken, removeToken }) {
     const [status, setStatus] = React.useState(null)
     const [error, setError] = React.useState(null)
     const { toast } = useToast()
@@ -35,7 +35,7 @@ export default function FormOtp({ accessToken }) {
                     description: result.message,
                     variant: 'success',
                 })
-                Cookies.remove('accessToken')
+                removeToken()
                 window.location.href = '/login';
             } else {
                 setStatus('error');
