@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { BankList } from './BankList';
 import { useRouter } from 'next/navigation';
 
-function FormToko({ users, accessToken }) {
+function FormToko({ users, accessToken, removeToken }) {
     const [postalCode, setPostalCode] = useState('');
     const [kodePos, setKodePos] = useState('');
     const [suggestions, setSuggestions] = useState([]);
@@ -110,7 +110,7 @@ function FormToko({ users, accessToken }) {
             });
 
             // Redirect to courier selection page
-            // removeToken()
+            removeToken()
             router.push('/daftarToko/kurir');
 
         } catch (error) {

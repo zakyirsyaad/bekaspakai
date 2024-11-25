@@ -15,7 +15,6 @@ export const metadata = {
 export default async function page() {
     const cookieStore = await cookies()
     let accessToken = cookieStore.get('accessToken')?.value
-    // let removeToken = cookieStore.delete('accessToken')
     let response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/users/profile`, {
         method: 'GET',
         headers: {
@@ -27,11 +26,15 @@ export default async function page() {
     let data = await response.json()
     let users = data.data
 
+    function removeToken() {
+        cookieStore.delete('accessToken')
+    }
+
     const formUpgradeToko = () => {
         if (users.AuthPenjual === null) {
-            return <FormToko users={users} accessToken={accessToken} />
+            return <FormToko users={users} accessToken={accessToken} removeToken={removeToken} />
         } else if (users.AuthPenjual !== null && users.AuthPenjual.KurirPenjuals.length === 0) {
-            return <CourierSelection accessToken={accessToken} />
+            return <CourierSelection accessToken={accessToken} removeToken={removeToken} />
         }
     }
 
