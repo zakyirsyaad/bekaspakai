@@ -12,6 +12,7 @@ export default function Hero() {
                     className='w-full h-full object-cover rounded shadow-xl'
                     autoPlay={true} loop={true}
                     muted={true}
+                    playsInline
                 >
                     <source
                         src={"/video/4912885-uhd_3840_2160_24fps.mp4"}

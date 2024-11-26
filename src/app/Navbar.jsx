@@ -14,6 +14,23 @@ import MobileNavbar from './containers/MobileNavbar'
 import { cookies } from 'next/headers'
 import LogoutButton from '@/components/LogoutButton'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+import { Separator } from '@/components/ui/separator'
+import { Badge } from '@/components/ui/badge'
+
+
 
 
 export default async function Navbar() {
@@ -32,6 +49,12 @@ export default async function Navbar() {
     const data = await response.json();
     const user = data.data;
 
+    const response2 = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/category`, {
+        method: 'GET',
+        cache: 'no-store'
+    })
+    const data2 = await response2.json();
+    const kategori = data2.data.result;
     return (
         <>
             <MobileNavbar isLoggedIn={isLoggedIn} user={user} />
@@ -45,7 +68,38 @@ export default async function Navbar() {
                         <li>
                             <Link href={'/type/Donasi'}>Donasi</Link>
                         </li>
-                        <li>Kategori</li>
+                        <li>
+                            <Sheet>
+                                <SheetTrigger>Kategori</SheetTrigger>
+                                <SheetContent>
+                                    <SheetHeader>
+                                        <SheetTitle>Semua Kategori Produk</SheetTitle>
+                                    </SheetHeader>
+                                    <Accordion type="single" collapsible>
+                                        {kategori.map((kategori) => {
+                                            return (
+                                                <AccordionItem value={kategori.id} key={kategori.id}>
+                                                    <AccordionTrigger>{kategori.name}</AccordionTrigger>
+                                                    {kategori.subCategories.map((subkategori) => {
+                                                        return (
+                                                            <AccordionContent key={subkategori.id}>
+                                                                <Link
+                                                                    href={`/kategori/${kategori.name.replace(/\s+/g, '-')}/${subkategori.name.replace(/\s+/g, '-')}`}
+                                                                    className='hover:bg-secondary hover:text-secondary-foreground hover:py-1 hover:px-3 rounded duration-300'
+                                                                >
+                                                                    {subkategori.name}
+                                                                </Link>
+                                                            </AccordionContent>
+                                                        )
+                                                    })}
+
+                                                </AccordionItem>
+                                            )
+                                        })}
+                                    </Accordion>
+                                </SheetContent>
+                            </Sheet>
+                        </li>
                     </ul>
                 </nav>
                 <div>
@@ -67,6 +121,7 @@ export default async function Navbar() {
                             className='hidden dark:block'
                         />
                     </Link>
+                    <Badge variant="secondary">BETA: 1.0.2</Badge>
                 </div>
                 {isLoggedIn ?
                     <nav className='flex gap-5 items-center'>

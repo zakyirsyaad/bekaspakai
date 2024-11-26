@@ -14,11 +14,12 @@ import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 
 export default function MobileNavbar({ isLoggedIn, user }) {
     return (
-        <header className='flex justify-between items-center lg:hidden'>
+        <header className='flex justify-between items-center lg:hidden my-1'>
             <div className='space-y-2 relative'>
                 <Link href={'/'}>
                     <Image
@@ -37,6 +38,7 @@ export default function MobileNavbar({ isLoggedIn, user }) {
                         priority={true}
                         className='hidden dark:block'
                     />
+                    <Badge variant="secondary">BETA: 1.0.2</Badge>
                 </Link>
                 <nav>
                     <ul className='flex items-center gap-5'>
@@ -59,7 +61,7 @@ export default function MobileNavbar({ isLoggedIn, user }) {
                                         <AvatarImage src={user?.profile_picture?.url} />
                                         <AvatarFallback>{(user?.username)?.charAt(0)}</AvatarFallback>
                                     </Avatar>
-                                    <p>shadcn</p>
+                                    <p>{user?.username}</p>
                                 </div>
                             ) :
                                 <nav>
@@ -86,25 +88,31 @@ export default function MobileNavbar({ isLoggedIn, user }) {
                                 </Link>
                             </li>
                             <Separator />
-                            <li>
-                                <Link href={'/dashboard'} className='flex items-center gap-5'><LayoutDashboard />Dashboard</Link>
-                            </li>
-                            <Separator />
-                            <li>
-                                <Link href={`/p/${user?.username}`} className='flex items-center gap-5'><FileUser />Profile</Link>
-                            </li>
-                            <Separator />
-                            <li>
-                                <Link href={'/keranjang'} className='flex items-center gap-5'><ShoppingCart />Keranjang</Link>
-                            </li>
-                            <Separator />
-                            <li>
-                                <Link href={'/transaksi'} className='flex items-center gap-5'><ShoppingBag />Transaksi</Link>
-                            </li>
-                            <Separator />
-                            <li>
-                                <Link href={'/logout'} className='flex items-center gap-5'><LogOut />Keluar</Link>
-                            </li>
+                            {isLoggedIn ?
+                                <>
+                                    <li>
+                                        <Link href={'/dashboard'} className='flex items-center gap-5'><LayoutDashboard />Dashboard</Link>
+                                    </li>
+                                    <Separator />
+                                    <li>
+                                        <Link href={`/p/${user?.username}`} className='flex items-center gap-5'><FileUser />Profile</Link>
+                                    </li>
+                                    <Separator />
+                                    <li>
+                                        <Link href={'/keranjang'} className='flex items-center gap-5'><ShoppingCart />Keranjang</Link>
+                                    </li>
+                                    <Separator />
+                                    <li>
+                                        <Link href={'/transaksi'} className='flex items-center gap-5'><ShoppingBag />Transaksi</Link>
+                                    </li>
+                                    <Separator />
+                                    <li>
+                                        <Link href={'/logout'} className='flex items-center gap-5'><LogOut />Keluar</Link>
+                                    </li>
+                                </>
+                                :
+                                null
+                            }
                             <li>
                                 <ThemeToggle />
                             </li>
