@@ -32,7 +32,6 @@ import { Badge } from '@/components/ui/badge'
 
 
 
-
 export default async function Navbar() {
     const cookieStore = await cookies()
     const isLoggedIn = cookieStore.has('accessToken');

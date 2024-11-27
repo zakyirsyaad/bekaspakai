@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import {
     Breadcrumb,
@@ -12,13 +13,50 @@ import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from 'next/link'
-import { MessageSquareShare, ShoppingBag, ShoppingCart } from 'lucide-react'
+import { CircleHelp, Loader2, MessageSquareShare, ShoppingBag } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import ProductEdit from './ProductEdit'
 import TambahKeranjang from './TambahKeranjang'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 
 export default function ProductInfo({ product, idUserLogin, accessToken }) {
     const userIsOwner = idUserLogin === product.penjual.id
+
+    const [response, setResponse] = React.useState(null);
+    const [priceOffer, setPriceOffer] = React.useState(0)
+    const [status, setStatus] = React.useState('idle');
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setStatus('loading');
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/offeredProduct/${product.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({ priceOffer: priceOffer }),
+            });
+
+            const result = await res.json();
+            setStatus('success');
+            setResponse(result);
+        } catch (error) {
+            setStatus('error');
+            console.error(error);
+            setResponse({ error: error.message });
+        }
+    };
+
+    console.log(product)
+
     return (
         <div className='col-span-1 xl:col-span-2 space-y-5 lg:space-y-3 2xl:space-y-5'>
             <Breadcrumb>
@@ -70,17 +108,57 @@ export default function ProductInfo({ product, idUserLogin, accessToken }) {
                     <li className='text-sm'>{product.penjual.AuthPenjual.alamat.split(' ')[0]}</li>
                 </ul>
             </div>
-            {product.price === 0 ? null :
-                <>
-                    <h4 className='font-semibold'>Nego Harga</h4>
+
+            {product.price === 0 || product.penjual.id === idUserLogin ? null :
+                <div>
                     <div className='flex items-center gap-2'>
-                        <div className='relative flex items-center'>
-                            <Input type="text" className="pl-10" />
-                            <p className='absolute left-3'>Rp</p>
-                        </div>
-                        <Button>Nego</Button>
+                        <h4 className='font-semibold'>Nego Harga</h4>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <CircleHelp size={20} />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Setelah anda menekan tombol Nego, <br />
+                                        anda harus menunggu penjual menyetujui atau menolak nego.
+                                        <br />
+                                        Hasil nego akan muncul di Email anda.
+                                    </p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                     </div>
-                </>
+                    <form onSubmit={handleSubmit}>
+                        <div className='flex items-center gap-2'>
+                            <div className='relative flex items-center'>
+                                <Input type="text"
+                                    className="pl-10"
+                                    onChange={(e) => setPriceOffer(e.target.value)}
+                                    disabled={product.minimumPrice === 0 || product.minimumPrice === null}
+                                />
+                                <p className='absolute left-3'>Rp</p>
+                            </div>
+                            <Button
+                                type="submit"
+                                disabled={status === 'loading' || product.minimumPrice === 0 || product.minimumPrice === null}
+                            >
+                                {status === 'loading' ? <Loader2 className='animate-spin' /> : 'Nego'}
+                            </Button>
+                        </div>
+                        {product.minimumPrice > 0 &&
+                            <p className='w-fit  text-sm mt-2'>
+                                Harga Nego Minimal Rp {product.minimumPrice}
+                            </p>
+                        }
+                        {status === 'error' && <p className='w-fit px-3 py-1 rounded bg-secondary text-secondary-foreground text-sm mt-2'>Nego Gagal</p>}
+                        {response && <p className='w-fit px-3 py-1 rounded bg-secondary text-secondary-foreground text-sm mt-2'>{response.message}</p>}
+                        {product.minimumPrice === 0 || product.minimumPrice === null &&
+                            <p className='w-fit rounded text-destructive italic text-sm mt-2'>
+                                Barang tidak dapat di nego
+                            </p>
+                        }
+                    </form>
+                </div>
             }
             <Separator />
             <div className='flex gap-5'>
@@ -97,8 +175,6 @@ export default function ProductInfo({ product, idUserLogin, accessToken }) {
                     <MessageSquareShare />
                 </Link>
             </div>
-
-
         </div>
     )
 }

@@ -8,7 +8,7 @@ export default function OrderSummary({ detailProducts, productIds, couriers, des
     const originPostalCode = detailProducts[0].penjual.AuthPenjual.kodePos;
 
     const [isFetched, setIsFetched] = useState(false); // State untuk menandai jika fetch sudah dilakukan
-    const layanan = 4999; // Biaya layanan tetap
+    const layanan = 5000; // Biaya layanan tetap
     const [pengiriman, setPengiriman] = useState(0); // Inisialisasi dengan 0
     const [shipDuration, setShipDuration] = useState(null);
     const [shipService, setShipService] = useState(null)
@@ -50,6 +50,7 @@ export default function OrderSummary({ detailProducts, productIds, couriers, des
                 });
 
                 const result = await response.json();
+                console.log(result);
                 setStatus('success');
                 setOrigin(result.data.origin.administrative_division_level_2_name);
                 setShipService(result.data.pricing[0].courier_service_name);

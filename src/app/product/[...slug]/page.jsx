@@ -24,6 +24,7 @@ export default async function page({ params }) {
     const cookiesStore = await cookies();
     const accessToken = cookiesStore.get('accessToken')?.value
     const idUserLogin = DecodeToken(accessToken)?.id
+
     return (
         <main>
             <section className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-5'>
