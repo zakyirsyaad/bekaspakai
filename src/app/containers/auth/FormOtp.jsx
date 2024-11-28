@@ -5,11 +5,14 @@ import * as Yup from 'yup'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
+import { useRouter } from 'next/navigation'
 
-export default function FormOtp({ accessToken, removeToken }) {
+export default function FormOtp({ accessToken }) {
     const [status, setStatus] = React.useState(null)
     const [error, setError] = React.useState(null)
     const { toast } = useToast()
+
+    const router = useRouter()
 
     const SendOtp = async (values) => {
         setStatus('loading')
@@ -35,7 +38,6 @@ export default function FormOtp({ accessToken, removeToken }) {
                     description: result.message,
                     variant: 'success',
                 })
-                removeToken()
                 window.location.href = '/login';
             } else {
                 setStatus('error');

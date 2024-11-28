@@ -55,7 +55,7 @@ export default async function Navbar() {
     const data2 = await response2.json();
     const kategori = data2.data.result;
 
-    const version = "1.2.2"
+    const version = "1.2.3"
     return (
         <>
             <MobileNavbar isLoggedIn={isLoggedIn} user={user} version={version} />
