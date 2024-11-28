@@ -54,9 +54,11 @@ export default async function Navbar() {
     })
     const data2 = await response2.json();
     const kategori = data2.data.result;
+
+    const version = "1.2.2"
     return (
         <>
-            <MobileNavbar isLoggedIn={isLoggedIn} user={user} />
+            <MobileNavbar isLoggedIn={isLoggedIn} user={user} version={version} />
             <header className='hidden lg:flex justify-between items-center'>
                 <ThemeToggle />
                 <nav>
@@ -120,7 +122,7 @@ export default async function Navbar() {
                             className='hidden dark:block'
                         />
                     </Link>
-                    <Badge variant="secondary">BETA: 1.2.2</Badge>
+                    <Badge variant="secondary">BETA: {version}</Badge>
                 </div>
                 {isLoggedIn ?
                     <nav className='flex gap-5 items-center'>

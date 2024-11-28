@@ -25,8 +25,6 @@ export default async function NewCardProduct({ value }) {
         return <div>Product Belum Ada</div>;
     }
 
-    console.log(products)
-
     return (
         <section className='grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-5 mt-5'>
             {products.slice(0, 4).map((product) => {

@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
 
-export default function MobileNavbar({ isLoggedIn, user }) {
+export default function MobileNavbar({ isLoggedIn, user, version }) {
     return (
         <header className='flex justify-between items-center lg:hidden my-1'>
             <div className='space-y-2 relative'>
@@ -38,7 +38,7 @@ export default function MobileNavbar({ isLoggedIn, user }) {
                         priority={true}
                         className='hidden dark:block'
                     />
-                    <Badge variant="secondary">BETA: 1.0.2</Badge>
+                    <Badge variant="secondary">BETA: {version}</Badge>
                 </Link>
                 <nav>
                     <ul className='flex items-center gap-5'>
