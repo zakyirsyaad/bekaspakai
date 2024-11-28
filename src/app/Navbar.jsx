@@ -120,7 +120,7 @@ export default async function Navbar() {
                             className='hidden dark:block'
                         />
                     </Link>
-                    <Badge variant="secondary">BETA: 1.0.2</Badge>
+                    <Badge variant="secondary">BETA: 1.2.2</Badge>
                 </div>
                 {isLoggedIn ?
                     <nav className='flex gap-5 items-center'>

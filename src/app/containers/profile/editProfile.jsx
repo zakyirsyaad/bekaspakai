@@ -14,7 +14,6 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 const genders = ["Laki-laki", "Perempuan"]
 
 function EditProfile({ user, accessToken, jenisKelamin }) {
-    console.log(user.jenisKelamin, user.tanggalLahir, jenisKelamin)
     const [selectedImage, setSelectedImage] = useState(null)
     const [selectedImage2, setSelectedImage2] = useState(null)
     const [selectedGender, setSelectedGender] = useState("")
@@ -156,8 +155,14 @@ function EditProfile({ user, accessToken, jenisKelamin }) {
                         <div><Label htmlFor="username">Username</Label><Input type="text" name="username" placeholder={user.username} onChange={handleInputChange} /></div>
                         <Textarea name="bio" placeholder={user.bio || "Tulis sesuatu tentang kamu..."} rows={5} className="col-span-2" onChange={handleInputChange} />
                         <div>
-                            <Label htmlFor="birthdate">Tanggal Lahir</Label>
-                            <Input type="date" name="birthdate" placeholder={user.tanggalLahir} onChange={handleInputChange} />
+                            <Label htmlFor="birthdate">Tanggal Lahir:
+                                {new Date(user.tanggalLahir).toLocaleDateString('id-ID', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric',
+                                })}
+                            </Label>
+                            <Input type="date" name="birthdate" onChange={handleInputChange} />
                         </div>
                         <div><Label htmlFor="phone">Nomor Handphone</Label><Input type="text" name="phone" placeholder={user.noHandphone} onChange={handleInputChange} /></div>
                         <div>

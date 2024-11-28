@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Loader2 } from 'lucide-react';
 
 export default function ProductEdit({ detailProducts, accessToken }) {
     const [status, setStatus] = React.useState(null);
@@ -135,9 +136,9 @@ export default function ProductEdit({ detailProducts, accessToken }) {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 />
-                                <Label className='absolute -right-1 rounded bg-foreground p-[12px] w-10 text-center text-secondary'>%</Label>
+                                <Label className='absolute -right-1 rounded bg-secondary text-secondary-foreground  p-[12px] w-10 text-center'>%</Label>
                             </div>
-                            {formik.touched.discount && formik.errors.discount ? <div className="text-destructive">{formik.errors.discount}</div> : null}
+                            {formik.touched.discount && formik.errors.discount ? <div className="text-destructive italic text-sm">{formik.errors.discount}</div> : null}
                         </div>
                         <Select onValueChange={value => formik.setFieldValue('garansi', value)}>
                             <SelectTrigger className="self-end">
@@ -150,7 +151,7 @@ export default function ProductEdit({ detailProducts, accessToken }) {
                         </Select>
                     </div>
                     <Button type="submit" className='self-end' disabled={status === 'loading'}>
-                        {status === 'loading' ? 'Loading...' : 'Simpan'}
+                        {status === 'loading' ? <Loader2 className="animate-spin" /> : 'Simpan'}
                     </Button>
                 </form>
             </DialogContent>

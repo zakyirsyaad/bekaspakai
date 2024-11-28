@@ -1,5 +1,6 @@
+import { fetchUserProducts } from '@/lib/productApi';
+import Link from 'next/link';
 import React, { Suspense } from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,27 +9,24 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Ellipsis, PackageOpen } from 'lucide-react'
-import Image from 'next/image'
-import { Badge } from '@/components/ui/badge'
-import Link from 'next/link'
-import { SkeletonCardProduct } from '@/components/Skeleton/SkeletonCardProduct'
-import { fetchUserProducts } from '@/lib/productApi'
+import { Ellipsis } from 'lucide-react';
+import Image from 'next/image';
+import { Badge } from "@/components/ui/badge"
+import { SkeletonCardProduct } from '@/components/Skeleton/SkeletonCardProduct';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-export default async function CardUserProduct({ user }) {
-    const products = await fetchUserProducts(user.id);
 
-    if (!products || products.length === 0) {
-        return (
-            <div className='flex flex-col items-center gap-2'>
-                <PackageOpen className='animate-bounce' size={50} />
-                <p><strong>{user.username}</strong> belum memiliki produk</p>
-            </div>
-        )
+
+export default async function ProductToko({ user }) {
+
+    const products = await fetchUserProducts(user);
+
+    if (!products) {
+        return <div>Product Belum Ada</div>;
     }
 
     return (
-        <section className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 '>
+        <section className='grid grid-cols-1 lg:grid-cols-2 lg:auto-cols-auto gap-5 mt-5'>
             {products.map((product) => {
                 return (
                     <Suspense fallback={<SkeletonCardProduct />} key={product.id} >
@@ -46,17 +44,19 @@ export default async function CardUserProduct({ user }) {
                                         </div>
                                     </div>
                                 </Link>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger aria-label='Menu'>
-                                        <Ellipsis />
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                        <DropdownMenuLabel>Menu</DropdownMenuLabel>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem>Bagikan</DropdownMenuItem>
-                                        <DropdownMenuItem>Laporkan</DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                                {product.isAvailable &&
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger aria-label='Menu'>
+                                            <Ellipsis />
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuLabel>Menu</DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem>Bagikan</DropdownMenuItem>
+                                            <DropdownMenuItem>Laporkan</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                }
                             </div>
                             {product.isAvailable ?
                                 <div className='relative'>
@@ -103,6 +103,6 @@ export default async function CardUserProduct({ user }) {
                     </Suspense>
                 )
             })}
-        </section>
-    );
+        </section >
+    )
 }

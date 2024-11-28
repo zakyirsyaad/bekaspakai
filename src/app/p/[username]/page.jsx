@@ -8,7 +8,7 @@ import { SkeletonCardProduct } from '@/components/Skeleton/SkeletonCardProduct';
 
 export async function generateMetadata({ params }, parent) {
     try {
-        const username = await params?.username;
+        const { username } = await params;
 
         // Fetch user data
         const userResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_API}/users/${username}`, {
@@ -23,9 +23,9 @@ export async function generateMetadata({ params }, parent) {
         const previousImages = parent?.openGraph?.images || [];
 
         return {
-            title: `${user.data.username} | Bekaspakai Indonesia Marketplace`,
+            title: `${user?.data?.username} | Bekaspakai Indonesia Marketplace`,
             openGraph: {
-                images: [user.data?.profile_picture?.url, ...previousImages],
+                images: [user?.data?.profile_picture?.url, ...previousImages],
             },
         };
     } catch (error) {
@@ -40,8 +40,8 @@ export async function generateMetadata({ params }, parent) {
 }
 
 export default async function Page({ params }) {
-    const { username } = params;
-    const cookiesStore = cookies();
+    const { username } = await params;
+    const cookiesStore = await cookies();
     const accessToken = cookiesStore.get('accessToken')?.value;
 
     try {
@@ -55,7 +55,6 @@ export default async function Page({ params }) {
         if (!response.ok) {
             console.error('Failed to fetch user data:', response.statusText);
             redirect('/');
-            return null;
         }
 
         const data = await response.json();
@@ -63,7 +62,6 @@ export default async function Page({ params }) {
 
         if (!user) {
             redirect('/');
-            return null;
         }
 
         return (
@@ -83,6 +81,5 @@ export default async function Page({ params }) {
     } catch (error) {
         console.error('Error rendering page:', error);
         redirect('/');
-        return null;
     }
 }

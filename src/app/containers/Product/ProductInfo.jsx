@@ -13,17 +13,10 @@ import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from 'next/link'
-import { CircleHelp, Loader2, MessageSquareShare, ShoppingBag } from 'lucide-react'
+import { Loader2, MessageSquareShare, ShoppingBag } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import ProductEdit from './ProductEdit'
 import TambahKeranjang from './TambahKeranjang'
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
-
 
 export default function ProductInfo({ product, idUserLogin, accessToken }) {
     const userIsOwner = idUserLogin === product.penjual.id
@@ -54,8 +47,6 @@ export default function ProductInfo({ product, idUserLogin, accessToken }) {
             setResponse({ error: error.message });
         }
     };
-
-    console.log(product)
 
     return (
         <div className='col-span-1 xl:col-span-2 space-y-5 lg:space-y-3 2xl:space-y-5'>
@@ -93,7 +84,6 @@ export default function ProductInfo({ product, idUserLogin, accessToken }) {
             }
             <h3 className='font-semibold'>Deskripsi</h3>
             <p className='whitespace-pre-line text-sm 2xl:text-base'>{product.description}</p>
-            {/* <p className='whitespace-pre-line text-sm 2xl:text-base'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p> */}
             <div className='flex gap-5 xl:gap-10'>
                 <ul>
                     <li className='font-semibold'>Garansi</li>
@@ -113,34 +103,20 @@ export default function ProductInfo({ product, idUserLogin, accessToken }) {
                 <div>
                     <div className='flex items-center gap-2'>
                         <h4 className='font-semibold'>Nego Harga</h4>
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <CircleHelp size={20} />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Setelah anda menekan tombol Nego, <br />
-                                        anda harus menunggu penjual menyetujui atau menolak nego.
-                                        <br />
-                                        Hasil nego akan muncul di Email anda.
-                                    </p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
                     </div>
                     <form onSubmit={handleSubmit}>
                         <div className='flex items-center gap-2'>
                             <div className='relative flex items-center'>
-                                <Input type="text"
+                                <Input type="number"
                                     className="pl-10"
                                     onChange={(e) => setPriceOffer(e.target.value)}
-                                    disabled={product.minimumPrice === 0 || product.minimumPrice === null}
+                                    disabled={product.minimumPrice === 0 || product.minimumPrice === null || !accessToken}
                                 />
                                 <p className='absolute left-3'>Rp</p>
                             </div>
                             <Button
                                 type="submit"
-                                disabled={status === 'loading' || product.minimumPrice === 0 || product.minimumPrice === null}
+                                disabled={status === 'loading' || product.minimumPrice === 0 || product.minimumPrice === null || !accessToken}
                             >
                                 {status === 'loading' ? <Loader2 className='animate-spin' /> : 'Nego'}
                             </Button>
@@ -152,10 +128,17 @@ export default function ProductInfo({ product, idUserLogin, accessToken }) {
                         }
                         {status === 'error' && <p className='w-fit px-3 py-1 rounded bg-secondary text-secondary-foreground text-sm mt-2'>Nego Gagal</p>}
                         {response && <p className='w-fit px-3 py-1 rounded bg-secondary text-secondary-foreground text-sm mt-2'>{response.message}</p>}
-                        {product.minimumPrice === 0 || product.minimumPrice === null &&
+                        {response?.status === 200 && <p className='w-fit px-3 py-1 rounded bg-destructive text-destructive-foreground text-sm mt-2'>
+                            <p>Setelah anda menekan tombol Nego, <br />
+                                anda harus menunggu penjual menyetujui atau menolak nego.
+                                <br />
+                                Hasil nego akan muncul di Email anda.
+                            </p></p>}
+                        {product.minimumPrice === 0 || product.minimumPrice === null ?
                             <p className='w-fit rounded text-destructive italic text-sm mt-2'>
                                 Barang tidak dapat di nego
                             </p>
+                            : null
                         }
                     </form>
                 </div>
@@ -175,6 +158,7 @@ export default function ProductInfo({ product, idUserLogin, accessToken }) {
                     <MessageSquareShare />
                 </Link>
             </div>
+            <Separator />
         </div>
     )
 }
