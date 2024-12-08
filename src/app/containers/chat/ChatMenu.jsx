@@ -33,7 +33,8 @@ export default function ChatMenu({ accessToken }) {
         };
     }, []);
 
-    console.log(rooms);
+    console.log(rooms, "rooms");
+    console.log(socket, "socket");
 
     return (
         <aside className="border col-span-3 space-y-5">
