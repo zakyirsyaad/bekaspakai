@@ -28,6 +28,7 @@ export default async function ProductToko({ user }) {
     return (
         <section className='grid grid-cols-1 lg:grid-cols-2 lg:auto-cols-auto gap-5 mt-5'>
             {products.map((product) => {
+                const discountPrice = product.price - (product.price * (product.discount / 100));
                 return (
                     <Suspense fallback={<SkeletonCardProduct />} key={product.id} >
                         <div className='space-y-2'>
@@ -94,7 +95,7 @@ export default async function ProductToko({ user }) {
                             <div className='text-sm space-y-1'>
                                 <div className='flex items-center gap-3'>
                                     {product.discount && <p className='text-sm font-semibold line-through text-gray-500'>Rp {product.price.toLocaleString('id-ID')}</p>}
-                                    {product.price > 0 ? <p className='text-base font-semibold'>Rp {product.price.toLocaleString('id-ID')}</p> : <p className='text-base font-semibold'>Gratis</p>}
+                                    {product.price > 0 ? <p className='text-base font-semibold'>Rp {discountPrice.toLocaleString('id-ID')}</p> : <p className='text-base font-semibold'>Gratis</p>}
                                 </div>
                                 <p >{product.name}</p>
                                 <Badge variant="secondary">{product.condition}</Badge>

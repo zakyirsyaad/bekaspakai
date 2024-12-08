@@ -103,10 +103,10 @@ export default async function Navbar() {
                         </li>
                     </ul>
                 </nav>
-                <div>
+                <nav className='relative'>
                     <Link href={'/'}>
                         <Image
-                            src={'/logo/Bekaspakai-logo-Master_Primary Black.png'}
+                            src={'/logo/Bekaspakai-logo-Master_Logotype black.png'}
                             alt="Bekaspakai"
                             width={175}
                             height={175}
@@ -114,7 +114,7 @@ export default async function Navbar() {
                             className='dark:hidden'
                         />
                         <Image
-                            src={'/logo/Bekaspakai-logo-Master_Primary White.png'}
+                            src={'/logo/Bekaspakai-logo-Master_Logotype white.png'}
                             alt="Bekaspakai"
                             width={175}
                             height={175}
@@ -122,8 +122,8 @@ export default async function Navbar() {
                             className='hidden dark:block'
                         />
                     </Link>
-                    <Badge variant="secondary">BETA: {version}</Badge>
-                </div>
+                    <Badge variant="secondary" className="absolute -top-6 -right-2 text-xs">BETA: {version}</Badge>
+                </nav>
                 {isLoggedIn ?
                     <nav className='flex gap-5 items-center'>
                         <ul className='flex gap-5 items-center'>

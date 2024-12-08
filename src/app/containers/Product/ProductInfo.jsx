@@ -25,6 +25,8 @@ export default function ProductInfo({ product, idUserLogin, accessToken }) {
     const [priceOffer, setPriceOffer] = React.useState(0)
     const [status, setStatus] = React.useState('idle');
 
+    const discountPrice = product.price - (product.price * (product.discount / 100));
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setStatus('loading');
@@ -65,7 +67,7 @@ export default function ProductInfo({ product, idUserLogin, accessToken }) {
             <h1 className='text-xl 2xl:text-2xl font-semibold'>{product.name}</h1>
             <div className='flex gap-2'>
                 {product.discount && <span className='text-sm font-semibold line-through text-gray-500 self-end'>Rp {product.price.toLocaleString('id-ID')}</span>}
-                <h2 className='text-xl 2xl:text-3xl font-bold'>Rp {product.price.toLocaleString('id-ID')}</h2>
+                <h2 className='text-xl 2xl:text-3xl font-bold'>Rp {discountPrice.toLocaleString('id-ID')}</h2>
                 {product.discount && <Badge className='text-xs self-start'>HEMAT {product.discount} %</Badge>}
             </div>
             {userIsOwner ?
