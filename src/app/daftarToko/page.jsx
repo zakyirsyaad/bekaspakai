@@ -26,15 +26,11 @@ export default async function page() {
     let data = await response.json()
     let users = data.data
 
-    function removeToken() {
-        cookieStore.delete('accessToken')
-    }
-
     const formUpgradeToko = () => {
         if (users.AuthPenjual === null) {
-            return <FormToko users={users} accessToken={accessToken} removeToken={removeToken} />
+            return <FormToko users={users} accessToken={accessToken} />
         } else if (users.AuthPenjual !== null && users.AuthPenjual.KurirPenjuals.length === 0) {
-            return <CourierSelection accessToken={accessToken} removeToken={removeToken} />
+            return <CourierSelection accessToken={accessToken} />
         }
     }
 

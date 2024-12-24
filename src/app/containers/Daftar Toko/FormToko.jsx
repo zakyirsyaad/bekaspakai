@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { BankList } from './BankList';
 import { useRouter } from 'next/navigation';
 
-function FormToko({ users, accessToken, removeToken }) {
+function FormToko({ users, accessToken }) {
     const [postalCode, setPostalCode] = useState('');
     const [kodePos, setKodePos] = useState('');
     const [suggestions, setSuggestions] = useState([]);
@@ -99,18 +99,22 @@ function FormToko({ users, accessToken, removeToken }) {
                 body: JSON.stringify(storeData),
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to submit store data");
-            }
-
             setStatus('success');
             toast({
                 title: "Success",
                 description: "Store information saved successfully",
             });
 
-            // Redirect to courier selection page
-            removeToken()
+
+            const logoutResponse = await fetch('/logout', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(storeData),
+            });
+
             router.refresh()
         } catch (error) {
             setStatus('error');
